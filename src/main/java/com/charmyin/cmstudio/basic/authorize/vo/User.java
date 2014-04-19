@@ -9,13 +9,27 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.charmyin.cmstudio.basic.pagination.annotation.Paging;
+import com.charmyin.cmstudio.basic.pagination.page.Page;
+
 /**
  * User VO
  * @author YinCM
  * @since 2013-9-2 16:57:30
  */
+@Paging(field = "pageVO")
 public class User {	
-	
+
+	private Page pageVO;
+
+    public Page getPageVO() {
+        return pageVO;
+    }
+
+    public void setPageVO(Page pageVO) {
+        this.pageVO = pageVO;
+    }
+    
 	private Integer id;
 	
 	@NotNull(message = "登录名不允许为空")

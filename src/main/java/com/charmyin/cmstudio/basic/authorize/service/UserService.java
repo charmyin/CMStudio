@@ -1,7 +1,6 @@
 package com.charmyin.cmstudio.basic.authorize.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,12 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> getAllUser();
+	
+	/**
+	 * Get all users from user role 
+	 * @return
+	 */
+	public List<User> findAllUser(User user);
  
 	/**
 	 * Get user by user id

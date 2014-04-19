@@ -8,7 +8,12 @@
 		<typeAlias type="com.charmyin.cmstudio.basic.authorize.domain.Identity" alias="Identity" />
 		<typeAlias type="com.charmyin.cmstudio.basic.authorize.form.RegistrationForm" alias="RegistrationForm" />
 	</typeAliases> -->
-
+	<plugins>
+	    <plugin interceptor="com.charmyin.cmstudio.basic.pagination.interceptor.PaginationInterceptor">
+	          <property name="dialectClass" value="com.charmyin.cmstudio.basic.pagination.dialect.db.PostgreSQLDialect"/>
+	          <property name="sqlPattern" value=".*findAll.*"/>
+	    </plugin>
+	</plugins>
 	<mappers>
 		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/IdentityMapper_pgsql.xml" />
 		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/MenuMapper_pgsql.xml" />

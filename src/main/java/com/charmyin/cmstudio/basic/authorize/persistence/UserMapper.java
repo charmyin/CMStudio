@@ -23,6 +23,12 @@ public interface UserMapper {
 	public List<User> getAllUser();
 	
 	/**
+	 * find all users from user role 
+	 * @return
+	 */
+	public List<User> findAllUser(User user);
+	
+	/**
 	 * Get user by the conditions contained by params "user", it use "=" in where condition
 	 * @param user User instance which contains the question conditions.
 	 * @return

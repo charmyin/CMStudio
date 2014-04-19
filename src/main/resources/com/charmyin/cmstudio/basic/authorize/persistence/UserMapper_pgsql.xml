@@ -26,6 +26,23 @@
 		FROM  SHIRO_USER
 	</select>
 	
+	<select id="findAllUser" resultMap="UserResultMap" parameterType="com.charmyin.cmstudio.basic.pagination.page.Pagination">
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="name!= null">
+					AND NAME LIKE '%'||#{name, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="remark!= null">
+					AND REMARK LIKE '%'||#{remark, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="email!= null">
+					AND EMAIL LIKE '%'||#{email, jdbcType=VARCHAR}||'%'
+				</if>
+		</trim>
+	</select>
+	
 	<select id="getUserEqual" resultMap="UserResultMap" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User">
 		SELECT 
 			<include refid="User_Column_List" />
