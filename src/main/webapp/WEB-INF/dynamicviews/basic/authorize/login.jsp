@@ -1,4 +1,4 @@
-<%
+﻿<%
 /**
  * This is the login page~ Authorize you the power to go into this application~
  * @author charmyin
@@ -7,81 +7,100 @@
  */
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <%@ taglib uri="/WEB-INF/tlds/cmstudio.tld" prefix="cmstudio" %>
-<!DOCTYPE html>
-<html>
-	<head>
-		<title> ${application_name_cn} </title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<!-- 指向http://xxx.xxx.xxx:xxxx/cmstudio/ -->
-		<cmstudio:htmlBase/>
-		<link rel="shortcut icon" type="image/x-icon" href="resources/${icon_name}"/>
-		<link rel="stylesheet" type="text/css" href="resources/css/basic/authorize/login.css" />
-		<!--Start importing the jquery files -->
-		<cmstudio:importJsCss name="jquery" version="${jquery_version}"/>
-		<!--End import the jquery files -->
-		<!--Start importing the jeasyui files -->
-		<cmstudio:importJsCss name="jeasyui" version="${jeasyui_version}"/>
-		<!--End importing the jeasyui files -->
-		<script type="text/javascript" src="resources/js/basic/authorize/login.js"></script>		 
-		<script src="resources/vendor/cookiejs/cookie.min.js" type="text/javascript"></script>
-	</head>
-	<body>
-		<div id="loginwindow" class="easyui-window" title="${application_name_cn}平台入口" data-options="iconCls:'icon-tip',closable:false, minimizable:false, maximizable:false, resizable:false, shadow:true" >
-			<div class="easyui-layout" fit="true" style="overflow:hidden;">
-				<div region="west">
-				</div>
-				<div region="center">
-					<div class="easyui-tabs" fit="true">
-					 	<div title="身份认证" iconCls="icon-save">
-					 			<div id="userconfirmDiv">
-				 					<form id="authForm" name="authForm" action="#" method="post">
-				 						<ul id="formUl">
-				 							<li class="inputText">
-				 								<label for="inputUsername">用户名:</label>
-					 							<input class="easyui-validatebox" type="text" id="inputUsername" name="username" placeholder="用户名" data-options="required:true, validType:'length[1,15]'" autofocus/>
-				 							</li>
-				 							<li class="inputText">
-				 								<label style="" for="inputPassword">密&nbsp;&nbsp;码:</label>
-					 							<input class="easyui-validatebox" type="password" id="inputPassword" name="password" placeholder="密码" data-options="required:true, validType:'length[6,50]'" />
-				 							</li>
-				 							<li id="liValiCode">
-				 								<label style="" for="inputValiCode">验证码:</label>
-				 								<a href="javascript:changeValiImg()"><img src="captcha/valiCode.jpg" id="imgValiCode"/></a>
-					 							<input class="easyui-validatebox" type="text" id="inputValiCode" name="validateCode" placeholder="验证码" data-options="required:true, validType:'length[4,5]'" />
-				 							</li>
-				 							<li class="liConfig">
-				 								<div id="checkboxConfig">
-											      <label>
-											        <input type="checkbox" id="inputRememberMe" class="bootstrap"/> <strong>记住密码</strong>
-											      </label>
-											      <label>
-											        <input type="checkbox" id="inputDesktop_login" class="bootstrap"/> <strong>桌面系统</strong>
-											      </label>
-											    </div>
-				 							</li>
-				 						</ul>
-				 					</form>
-					 				<div id="operationBtnsDiv" >
-					 					<div style="height:6px;"></div>
-					 					<a href="#" id="aSubmitForm" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
-					 					&nbsp;
-					 					<a href="#" id="aResetForm" class="easyui-linkbutton" iconCls="icon-cancel">重置</a>
-					 				</div>
-					 			</div>
-					 	</div>
-					 	<div title="帮助提示" iconCls="icon-help">
-					 		<div style="margin:70px 0 0 70px;" id="weather-temp">版权所有，翻版不究^_^</div>
-					 	</div>
-					</div>
-				</div>
-				<div region="south" style="height:30px;line-height:28px;text-align:center;">
-					Powered by  ${company_name}© ${company_poweredyear}  &nbsp;<a href="http://www.zebone.cn" style="text-decoration: none;" target="_blank">${company_website}</a>
-				</div>
-			</div>
-		</div>
-		<!--等待界面-->
-	<div id='divLoading'><span>首页载入中~</span></div>
-	</body>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>泰州烟草现场综合管理系统</title>
+<!-- 指向http://xxx.xxx.xxx:xxxx/cmstudio/ -->
+<cmstudio:htmlBase/>
+
+<link rel="shortcut icon" type="image/x-icon" href="resources/${icon_name}"/>
+<link rel="stylesheet" type="text/css" href="resources/css/basic/authorize/login.css" />
+
+<!--Start importing the jquery files -->
+<cmstudio:importJsCss name="jquery" version="${jquery_version}"/>
+<!--End import the jquery files -->
+<!--Start importing the jeasyui files -->
+<cmstudio:importJsCss name="jeasyui" version="${jeasyui_version}"/>
+<!--End importing the jeasyui files -->
+<script type="text/javascript" src="resources/js/basic/authorize/login.js"></script>
+
+<script type="text/javascript">
+
+if (window.top !== window.self){
+	try {
+	    if (window.top.location.host) { // this is illegal to access unless you share a non-spoofable document domain
+	    	window.top.location.reload();	
+	    } else {
+	 
+	    	window.top.location.reload();	 // chrome executes this
+	    }
+	  } catch (ex) {
+		 
+		  window.top.location.reload();	 // everyone executes this
+	  }
+}
+	
+</script>
+</head>
+<body>
+<form id="authForm" name="authForm" action="#" method="post">
+
+<div class="loginArea">
+	<div class="loginTopDiv">
+		<img src="resources/css/basic/authorize/images/logo_03.png" style="position: relative; left: 20px; top: 10px;">	
+		<span class="titleSpan">泰州烟草现场综合管理系统</span>
+	</div>
+	<div class="loginLeftDiv">
+		<img class="img0" src="resources/css/basic/authorize/images/compute.png"></img>	
+		<img class="img1" src="resources/css/basic/authorize/images/1_07.png"></img>	
+		<img class="img2" src="resources/css/basic/authorize/images/2_07.png"></img>	
+		<img class="img3" src="resources/css/basic/authorize/images/3_07.png"></img>	
+		<img class="img4" src="resources/css/basic/authorize/images/4_07.png"></img>	
+		<img class="img5" src="resources/css/basic/authorize/images/5_16.png"></img>	
+		<img class="img6" src="resources/css/basic/authorize/images/6_26.png"></img>	
+		<img class="img7" src="resources/css/basic/authorize/images/yun.png"></img>	
+	</div>
+	<div class="loginRightDiv">
+		<label class="loginLabel">登录</label>
+		<ul class="loginUl">
+			<li>用户名:
+				<input type="text" style="width: 200px; height: 32px; margin-left: 9px;" name="username" id="inputUsername" class="easyui-validatebox" data-options="required:true, validType:'length[1,15]'">
+			</li>
+			<li>密&nbsp&nbsp&nbsp码:
+				<input type="password" style="height: 32px;margin-left: 10px;width: 200px;" name="password" id="inputPassword" class="easyui-validatebox" data-options="required:true, validType:'length[6,50]'">
+			</li>
+			<li>验证码:
+				<input type="text" style="width:90px;height:24px;margin-left:9px;" name="validateCode"  id="inputValiCode" class="easyui-validatebox"  data-options="tipPosition:'left', required:true, validType:'length[4,5]'">
+				<a href="javascript:changeValiImg()">
+					<img style="height:30px;width:100px;position:relative;top:10px;" src="captcha/valiCode.jpg" id="imgValiCode"/>
+				</a>
+			</li>
+			<li>	
+				<a id="aSubmitForm" style="cursor:pointer;" >
+					<img class="confirm" src="resources/css/basic/authorize/images/login_29.png" style="margin-right:10px">
+				</a>
+				<a id="aResetForm" style="cursor:pointer;">
+					<img class="cancel" src="resources/css/basic/authorize/images/quxiao_31.png" style="margin-left:10px">
+				</a>
+			</li>
+		</ul>	
+	</div>
+</div>
+	
+</form>
+
+
+
+
+<div class = "copyRightDiv">
+	<div class="crContentDiv">
+		Copyright @ 2013 东软集团股份有限公司	
+	</div>
+</div>
+</body>
 </html>

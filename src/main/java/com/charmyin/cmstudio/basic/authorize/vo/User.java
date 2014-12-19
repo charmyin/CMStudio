@@ -45,13 +45,13 @@ public class User {
 	@Max(value=999999, message="所属组织id需小于999999")
 	private Integer organizationId;
 	
-	@NotNull(message = "Email不允许为空")
+	/*@NotNull(message = "Email不允许为空")
 	@Size(max=100, message="Email长度应小于100")
-	@Email(message="邮件格式有误")
+	@Email(message="邮件格式有误")*/
 	private String email;
  
 	@NotNull(message = "密码不允许为空")
-	@Size(max=50, message="密码长度应小于50")
+	@Size(max=150, message="密码长度应小于150")
 	private String passphrase;
  
 	private String salt;
@@ -59,7 +59,38 @@ public class User {
 	private Boolean state;
  
 	private Date dateCreated;
+	
+	private Integer coId;
+	
+	//0:女的； 1:男的
+	private Integer sex;
+	
+	private String cellPhone;
  
+	public String getCellPhone() {
+		return cellPhone;
+	}
+
+	public void setCellPhone(String cellPhone) {
+		this.cellPhone = cellPhone;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public Integer getCoId() {
+		return coId;
+	}
+
+	public void setCoId(Integer coId) {
+		this.coId = coId;
+	}
+
 	@Size(max=200, message="备注长度应小于200")
 	private String remark;
 	

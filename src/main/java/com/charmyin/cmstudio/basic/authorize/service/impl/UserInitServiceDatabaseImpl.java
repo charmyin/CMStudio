@@ -80,7 +80,8 @@ public class UserInitServiceDatabaseImpl implements UserInitService {
 	public List<Menu> getMenusByMenuIds(Set<String> menuIdSet) {
 		String[] menuIds = menuIdSet.toArray(new String[0]);
 		List<Menu> menuList = new ArrayList<Menu>();
-		for(String menuIdStr : menuIds){
+		List<Menu> allMenu = menuMapper.getAllMenu();
+		/*for(String menuIdStr : menuIds){
 			if(StringUtil.isPositiveInteger(menuIdStr)){
 				Menu menu = menuMapper.getMenuById(Integer.parseInt(menuIdStr));
 				if(menu!=null){
@@ -88,6 +89,16 @@ public class UserInitServiceDatabaseImpl implements UserInitService {
 				}
 			}
 			
+		}*/
+		for(Menu menu : allMenu){
+			for(String menuIdStr : menuIds){
+				if(StringUtil.isPositiveInteger(menuIdStr)){
+					int menuId = Integer.parseInt(menuIdStr);
+					if(menuId==menu.getId()){
+						menuList.add(menu);
+					}
+				}
+			}
 		}
 		return menuList;
 	}

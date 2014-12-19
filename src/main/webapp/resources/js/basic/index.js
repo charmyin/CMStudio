@@ -138,15 +138,23 @@ $(function() {
 	};
 	
 	// Logout the system
-	$("#logout").click(function() {
+	/*$("#logout").click(function() {
 		$.messager.confirm('退出提示', '确定退出系统？', function(r) {
 			if (r) {
 				window.location.href = "identity/logout";
 			}
 		});
 
-	});
+	});*/
 });
+
+function logOut(){
+	$.messager.confirm('退出提示', '确定退出系统？', function(r) {
+		if (r) {
+			window.location.href = "identity/logout";
+		}
+	}); 
+}
 
 //Change password
 function modifyPassword(){

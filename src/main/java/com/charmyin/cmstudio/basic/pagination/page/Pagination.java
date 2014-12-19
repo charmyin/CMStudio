@@ -26,10 +26,28 @@ public class Pagination implements Page {
      * 总页数
      */
     protected int totalPages = 0;
-    /**
+    
+    public int getPage() {
+		return currentPage;
+	}
+
+	public void setPage(int page) {
+		this.currentPage = page;
+	}
+
+	public int getRows() {
+		return pageSize;
+	}
+
+	public void setRows(int rows) {
+		this.pageSize = rows;
+	}
+
+	/**
      * 总数据数
      */
     protected int totalRows = 0;
+    
     /**
      * 每页的起始行数
      */
@@ -224,3 +242,4 @@ public class Pagination implements Page {
         totalRows = i;
     }
 }
+

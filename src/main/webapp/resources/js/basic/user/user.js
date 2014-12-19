@@ -44,8 +44,18 @@ var allOrganizationTreeSetting = {
 					          {field:'id', title:'编号' },
 					          {field:'loginId', title:'登录名'},
 					          {field:'name', title:'昵称'},
-					          {field:'dateCreated', title:'注册日期'},
-					          {field:'state', title:'是否禁用'},
+					          {field:'cellPhone', title:'电话号码'},
+					          {field:'sex', title:'性别',formatter:function(value,row,index){
+	        		  				if (row.sex==0){
+	        		  					return "男"
+	        		  				} else if (row.sex==1){
+	        		  					return "女";
+	        		  				}else{
+	        		  					return "";
+	        		  				}
+	        		  			}},
+					          //{field:'dateCreated', title:'注册日期'},
+					          //{field:'state', title:'是否禁用'},
 					          {field:'remark', title:'备注'}
 					]],
 					onLoadError: function(msge){
@@ -62,6 +72,9 @@ function loadOrganizationTree(){
 	  type: "GET",
 	  url: "organization/all"
 	}).done(function( msg ) {
+		for(var i=0; i<msg.length; i++){
+			msg[i].organizationType==0 ? (msg[i].isParent = false) : (msg[i].isParent = true);
+		}
 	  //Load the system manage tree
 	  allOrganizationTreeObj = $.fn.zTree.init($("#div_allOrganization_tree"), allOrganizationTreeSetting, msg);
 	 //rename the
@@ -148,8 +161,9 @@ function loadRolesForChoose(){
 		
 		
 		//alert(msg[0].name);
+		htmlInner+="<br/><br/>";
 		for(var i=0; i<msg.length; i++){
-			htmlInner+='<input type="checkbox" class="roleChooseClass" value="'+msg[i].name+'"/>'+msg[i].name;
+			htmlInner+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" class="roleChooseClass" value="'+msg[i].name+'"/>'+msg[i].name+'<br/>';
 		}
 		$("#innerRoleChoose").html(htmlInner);
 	});
@@ -158,6 +172,7 @@ function loadRolesForChoose(){
 
 /********************************************************Initial the page*****************************************************/
 $(function(){
+	
 	//Disable cache
 	jQuery.ajaxSetup({ cache: false });
 	//载入成功后，刷新左边树
@@ -188,20 +203,42 @@ function newForm(){
     $("#input_loginId").removeAttr("readonly");
     $('#fm').form('clear');
     initParentId();
+    $('#sexCombox').combobox('setValue', 0);
     url = 'user/save';
 }
 function editForm(){
+	
     var row = $('#userGrid').datagrid('getSelected');
-    if (row){
-    	initParentId();
-    	$("#input_loginId").attr("readonly","readonly");
-        $('#dlg').dialog('open').dialog('setTitle','修改'+itemName+':'+row.loginId);
-        $("#div_initPassphrase").show();
-//        获取所属群组，修改时显示
-//        var nodes=allOrganizationTreeObj.getSelectedNodes();
-        $('#fm').form('load',row);
-        url = 'user/update?id='+row.id;
-    }
+    
+  //载入角色到input_role
+	$.ajax({
+	  type: "GET",
+	  url: "user/"+row.id+"/roleNames"
+	 // url: "role/getRolesByUserId/"+row.id
+	}).done(function( msg ) {
+		var roleString='';
+		for(var i =0; i<msg.length;i++){
+			if(i==(msg.length-1)){
+				roleString+=msg[i]
+			}else{
+				roleString+=(msg[i]+',');
+			}
+			
+		}
+		$("#input_role").val(roleString);
+		if (row){
+	    	initParentId();
+	    	$("#input_loginId").attr("readonly","readonly");
+	        $('#dlg').dialog('open').dialog('setTitle','修改'+itemName+':'+row.loginId);
+	        $("#div_initPassphrase").show();
+//	        获取所属群组，修改时显示
+//	        var nodes=allOrganizationTreeObj.getSelectedNodes();
+	        $('#fm').form('load',row);
+	        url = 'user/update?id='+row.id;
+	    }
+	});
+    
+    
 }
 
 function saveForm(){

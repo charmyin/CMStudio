@@ -50,7 +50,14 @@
 			                <input name="name" class="easyui-validatebox" required="true">
 			            </div>
 			            <div class="fitem">
-			                <label>父级菜单：</label>
+			                <label>机构类型：</label>
+			                <select class="easyui-combobox" name="organizationType" id="organizationType" data-options="panelHeight:'auto'" style="width:153px;" >
+				 				<option value="0">部门</option>
+								<option value="1">公司</option>
+							</select>
+			            </div>
+			            <div class="fitem">
+			                <label>父级组织：</label>
 			                <input type="hidden" name="parentId" id="hidden_parentId" class="easyui-validatebox" style="display:hidden;" >
 			                <input id="input_parentId" class="easyui-validatebox" readonly>
 			            </div>

@@ -28,6 +28,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	public int getCooporationId(int orgId) {
+		while(true){
+			Organization org = getOrganizationById(orgId);
+			//公司 或者顶级则返回
+			if(org.getOrganizationType()==1){
+				return org.getId();
+			}
+		}	
+	}
+
+	@Override
 	public List<Organization> getChildrenOrganizations(int parentId) {
 		Organization organization = new Organization();
 		organization.setParentId(parentId);

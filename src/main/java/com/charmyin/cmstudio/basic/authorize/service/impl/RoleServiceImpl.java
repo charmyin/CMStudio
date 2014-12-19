@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.charmyin.cmstudio.basic.authorize.persistence.RoleMapper;
 import com.charmyin.cmstudio.basic.authorize.service.RoleService;
 import com.charmyin.cmstudio.basic.authorize.vo.Role;
+import com.charmyin.cmstudio.basic.authorize.vo.User;
 
 /**
  * Implementation of Role operation service
@@ -55,6 +56,21 @@ public class RoleServiceImpl implements RoleService {
 	public Role getRoleByName(String name) {
 		Role role = roleMapper.getRoleByName(name);
 		return role;
+	}	
+	
+	@Override
+	public String getRolesByUserId(User user) {
+		
+		List<String> roleStringList = roleMapper.getRolesByUserId(user);
+		StringBuilder  sb = new StringBuilder();
+		for(String str : roleStringList){
+			sb.append(str).append(",");
+		}
+		String resultStr="";
+		if(sb.length()>0){
+			resultStr = sb.substring(0, sb.length()-1);
+		}
+		return resultStr;
 	}
 
 	@Override

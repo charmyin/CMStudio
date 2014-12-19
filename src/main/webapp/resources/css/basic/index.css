@@ -28,7 +28,20 @@ body{
 }
 
 #div_index_head{
-	height:100%; width:100%; background:url(images/head.jpg) no-repeat #8badcc;
+	
+	height:100%; 
+	width:100%; 
+	background:url(images/head.png) no-repeat ;
+} 
+
+#div_index_head_inner{
+	 background-color: #E0ECFF;
+  background: -webkit-linear-gradient(top,#F7F8FA 0,#D7D8DA 100%);
+  background: -moz-linear-gradient(top,#F7F8FA 0,#D7D8DA 100%);
+  background: -o-linear-gradient(top,#F7F8FA 0,#D7D8DA 100%);
+  background: linear-gradient(to bottom,#F7F8FA 0,#D7D8DA 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F7F8FA,endColorstr=#D7D8DA ,GradientType=0);
 } 
 
 #modifyPassword{

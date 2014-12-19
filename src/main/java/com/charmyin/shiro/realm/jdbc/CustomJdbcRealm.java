@@ -362,7 +362,7 @@ public class CustomJdbcRealm extends AuthorizingRealm {
         Connection conn = null;
         Set<String> roleNames = null;
         Set<String> permissions = null;
-        try {
+       /* try {
             conn = dataSource.getConnection();
 
             // Retrieve roles and permissions from database
@@ -381,7 +381,7 @@ public class CustomJdbcRealm extends AuthorizingRealm {
             throw new AuthorizationException(message, e);
         } finally {
             JdbcUtils.closeConnection(conn);
-        }
+        }*/
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
         info.setStringPermissions(permissions);

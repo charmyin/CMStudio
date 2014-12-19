@@ -40,7 +40,6 @@ public interface OrganizationMapper {
 	 * @param id
 	 * @return
 	 */
-	@Select("SELECT * FROM basic_organization WHERE id=#{id, jdbcType=BIGINT}")
 	public Organization getOrganizationById(int id);
 	
 	/**

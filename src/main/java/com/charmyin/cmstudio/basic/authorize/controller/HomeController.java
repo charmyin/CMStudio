@@ -38,7 +38,7 @@ public class HomeController {
 	   * Does some simple work to find the current shiro subject gets a list of
 	   * services, and the date.
 	   */
-	  @RequestMapping(method = RequestMethod.GET, value = { "/", "/index" })
+	  @RequestMapping(method = RequestMethod.GET, value = { "/index" })
 	  public String home(Locale locale, Model model, HttpServletRequest request) {
 	    logger.info("Welcome home! the client locale is " + locale.toString());
 	    

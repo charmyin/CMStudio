@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.charmyin.cmstudio.basic.authorize.service.RoleService;
 import com.charmyin.cmstudio.basic.authorize.vo.Role;
+import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.common.utils.ArrayUtil;
 import com.charmyin.cmstudio.common.utils.JSRErrorUtil;
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
@@ -34,8 +35,7 @@ public class RoleController {
 	
 	@Resource
 	private RoleService roleService;
-
-
+	
 	/**
 	 * Direct to the roleManage jsp file
 	 * @return jsp file path
@@ -129,13 +129,19 @@ public class RoleController {
 		return ResponseUtil.getSuccessResultMap();
 	}
 	
-	//TODO
 	@RequestMapping("/role/orgId/{organizationId}/all")
 	@ResponseBody
 	public List<Role> getRoleByOrganizationId(@PathVariable("organizationId") Integer organizationId){
 		List<Role> roleList = roleService.getRoleByOrganizationId(organizationId);
 		return roleList;
 	}
+	
+	@RequestMapping("/role/getRolesByUserId/{id}")
+	@ResponseBody
+	public String getRolesByUserId(User user){
+		return roleService.getRolesByUserId(user);
+	}
+	
 	
 	public RoleService getRoleService() {
 		return roleService;

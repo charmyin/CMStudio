@@ -18,7 +18,7 @@ public class MenuServiceImpl implements MenuService {
 	private MenuMapper menuMapper ;
 	
 	@Override
-	@RequiresPermissions("menu:getallxx")
+	/*@RequiresPermissions("menu:getallxx")*/
 	public List<Menu> getAllMenu() {
 		List<Menu> menuList = menuMapper.getAllMenu();
 		return menuList;

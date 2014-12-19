@@ -41,7 +41,20 @@ var allOrganizationTreeSetting = {
 					          {field:'ck', checkbox:true },
 					          {field:'id', title:'编号' },
 					          {field:'name', title:'名称'},
-					          {field:'parentId', title:'父级菜单'},
+					          {
+					        	  field:'organizationType', 
+					        	  title:'机构类型', 
+					        	  formatter:function(value,row,index){
+	        		  				if (row.organizationType==0){
+	        		  					return "部门"
+	        		  				} else if (row.organizationType==1){
+	        		  					return "公司";
+	        		  				}else{
+	        		  					return "";
+	        		  				}
+	        		  			  }
+					          },
+					          //{field:'parentId', title:'父级菜单'},
 					          {field:'orderNumber', title:'排序'},
 					          {field:'remark', title:'备注'}
 					]],
@@ -59,6 +72,10 @@ function loadOrganizationTree(){
 	  type: "GET",
 	  url: "organization/all"
 	}).done(function( msg ) {
+		for(var i=0; i<msg.length; i++){
+			
+			msg[i].organizationType==0 ? (msg[i].isParent = false) : (msg[i].isParent = true);
+		}
 	  //Load the system manage tree
 	  allOrganizationTreeObj = $.fn.zTree.init($("#div_allOrganization_tree"), allOrganizationTreeSetting, msg);
 	 //rename the
@@ -143,6 +160,8 @@ function newForm(){
     $('#fm').form('clear');
     initParentId();
     url = 'organization/save';
+    //初始化机构类型：0：公司， 1：部门
+	$('#organizationType').combobox('setValue', '1');
 }
 function editForm(){
     var row = $('#organizationGrid').datagrid('getSelected');

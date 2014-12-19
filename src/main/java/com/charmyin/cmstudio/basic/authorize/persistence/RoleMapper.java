@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 import com.charmyin.cmstudio.basic.authorize.vo.Role;
+import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.basic.initial.SQLMapper;
 
 /**
@@ -42,6 +43,9 @@ public interface RoleMapper {
 	 */
 	@Select("SELECT * FROM SHIRO_ROLE WHERE name=#{name, jdbcType=VARCHAR}")
 	public Role getRoleByName(String name);
+	
+	
+	public List<String> getRolesByUserId(User user);
 	
 	/**
 	 * Insert a piece of role to table

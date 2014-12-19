@@ -53,6 +53,11 @@ public interface OrganizationService {
 	 */
 	public Organization getOrganizationById(int id);
 	
-	
+	/**
+	 * 获取当前部门所属的公司Id
+	 * @param orgId
+	 * @return
+	 */
+	public int getCooporationId(int orgId);
 	
 }

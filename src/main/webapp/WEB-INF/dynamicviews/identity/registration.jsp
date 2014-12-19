@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<h1>Identity Registration</h1>
+<h1>Identity Registration</h1> 
 
 <form:form action="register" commandName="registration" method='post'
 	accept-charset='UTF-8'>

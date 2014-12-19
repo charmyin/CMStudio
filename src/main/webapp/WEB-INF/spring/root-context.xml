@@ -57,6 +57,9 @@ xsi:schemaLocation="
 	<!-- Security Configuration / Apache Shiro -->
 	<import resource="jcaptcha-context.xml" />
 	
+	<!-- Quartz 任务调度管理 -->
+<!-- 	<import resource="spring-quartz.xml" /> -->
+	
 	<!-- Database Configuration / MyBatis -->
 	<!-- define the SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -77,4 +80,21 @@ xsi:schemaLocation="
 		<property name="username" value="${jdbc.user}" />
 		<property name="password" value="${jdbc.pass}" />
 	</bean>
+	
+	
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<!-- <bean class="com.host.app.web.interceptor.AllInterceptor"/> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/SafetyService/**"/>
+			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+			<bean class="com.charmyin.cmstudio.basic.authorize.interceptor.TokenAuthInteceptorImpl"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/7sManagementService/**"/>
+			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+			<bean class="com.charmyin.cmstudio.basic.authorize.interceptor.TokenAuthInteceptorImpl"/>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
 </beans>

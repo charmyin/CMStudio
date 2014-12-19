@@ -117,6 +117,10 @@ public class SQLHelp {
             if (countStmt != null) {
                 countStmt.close();
             }
+            if (connection != null) {
+            	connection.close();
+            }
+            
         }
     }
 

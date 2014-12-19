@@ -19,9 +19,6 @@ public class Role {
 	@Size(max=200, message="描述长度应小于200")
 	private String description;
 	
-	@NotNull(message = "密码不允许为空")
-	@Min(value=0, message="所属组织id需大于等于0")
-	@Max(value=999999, message="所属组织id需小于999999")
 	private Integer organizationId;
 	
 	private Boolean state;

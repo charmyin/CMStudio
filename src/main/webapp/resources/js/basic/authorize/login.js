@@ -55,11 +55,9 @@ function setEnterPressEvent() {
 		//alert("表单提交中，cookie中存入用户名密码，刷新后显示~");
 	}
 	
-	if($('#inputDesktop_login').is(':checked')){
-		window.location.href="http://localhost:8080/bbrj/jsframes/jQueryDesktop/index.html";
-	}else{
-		validUserByAjax(userName, password, validateCode);
-	}
+	 
+    validUserByAjax(userName, password, validateCode);
+ 
 }
 
 //Ajax形式验证用户凭据
@@ -124,16 +122,16 @@ function changeValiImg(){
 //监视easyloader加载组件完成的事件
 $(function(){
 	//去除加载mask效果
-	if($("#divLoading").length > 0){
+	/*if($("#divLoading").length > 0){
 		$("#loginwindow").window('close');
 		$('#divLoading').fadeOut("slow", function () {
 			$(this).remove();
 			$("#loginwindow").window('open');
 			document.authForm.username.focus();
 		});
-	}
+	}*/
 	
-	if($.inArray("validatebox", event) !== -1){
+	/*if($.inArray("validatebox", event) !== -1){
 		//添加验证规则 
 		//固定长度
 		$.extend($.fn.validatebox.defaults.rules, {
@@ -144,12 +142,12 @@ $(function(){
 				message: '字符串长度应为{0}'
 			}
 		});
-	}
+	}*/
 	
 	//页面加载完成后，执行以下操作
 	// domReady(function () {
 	//获取cookie中的用户名和密码
-	getUserInfoFromCookie();
+	//getUserInfoFromCookie();
 	//载入easyui,form框架
 	//easyloader.load('plugins/jquery.form.js');
 	//重置表单
@@ -165,12 +163,12 @@ $(function(){
 	});
 	//设定enter按钮事件
 	setEnterPressEvent();
-	
+	/*
 	$("#aForm").hover(function(){
 		$(this),addClass("toggle");
 	},function(){
 		$(this),removeClass("notoggle");
-	});
+	});*/
 	
 });
 

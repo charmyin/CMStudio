@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.charmyin.cmstudio.tzyc._7s.persistence._7sEvaluateItemMapper">
+  <resultMap id="BaseResultMap" type="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="C" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIMESTAMP" property="createTimestamp" jdbcType="BIGINT" />
+    <result column="RECORD_STATUS" property="recordStatus" jdbcType="INTEGER" />
+    <result column="COID" property="coId" jdbcType="INTEGER" />
+  </resultMap>
+  
+    <resultMap id="BaseResultMapByJoin" type="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="C" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIMESTAMP" property="createTimestamp" jdbcType="BIGINT" />
+    <result column="RECORD_STATUS" property="recordStatus" jdbcType="INTEGER" />
+    <result column="COID" property="coId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+
+  
+  <sql id="Example_Where_Clause">
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CODE AS C, NAME, TYPE_ID, REMARK, CREATE_TIMESTAMP, RECORD_STATUS
+  </sql>
+  
+  <select id="getList_7sEvaluateItem" resultMap="BaseResultMapByJoin" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem">
+	select 
+	 tb_7s_evaluate_item.ID as ID
+	, tb_7s_evaluate_item.CODE as CODE
+	, tb_7s_evaluate_item.NAME as NAME
+	, tb_7s_evaluate_item.TYPE_ID as TYPE_ID
+	, tb_7s_evaluate_item.REMARK as REMARK
+	, tb_7s_evaluate_item.CREATE_TIMESTAMP as CREATE_TIMESTAMP
+	, tb_7s_evaluate_item.RECORD_STATUS as RECORD_STATUS
+	, tb_7s_evaluate_type.NAME as TYPENAME
+	from tb_7s_evaluate_item
+	join tb_7s_evaluate_type 
+	on tb_7s_evaluate_item.TYPE_ID = tb_7s_evaluate_type.ID
+	where tb_7s_evaluate_item.RECORD_STATUS = 0
+	ORDER BY  tb_7s_evaluate_item.CREATE_TIMESTAMP DESC
+  </select>
+  
+   <select id="findAll_7sEvaluateItem" resultMap="BaseResultMapByJoin" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem">
+	select 
+	 tb_7s_evaluate_item.ID as ID
+	, tb_7s_evaluate_item.CODE as CODE
+	, tb_7s_evaluate_item.NAME as NAME
+	, tb_7s_evaluate_item.TYPE_ID as TYPE_ID
+	, tb_7s_evaluate_item.REMARK as REMARK
+	, tb_7s_evaluate_item.CREATE_TIMESTAMP as CREATE_TIMESTAMP
+	, tb_7s_evaluate_item.RECORD_STATUS as RECORD_STATUS
+	, tb_7s_evaluate_type.NAME as TYPENAME
+	from tb_7s_evaluate_item
+	join tb_7s_evaluate_type 
+	on tb_7s_evaluate_item.TYPE_ID = tb_7s_evaluate_type.ID
+	where tb_7s_evaluate_item.RECORD_STATUS = 0
+	ORDER BY  tb_7s_evaluate_item.CREATE_TIMESTAMP DESC
+  </select>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_7s_evaluate_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_7s_evaluate_item
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByTypeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_7s_evaluate_item
+    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_7s_evaluate_item
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem" >
+    insert into tb_7s_evaluate_item (ID, CODE, NAME, 
+      TYPE_ID, REMARK, CREATE_TIMESTAMP, 
+      RECORD_STATUS, COID)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTimestamp,jdbcType=BIGINT}, 
+      #{recordStatus,jdbcType=INTEGER}, #{coId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem" >
+    insert into tb_7s_evaluate_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createTimestamp != null" >
+        CREATE_TIMESTAMP,
+      </if>
+      <if test="recordStatus != null" >
+        RECORD_STATUS,
+      </if>
+      <if test="coId != null">
+     	 COID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTimestamp != null" >
+        #{createTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="recordStatus != null" >
+        #{recordStatus,jdbcType=INTEGER},
+      </if>
+      <if test="coId != null">
+     	#{coId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem" >
+    update tb_7s_evaluate_item
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTimestamp != null" >
+        CREATE_TIMESTAMP = #{createTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="recordStatus != null" >
+        RECORD_STATUS = #{recordStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.charmyin.cmstudio.tzyc._7s.vo._7sEvaluateItem" >
+    update tb_7s_evaluate_item
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_TIMESTAMP = #{createTimestamp,jdbcType=BIGINT},
+      RECORD_STATUS = #{recordStatus,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

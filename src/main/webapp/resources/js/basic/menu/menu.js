@@ -42,7 +42,7 @@ var allMenuTreeSetting = {
 						          {field:'name', title:'名称'},
 						          {field:'parentId', title:'父级菜单'},
 						          {field:'linkUrl', title:'链接地址'},
-						          {field:'fullPermission', title:'所需权限'},
+						          {field:'orderNumber', title:'排序'},
 						          {field:'remark', title:'备注'}
 						]],
 						onLoadError: function(msge){
@@ -51,7 +51,7 @@ var allMenuTreeSetting = {
 					});
 					
 				//Load Menu permission grid
-				$("#menuPermissionGrid").datagrid({
+				/*$("#menuPermissionGrid").datagrid({
 					iconCls: 'icon-edit',
 					singleSelect: true,
 					rownumbers:true,
@@ -69,7 +69,7 @@ var allMenuTreeSetting = {
 				       {field:'menuId',title:'菜单ID', hidden:true}
 					]],
 					onClickRow: onClickRow
-				});
+				});*/
 			}
 		}
 };
@@ -218,12 +218,12 @@ function editMenu(){
 }
 function saveMenu(){
 	//获取权限json字符串，如果校验未通过返回false
-	var permissionString = getPermissionString();
+	/*var permissionString = getPermissionString();
 	if(permissionString){
 		$("#hidden_FullPermission").val(permissionString);
 	}else{
 		return false;
-	}
+	}*/
     $('#fm').form('submit',{
         url: url,
         onSubmit: function(){

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charmyin.cmstudio.basic.authorize.persistence.UserMapper">
+	<resultMap id="UserResultMap" type="com.charmyin.cmstudio.basic.authorize.vo.User">
+		<id column="ID" property="id" jdbcType="INTEGER"/>
+		<result column="LOGIN_ID" property="loginId" jdbcType="INTEGER"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="ORGANIZATION_ID" property="organizationId" jdbcType="INTEGER"/>
+		<result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+		<result column="PASSPHRASE" property="passphrase" jdbcType="VARCHAR"/>
+		<result column="SALT" property="salt" jdbcType="VARCHAR"/>
+	<!-- 	
+		<result column="STATE" property="state" jdbcType="VARCHAR"/> -->
+		<result column="DATE_CREATED" property="dateCreated" jdbcType="VARCHAR"/>
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+		<result column="SEX" property="sex" jdbcType="INTEGER"/>
+		<result column="CELLPHONE" property="cellPhone" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="User_Column_List" >
+		ID, LOGIN_ID, NAME, ORGANIZATION_ID, EMAIL, STATE, DATE_CREATED, REMARK, SEX, CELLPHONE, SALT, PASSPHRASE
+	</sql>
+	
+	<select id="getAllUser" resultMap="UserResultMap">
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+	</select>
+	
+	<select id="findAllUser" resultMap="UserResultMap" parameterType="com.charmyin.cmstudio.basic.pagination.page.Pagination">
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="name!= null">
+					AND NAME LIKE '%'||#{name, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="remark!= null">
+					AND REMARK LIKE '%'||#{remark, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="email!= null">
+					AND EMAIL LIKE '%'||#{email, jdbcType=VARCHAR}||'%'
+				</if>
+		</trim>
+	</select>
+	
+	<select id="getUserEqual" resultMap="UserResultMap" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User">
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="id != 0">
+					AND ID=#{id, jdbcType=INTEGER}
+				</if>
+				<if test="loginId!=null">
+					AND LOGIN_ID=#{loginId, jdbcType=VARCHAR}
+				</if>
+				<if test="name!=null">
+					AND NAME=#{name, jdbcType=VARCHAR}
+				</if>
+				<if test="organizationId!=0">
+					AND ORGANIZATION_ID=#{organizationId, jdbcType=INTEGER}
+				</if>
+				<if test="email!=null">
+					AND EMAIL=#{email, jdbcType=VARCHAR}
+				</if>
+				<if test="state!=null">
+					AND STATE=#{state, jdbcType=BOOLEAN}
+				</if>
+				<if test="dateCreated!=null">
+					AND DATE_CREATED=#{dateCreated, jdbcType=TIMESTAMP}
+				</if>
+				<if test="remark!=null">
+					AND REMARK=#{remark, jdbcType=VARCHAR}
+				</if>
+				<if test="sex!=null">
+					AND SEX=#{sex, jdbcType=INTEGER}
+				</if>
+				<if test="cellPhone!=null">
+					AND CELLPHONE=#{cellPhone, jdbcType=VARCHAR}
+				</if>
+		</trim>
+	</select>
+	
+	<select id="getUserLike" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User"  resultMap="UserResultMap" >
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="name!= null">
+					AND NAME LIKE '%'||#{name, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="remark!= null">
+					AND REMARK LIKE '%'||#{remark, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="email!= null">
+					AND EMAIL LIKE '%'||#{email, jdbcType=VARCHAR}||'%'
+				</if>
+		</trim>
+	</select>
+
+ 
+	<insert id="insertUser" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+		<!-- <selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT currval('shiro_user_id_seq')
+		</selectKey> -->
+		INSERT INTO SHIRO_USER 
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- <if test="id != null">
+					ID,
+				</if> -->
+				 
+				<if test="loginId!=null">
+					LOGIN_ID,
+				</if>
+				<if test="name!=null">
+					NAME,
+				</if>
+				<if test="organizationId!=0">
+					ORGANIZATION_ID,
+				</if>
+				<if test="email!=null">
+					EMAIL,
+				</if>
+				<if test="passphrase!=null">
+					PASSPHRASE,
+				</if>
+				<if test="salt!=null">
+					SALT,
+				</if>
+				<if test="state!=null">
+					STATE,
+				</if>
+				<if test="true">
+					DATE_CREATED,
+				</if>
+				<if test="remark!=null">
+					REMARK,
+				</if>
+				<if test="sex!=null">
+				    SEX,
+				</if>
+				<if test="cellPhone!=null">
+					CELLPHONE,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<!-- <if test="id != null">
+					#{id, jdbcType=BIGINT},
+				</if> -->
+				<if test="loginId!=null">
+					#{loginId, jdbcType=VARCHAR},
+				</if>
+				<if test="name!=null">
+					#{name, jdbcType=VARCHAR},
+				</if>
+				<if test="organizationId!=0">
+					#{organizationId, jdbcType=INTEGER},
+				</if>
+				<if test="email!=null">
+					#{email, jdbcType=VARCHAR},
+				</if>
+				<if test="passphrase!=null">
+					#{passphrase, jdbcType=VARCHAR},
+				</if>
+				<if test="salt!=null">
+					#{salt, jdbcType=VARCHAR},
+				</if>
+				<if test="state!=null">
+					#{state, jdbcType=BOOLEAN},
+				</if>
+				<if test="true">
+					NOW(),
+				</if>
+				<if test="remark!=null">
+					#{remark, jdbcType=VARCHAR},
+				</if>
+				<if test="sex!=null">
+					#{sex, jdbcType=INTEGER},
+				</if>
+				<if test="cellPhone!=null">
+					#{cellPhone, jdbcType=VARCHAR},
+				</if>
+			</trim>
+	</insert>
+	
+	<update id="updateUser" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User">
+		UPDATE SHIRO_USER
+		<trim prefix="SET" suffixOverrides=",">
+			  <!--   <if test="id != 0">
+					ID=#{id, jdbcType=INTEGER}
+				</if> -->
+				<!-- <if test="loginId!=null">
+					LOGIN_ID=#{loginId, jdbcType=VARCHAR}
+				</if> -->
+				<if test="name!=null">
+					NAME=#{name, jdbcType=VARCHAR},
+				</if>
+				<if test="organizationId!=0">
+					ORGANIZATION_ID=#{organizationId, jdbcType=INTEGER},
+				</if>
+				<if test="email!=null">
+					EMAIL=#{email, jdbcType=VARCHAR},
+				</if>
+				<if test="passphrase!=null">
+					PASSPHRASE=#{passphrase, jdbcType=VARCHAR},
+				</if>
+				<if test="salt!=null">
+					SALT=#{salt, jdbcType=VARCHAR},
+				</if>
+				<if test="state!=null">
+					STATE=#{state, jdbcType=BOOLEAN},
+				</if>
+				<if test="dateCreated!=null">
+					DATE_CREATED=#{dateCreated, jdbcType=TIMESTAMP},
+				</if>
+				<if test="remark!=null">
+					REMARK=#{remark, jdbcType=VARCHAR},
+				</if>
+				<if test="sex!=null">
+					SEX=#{sex, jdbcType=INTEGER},
+				</if>
+				<if test="cellPhone!=null">
+					CELLPHONE=#{cellPhone, jdbcType=VARCHAR},
+				</if>
+		</trim>
+		WHERE id=#{id, jdbcType=BIGINT};
+	</update>
+	
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM SHIRO_USER WHERE ID=#{id, jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteUserRoleByUserId" parameterType="int">
+		DELETE FROM SHIRO_USER_ROLE WHERE USER_ID=#{userId, jdbcType=INTEGER}
+	</delete>
+	<insert id="insertUserRole" parameterType="map">
+		INSERT INTO SHIRO_USER_ROLE (USER_ID,ROLE_NAME) VALUES (#{userId, jdbcType=INTEGER},#{roleName, jdbcType=VARCHAR})
+	</insert>
+</mapper>

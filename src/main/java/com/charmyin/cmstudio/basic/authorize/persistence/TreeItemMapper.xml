@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charmyin.cmstudio.basic.authorize.persistence.TreeItemMapper">
+	<resultMap id="OrganizationTreeItemResultMap" type="com.charmyin.cmstudio.basic.authorize.vo.TreeItem">
+		<id column="ID" property="id" jdbcType="INTEGER"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="PARENT_ID" property="parentId" jdbcType="INTEGER"/>
+		<result column="ORDER_NUMBER" property="orderNumber" jdbcType="INTEGER"/>
+		<result column="TYPE" property="organizationType" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<resultMap id="UserTreeItemResultMap" type="com.charmyin.cmstudio.basic.authorize.vo.TreeItem">
+		<id column="ID" property="id" jdbcType="INTEGER"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="ORGANIZATION_ID" property="parentId" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<sql id="Organization_Column_List" >
+		ID, NAME, PARENT_ID, ORDER_NUMBER, REMARK,ORGANIZATION_TYPE
+	</sql>
+	
+	<sql id="User_Column_List" >
+		ID, LOGIN_ID, NAME, ORGANIZATION_ID, EMAIL, STATE, DATE_CREATED, REMARK
+	</sql>
+
+	
+	<select id="getOrganizationTreeItemEqual" resultMap="OrganizationTreeItemResultMap" parameterType="com.charmyin.cmstudio.basic.authorize.vo.Organization">
+		SELECT 
+			<include refid="Organization_Column_List" />
+		FROM  BASIC_ORGANIZATION
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != 0">
+				AND ID=#{id, jdbcType=INTEGER}
+			</if>
+			<if test="name!= null">
+				AND NAME=#{name, jdbcType=VARCHAR}
+			</if>
+			<if test="parentId!= 0">
+				AND PARENT_ID=#{parentId, jdbcType=INTEGER}
+			</if>
+			<if test="orderNumber!= null">
+				AND ORDER_NUMBER=#{orderNumber, jdbcType=INTEGER}
+			</if>
+			<if test="organizationType!= null">
+				AND ORGANIZATION_TYPE=#{organizationType, jdbcType=INTEGER}
+			</if>
+			<if test="remark!= null">
+				AND REMARK=#{remark, jdbcType=VARCHAR}
+			</if>
+		</trim>
+		order by order_number asc
+	</select>
+	
+	<select id="getUserTreeItemEqual" resultMap="UserTreeItemResultMap" parameterType="com.charmyin.cmstudio.basic.authorize.vo.User">
+		SELECT 
+			<include refid="User_Column_List" />
+		FROM  SHIRO_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != 0">
+				AND ID=#{id, jdbcType=INTEGER}
+			</if>
+			<if test="loginId!=null">
+				AND LOGIN_ID=#{loginId, jdbcType=VARCHAR}
+			</if>
+			<if test="name!=null">
+				AND NAME=#{name, jdbcType=VARCHAR}
+			</if>
+			<if test="organizationId!=0">
+				AND ORGANIZATION_ID=#{organizationId, jdbcType=INTEGER}
+			</if>
+			<if test="email!=null">
+				AND EMAIL=#{email, jdbcType=VARCHAR}
+			</if>
+			<if test="state!=null">
+				AND STATE=#{state, jdbcType=BOOLEAN}
+			</if>
+			<if test="dateCreated!=null">
+				AND DATE_CREATED=#{dateCreated, jdbcType=TIMESTAMP}
+			</if>
+			<if test="remark!=null">
+				AND REMARK=#{remark, jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</select>
+
+</mapper>

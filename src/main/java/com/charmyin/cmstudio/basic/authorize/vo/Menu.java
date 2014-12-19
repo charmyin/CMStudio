@@ -30,7 +30,7 @@ public class Menu {
 	private String linkUrl;
 	
 	//The order of the menu in the tree list.Maybe it's better to be "int"
-	@Min(value=0, message="序号需大于0")
+	
 	@Max(value=999999, message="序号需小于999999")
 	private Integer orderNumber;
 	
@@ -69,10 +69,11 @@ public class Menu {
 	public void setLinkUrl(String linkUrl) {
 		this.linkUrl = linkUrl;
 	}
-	public int getOrderNumber() {
-		return orderNumber==null?0:orderNumber;
+	
+	public Integer getOrderNumber() {
+		return orderNumber;
 	}
-	public void setOrderNumber(int orderNumber) {
+	public void setOrderNumber(Integer orderNumber) {
 		this.orderNumber = orderNumber;
 	}
 	public String getRemark() {

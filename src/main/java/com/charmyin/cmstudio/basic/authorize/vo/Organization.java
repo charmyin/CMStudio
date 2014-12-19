@@ -22,12 +22,22 @@ public class Organization {
 	@Max(value=999999, message="序号需小于999999")
 	private Integer parentId;
 	
-	@Min(value=0, message="序号需大于0")
 	@Max(value=999999, message="序号需小于999999")
 	private Integer orderNumber;
 	
 	@Size(max=200, message="备注长度应小于200")
 	private String remark;
+	
+	//机构类型，1公司，0部门
+	private Integer organizationType;
+
+	public Integer getOrganizationType() {
+		return organizationType;
+	}
+
+	public void setOrganizationType(Integer organizationType) {
+		this.organizationType = organizationType;
+	}
 
 	public Integer getId() {
 		return id==null?0:id;
@@ -53,8 +63,10 @@ public class Organization {
 		this.parentId = parentId;
 	}
 
+
+
 	public Integer getOrderNumber() {
-		return orderNumber==null?0:orderNumber;
+		return orderNumber;
 	}
 
 	public void setOrderNumber(Integer orderNumber) {
@@ -68,7 +80,5 @@ public class Organization {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
 	
 }

@@ -1,6 +1,8 @@
 package com.charmyin.cmstudio.basic.authorize.controller;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -34,11 +36,17 @@ import com.charmyin.cmstudio.basic.authorize.domain.Identity;
 import com.charmyin.cmstudio.basic.authorize.form.LoginForm;
 import com.charmyin.cmstudio.basic.authorize.form.RegistrationForm;
 import com.charmyin.cmstudio.basic.authorize.service.IdentityService;
+import com.charmyin.cmstudio.basic.authorize.service.OrganizationService;
+import com.charmyin.cmstudio.basic.authorize.service.RoleService;
 import com.charmyin.cmstudio.basic.authorize.service.UserInitService;
 import com.charmyin.cmstudio.basic.authorize.service.UserService;
 import com.charmyin.cmstudio.basic.authorize.vo.Menu;
+import com.charmyin.cmstudio.basic.authorize.vo.Role;
+import com.charmyin.cmstudio.basic.authorize.vo.Token;
 import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.common.utils.JSRErrorUtil;
+import com.charmyin.cmstudio.common.utils.MD5Util;
+import com.charmyin.cmstudio.common.utils.UUIDGenerator;
 import com.octo.captcha.service.CaptchaServiceException;
 import com.octo.captcha.service.multitype.MultiTypeCaptchaService;
 
@@ -49,8 +57,9 @@ import com.octo.captcha.service.multitype.MultiTypeCaptchaService;
  * 
  */
 @Controller
-@RequestMapping(value = "/identity")
 public class IdentityController {
+	
+
 
 	@Resource
 	private IdentityService identityService;
@@ -60,7 +69,13 @@ public class IdentityController {
 	
 	@Resource(name="userInitServiceDatabaseImpl")
 	private UserInitService userInitService;
+	
+	@Resource
+	private OrganizationService organizationService;
 
+	@Resource
+	private RoleService roleService;
+	
 	@Resource
 	private MultiTypeCaptchaService captchaService;
 	
@@ -75,12 +90,11 @@ public class IdentityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = { "/login", "/identity" })
+	@RequestMapping(method = RequestMethod.GET, value = { "/", "/identity/login", "/identity" })
 	public String login(Locale locale, Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
 			return "basic/index";
-
 		}
 		logger.trace("Entering login");
 		return "basic/authorize/login";
@@ -93,7 +107,7 @@ public class IdentityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = { "/registration" })
+	@RequestMapping(method = RequestMethod.GET, value = { "/identity/registration" })
 	public String registration(Locale locale, Model model) {
 		logger.trace("Entering Registration");
 		model.addAttribute("registration", new RegistrationForm());
@@ -109,7 +123,7 @@ public class IdentityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = { "/register" })
+	@RequestMapping(method = RequestMethod.POST, value = { "/identity/register" })
 	public String register(@Valid RegistrationForm registration, BindingResult result) {
 		logger.trace("Entering Register");
 
@@ -124,6 +138,73 @@ public class IdentityController {
 		// return "identity/register";
 		return "basic/main/index";
 	}
+	
+	
+	/**
+	 * Token登录验证接口，手机端登录
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = { "/login" })
+	public @ResponseBody Map userLoginAuth(@Valid LoginForm loginForm, HttpServletRequest request, BindingResult result, Model model) {
+		//使当前session失效
+		Subject currentUser = SecurityUtils.getSubject();
+		if(currentUser!=null)
+		currentUser.logout();
+		
+		loginForm.setValidateCode(null);
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		Map<String, Object> authMap = authenticateUser(loginForm, request, result, model, true);
+		if(authMap.get("status").equals("ok")){
+			resultMap.put("status", "1");
+			resultMap.put("msg", "登录成功");
+			resultMap.put("userId", authMap.get("userId"));
+			//通过获取companyId
+			resultMap.put("companyId", authMap.get("coId"));
+			List<Role> roleList = roleService.getRoleByOrganizationId(Integer.parseInt(authMap.get("orgId").toString()));
+			//获取roleName
+			if(roleList.size() > 0){
+				resultMap.put("roleId", roleList.get(0).getName());		
+			}else{
+				resultMap.put("roleId", null);		
+			}
+			Hashtable<String, Token> userTokenMap = (Hashtable<String, Token>)request.getServletContext().getAttribute("userTokenMap");
+			//String token = request.getSession().getId();
+			//request.getSession().getLastAccessedTime();
+			/*request.getSession().getServletContext().get*/
+			//生成token
+			String tokenId = UUIDGenerator.generate();
+			Token token = new Token(tokenId, authMap.get("userId").toString(), new Date());
+			userTokenMap.put(tokenId, token);
+			resultMap.put("token", tokenId);
+	 
+			 Object menuListObj =  currentUser.getSession().getAttribute("menuList");
+			 List<Menu> menuList=null;
+			 if(menuListObj!=null){
+				 menuList = (List<Menu>)menuListObj;
+			 }
+			 
+			 StringBuilder menuStr = new StringBuilder();
+			 for(Menu menu : menuList){
+				 if(menu.getId()==67 || menu.getId()==70 || menu.getId()==71|| menu.getId()==72){
+					 menuStr.append(menu.getOrderNumber()).append(",");
+				 }
+			 }
+			 String menuStrResult = "";
+			 if(menuStr.length()>0){
+				 menuStrResult = menuStr.substring(0, menuStr.length()-1);
+			 }
+			 
+			 resultMap.put("menu", menuStrResult);
+			
+		}else{
+			resultMap.put("status", "0");
+		}
+		
+		return resultMap;
+	}
 
 	/**
 	 * Logs the user in, handles submission from the login form.
@@ -131,10 +212,11 @@ public class IdentityController {
 	 * @param loginForm
 	 * @param result
 	 * @param model
+	 * @param
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = { "/authenticate" })
-	public @ResponseBody Map authenticateUser(@Valid LoginForm loginForm, HttpServletRequest request, BindingResult result, Model model) {
+	@RequestMapping(method = RequestMethod.POST, value = { "/identity/authenticate" })
+	public @ResponseBody Map authenticateUser(@Valid LoginForm loginForm, HttpServletRequest request, BindingResult result, Model model, Boolean noMD5Encode) {
 		
 		logger.trace("A request has been received, and validate it's effectivity~");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -149,30 +231,32 @@ public class IdentityController {
 		// If the captcha field is already rejected
 		  boolean validCaptcha = false;
 		  try {
-			  logger.debug("---------Session id for captcha---------"+request.getSession().getId());
-			  
+			  logger.debug("---------Session id for captcha---------"+request.getSession().getId());		  
 			  validCaptcha = captchaService.validateResponseForID(request.getSession().getId(), loginForm.getValidateCode());
 		  }
 		  catch (CaptchaServiceException e) {
 		      //should not happen, may be thrown if the id is not valid
 			  logger.warn("validateCaptcha()", e);
 		  }
-		  if(!validCaptcha){
+		  //如果为手机端，绕过验证码
+		  if(loginForm.getValidateCode()!=null && !validCaptcha){
 			  map.put("status", "error");
 			  map.put("msg", "验证码错误");
 			  return map;
 		  }
 		
 		logger.trace("Entering Authenticate");
+		if(noMD5Encode==null){
+			loginForm.setPassphrase(MD5Util.MD5(loginForm.getPassphrase()));
+		}
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(loginForm.getUsername(), loginForm.getPassphrase());
 
 		// <Remember Me>built-in, just do this
 		// TODO: Make this a user option instead of hard coded in.
-		token.setRememberMe(true);
+		//token.setRememberMe(true);
 
 		Subject currentUser = SecurityUtils.getSubject();
-		
 		// Authenticate the user
 		authenticateUserByToken(currentUser, token, map);
 
@@ -183,8 +267,17 @@ public class IdentityController {
 			//Later I will save all the menu in menulist in application scope, then store the user's menu ids in session scope
 			List<Menu> menuList = userInitService.getMenusByLoginId(loginForm.getUsername());
 			User userInfo = userService.getUserByName(loginForm.getUsername());
+			
+			//COID
+			int coId = organizationService.getOrganizationById(userInfo.getOrganizationId()).getParentId();
+			
+			userInfo.setCoId(coId);
+			
 			currentUser.getSession().setAttribute("userInfo", userInfo);
 			currentUser.getSession().setAttribute("menuList", menuList);
+			map.put("userId", userInfo.getId()+"");
+			map.put("orgId", userInfo.getOrganizationId()+"");
+			map.put("coId", coId+"");
 			return map;
 		}
 
@@ -228,7 +321,7 @@ public class IdentityController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = { "/logout" })
+	@RequestMapping(method = RequestMethod.GET, value = { "/identity/logout" })
 	public String logout(Locale locale, Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
@@ -247,7 +340,7 @@ public class IdentityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = { "/unauthorized" })
+	@RequestMapping(method = RequestMethod.GET, value = { "/identity/unauthorized" })
 	public String unauthorized(Locale locale, Model model) {
 		logger.trace("Unauthorized user");
 		return "basic/errorpage/unauthorized";

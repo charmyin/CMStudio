@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.charmyin.cmstudio.basic.authorize.vo.Role;
+import com.charmyin.cmstudio.basic.authorize.vo.User;
 
 /**
  * Role operation service
@@ -47,6 +48,9 @@ public interface RoleService {
 	 * @return Role List
 	 */
 	public List<Role> searchRole(Role role);
+	
+	
+	public String getRolesByUserId(User userIdStr);
 	
 	/**
 	 * Get roles by organization Id

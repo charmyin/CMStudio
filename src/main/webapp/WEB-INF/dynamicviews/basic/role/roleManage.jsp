@@ -27,13 +27,11 @@
 		<cmstudio:importJsCss name="ztree" version="${ztree_version}"/>
 		<!--End importing the ztree files -->
 		<script type="text/javascript" src="resources/js/basic/role/role.js"></script>
-		<script type="text/javascript" src="resources/js/basic/role/rolePermission.js"></script>
+		<!-- <script type="text/javascript" src="resources/js/basic/role/rolePermission.js"></script> -->
 	</head>
 	<body>
 		<div class="easyui-layout" fit="true" style="overflow:hidden;">
-			<div data-options="region:'west', split:true" style="width:200px;">
-				 <div class="ztree" id="div_allOrganization_tree"></div>
-			</div>
+			 
 			<div data-options="region:'center', split:true">
 		 	    <table id="roleGrid">
 			    </table>
@@ -49,11 +47,11 @@
 			                <label>名称：</label>
 			                <input name="name" id="input_name" class="easyui-validatebox" required="true">
 			            </div>
-			            <div class="fitem">
+			           <!--  <div class="fitem">
 			                <label>所属组织：</label>
 			                <input type="hidden" name="organizationId" id="hidden_organizationId" class="easyui-validatebox" style="display:hidden;" >
 			                <input id="input_organizationId" class="easyui-validatebox" readonly>
-			            </div>
+			            </div> -->
 			            <div class="fitem">
 			                <label>描述:</label>
 			                <input name="description" class="easyui-validatebox">
@@ -63,11 +61,11 @@
 			                <a id="btn_menus" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">选择</a>
 			                <input id="input_menu" name="menu" class="easyui-validatebox" type="hidden">
 			            </div>
-			            <div class="fitem">
+			            <!-- <div class="fitem">
 			                <input type="hidden" name="permission" id="hidden_permission" class="easyui-validatebox" style="display:hidden;" >
 			            	<label>所需权限：</label>
 			            	<div style="height:150px;overflow:auto;">
-				                <!--  <textarea name="fullPermission" class="easyui-validatebox" placeholder="权限需用逗号','分开..."></textarea> -->
+				                 <textarea name="fullPermission" class="easyui-validatebox" placeholder="权限需用逗号','分开..."></textarea>
 				                <table id="permissionGrid"></table>
 				                <div id="permissionGridTB" style="height:auto">
 							        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">新增</a>
@@ -76,7 +74,7 @@
 							        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">撤销修改</a>
 							    </div>
 			            	</div>
-			            </div>
+			            </div> -->
 			            <div class="fitem">
 			                <label>备注：</label>
 			                <textarea name="remark" placeholder="请输入备注..."></textarea>

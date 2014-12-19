@@ -29,8 +29,15 @@
 			-->
 		 		/captcha/valiCode.jpg = anon
 				/identity/authenticate=anon
+				/login=anon
+				/getUserInfo=anon
+				/updatePassword=anon
 				/resources/** = anon
+				/7sManagementService/**=anon
+				/SafetyService/**=anon
 				/** = authc
+				
+				
 		 	</value>
 		 </constructor-arg>
 	</bean>

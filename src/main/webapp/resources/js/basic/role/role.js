@@ -7,99 +7,6 @@
 //Global the item name
 var itemName="角色";
 
-//Global all organization treeObj and setting
-var selectedNodeId;//The selected node's object id of left tree
-
-var allOrganizationTreeObj;
-var allOrganizationTreeSetting = {
-		data:{
-			simpleData:{
-				enable:true,
-				idKey:"id",
-				pIdKey:"parentId"
-			}
-		},
-		callback:{
-			onClick:function (event,treeId,node) {
-				
-				//Get the id of selected node, and set it to global variable selectedNodeId
-				selectedNodeId = node.id;
-				$("#roleGrid").datagrid({
-					url:'role/orgId/'+node.id+'/all', 
-					loadFilter:pagerFilter,
-					method:'get',
-					toolbar:'#toolbar',
-					pagination:true,
-					collapsible:true,
-					title:"角色管理&nbsp----&nbsp"+node.name,
-					rownumbers:true,
-					singleSelect:false,
-					pageSize:8,
-				    pageList:[8,16,32,48,64],
-					columns:[[
-					          {field:'ck', checkbox:true },
-					          {field:'name', title:'名称'},
-					          {field:'description', title:'描述'},
-					          {field:'permission', title:'权限'},
-					          {field:'menu', title:'菜单'},
-					          {field:'remark', title:'备注'}
-					]],
-					onLoadError: function(msge){
-						$.messager.alert('错误信息','服务器连接已断开或服务器内部错误！','error');
-					}
-				});
-				
-				//Load Menu permission grid
-				$("#permissionGrid").datagrid({
-					iconCls: 'icon-edit',
-					singleSelect: true,
-					rownumbers:true,
-					toolbar: '#permissionGridTB',
-					method: 'get',
-					url:'',
-					columns:[[
-				       {field:'permission',title:'Shiro权限',width:100, align:'center',editor:{
-				    	   type:'validatebox',
-				    	   options:{
-                               required:true
-                           }
-				       }},
-				       {field:'remark',title:'说明',width:140, align:'center', editor:'text'},
-				       {field:'menuId',title:'菜单ID', hidden:true}
-					]],
-					onClickRow: onClickRow
-				});
-			}
-		}
-};
-
-//Load all the organization Tree
-function loadOrganizationTree(){
-	$.ajax({
-	  type: "GET",
-	  url: "organization/all"
-	}).done(function( msg ) {
-	  //Load the system manage tree
-	  allOrganizationTreeObj = $.fn.zTree.init($("#div_allOrganization_tree"), allOrganizationTreeSetting, msg);
-	 //rename the
-	  var rootNode = allOrganizationTreeObj.getNodeByParam("id","1");
-	  rootNode.name = $("title").html();
-	  allOrganizationTreeObj.refresh();
-	  //if selected a node, then append it ,else append the root node 
-	  var selectedNode;
-	  if(selectedNodeId){
-		  selectedNode = allOrganizationTreeObj.getNodeByParam("id",selectedNodeId);
-	  }else{
-		  selectedNode = allOrganizationTreeObj.getNodes()[0];
-	  }
-	  allOrganizationTreeObj.expandNode(selectedNode,true,false,false,false);
-	  //Select the node which id is selectedNodeId, then trigger the click event on it
-	  allOrganizationTreeObj.selectNode(selectedNode);
-	  //sometime it request the server twice, I wonder~
-	  $("#"+selectedNode.tId+"_a").trigger("click");
-	});
-}
-
 //Used for client pagination
 function pagerFilter(data){
     if (typeof data.length == 'number' && typeof data.splice == 'function'){    // is array
@@ -183,10 +90,30 @@ function loadMenuTree(){
 /********************************************************Initial the page*****************************************************/
 $(function(){
 	//Disable cache
-	jQuery.ajaxSetup({ cache: false });
-	//载入成功后，刷新左边树
-	//Load the organization tree
-	loadOrganizationTree();
+	$("#roleGrid").datagrid({
+		url:'role/orgId/1/all', 
+		loadFilter:pagerFilter,
+		method:'get',
+		toolbar:'#toolbar',
+		pagination:true,
+		collapsible:true,
+		title:"角色管理",
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:8,
+	    pageList:[8,16,32,48,64],
+		columns:[[
+		          {field:'ck', checkbox:true },
+		          {field:'name', title:'名称'},
+		          {field:'description', title:'描述'},
+		          {field:'permission', title:'权限', hidden:true},
+		          {field:'menu', title:'菜单',hidden:true},
+		          {field:'remark', title:'备注'}
+		]],
+		onLoadError: function(msge){
+			$.messager.alert('错误信息','服务器连接已断开或服务器内部错误！','error');
+		}
+	});
 	
 	//单击选择菜单按钮事件
 	$("#btn_menus").click(function(){
@@ -199,12 +126,12 @@ $(function(){
 var url;
 
 //Initial the parentId
-function initParentId(){
+/*function initParentId(){
 	//Input the value and hidden value of parentId input 
 	var selectedNode = allOrganizationTreeObj.getNodeByParam("id",selectedNodeId);
 	$("#hidden_organizationId").val(selectedNodeId);
 	$("#input_organizationId").val(selectedNode.name);
-}
+}*/
 
 function newForm(){
 	//清空权限grid
@@ -212,22 +139,22 @@ function newForm(){
 	$("#input_name").removeAttr("readonly");
     $('#dlg').dialog('open').dialog('setTitle','新建'+itemName+'');
     $('#fm').form('clear');
-    initParentId();
+   // initParentId();
     url = 'role/save';
 }
 function editForm(){
 	$("#input_name").attr("readonly","readonly");
     var row = $('#roleGrid').datagrid('getSelected');
-    initParentId();
+    /*initParentId();*/
     if (row){
-    	//如果permission含有值，则载入，否则清空
+    	/*//如果permission含有值，则载入，否则清空
     	if(row.permission){
     		//载入权限
         	$('#permissionGrid').datagrid('loadData',eval(row.permission));
     	}else{
     		//清空权限grid
     		$('#permissionGrid').datagrid('loadData',[]);
-    	}
+    	}*/
         $('#dlg').dialog('open').dialog('setTitle','修改'+itemName+':'+row.name);
         $('#fm').form('load',row);
         url = 'role/update';
@@ -236,12 +163,12 @@ function editForm(){
 function saveForm(){
 	
 	//获取权限json字符串，如果校验未通过返回false
-	var permissionString = getPermissionString();
+	/*var permissionString = getPermissionString();
 	if(permissionString){
 		$("#hidden_permission").val(permissionString);
 	}else{
 		return false;
-	}
+	}*/
 	
     $('#fm').form('submit',{
         url: url,
@@ -273,11 +200,11 @@ function saveForm(){
                 		bottom:''
                 	}
                 });
-                
+                var rows = $('#roleGrid').datagrid('reload');
                 //Get the organizationId of organizationTree, Used to auto click the left tree element~ 
-                selectedNodeId = $("#hidden_organizationId").val();
+                //selectedNodeId = $("#hidden_organizationId").val();
                 //Reload left tree and refresh the datagrid
-                loadOrganizationTree();
+                //loadOrganizationTree();
             }
         }
         
@@ -309,7 +236,7 @@ function destroySelectedItems(){
                         	}
                         });
                     	//Reload left tree and refresh the datagrid
-                    	loadOrganizationTree();
+                    	var rows = $('#roleGrid').datagrid('reload');
                     } else {
                         $.messager.show({    // show error message
                             title: '提示<span style="color:red;">!</span>',

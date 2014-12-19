@@ -42,7 +42,7 @@
 			        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroySelectedItems()">删除</a>
 			    </div>
 			    <div id="dlg" class="easyui-dialog" data-options="closed:'true',buttons:'#dlg-buttons', modal:true">
-			        <div class="ftitle">菜单信息</div>
+			      
 			        <form id="fm" method="post" >
 			            <div class="fitem">
 			                <label>用户账号：</label>
@@ -63,7 +63,18 @@
 			                <br/>
 			                <input id="input_role" name="roles" type="hidden" class="easyui-validatebox" readonly>
 			            </div>
-			            <hr/>
+			            <div class="fitem">
+			                <label>性别：</label>
+			                <select class="easyui-combobox" name="sex" id="sexCombox" data-options="panelHeight:'auto'" style="width:50px;">
+							    <option value="0">男</option>
+							    <option value="1">女</option>
+							</select>
+			            </div>
+			            <div class="fitem">
+			                <label>手机号码：</label>
+			                <input name="cellPhone" class="easyui-validatebox">
+			            </div>
+			           
 			            <div class="fitem" id="div_initPassphrase">
 			                <label>重置密码:</label>
 			                <input type="checkbox" name="initPassphrase">(111111)

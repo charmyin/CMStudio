@@ -68,7 +68,7 @@ comment on column shiro_role.permission is '角色所包含的权限，逗号分
 comment on column shiro_role.remark is '角色备注（最大长度为200）';
 comment on column shiro_role.state is '角色状态（boolean类型）true为激活状态，false为锁定状态，默认为true';
 comment on constraint fk_shiro_role_organization_id on shiro_role is 'shiro_role.organization_id外键，指向basic_organization.id';
-insert into shiro_role (name,description, organization_id, permission, menu,  remark, state) values ('developer', '开发者角色', '[{"permission":"menu:getallxx","remark":"eeee"}]', 1, '1,2,3,4,5,6,7,8', '开发者角色', true)
+insert into shiro_role (name,description, organization_id, permission, menu,  remark, state) values ('developer', '开发者角色',1, '[{"permission":"menu:getallxx","remark":"eeee"}]',  '1,2,3,4,5,6,7,8', '开发者角色', true);
 
 --用户角色关联表
 CREATE TABLE shiro_user_role (user_id SERIAL NOT NULL , role_name VARCHAR(50) NOT NULL, PRIMARY KEY (user_id, role_name));
@@ -79,7 +79,7 @@ comment on column shiro_user_role.user_id is '用户唯一标识';
 comment on column shiro_user_role.role_name is '角色唯一标识';
 comment on constraint fk_shiro_user_role_user_id on shiro_user_role is 'shiro_user_role.user_id外键，指向shiro_user.id';
 comment on constraint fk_shiro_user_role_role_name on shiro_user_role is 'shiro_user_role.role_name外键，指向shiro_role.id';
-insert into shiro_user_role (user_id, role_name) values (1, 'developer')
+insert into shiro_user_role (user_id, role_name) values (1, 'developer');
 
 --角色权限关联表  --------暂时不用~直接采用menu里面的fullpermission
 --CREATE TABLE shiro_role_permission (role_id BIGINT NOT NULL, permission VARCHAR(100) NOT NULL, PRIMARY KEY (role_id, permission));

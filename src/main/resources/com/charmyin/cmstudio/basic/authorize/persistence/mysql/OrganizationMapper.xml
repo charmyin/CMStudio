@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charmyin.cmstudio.basic.authorize.persistence.OrganizationMapper">
+	<resultMap id="OrganizationResultMap" type="com.charmyin.cmstudio.basic.authorize.vo.Organization">
+		<id column="ID" property="id" jdbcType="INTEGER"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="PARENT_ID" property="parentId" jdbcType="INTEGER"/>
+		<result column="ORGANIZATION_TYPE" property="organizationType" jdbcType="INTEGER"/>
+		<result column="ORDER_NUMBER" property="orderNumber" jdbcType="INTEGER"/>
+		<result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Organization_Column_List" >
+		ID, NAME, PARENT_ID, ORDER_NUMBER, REMARK,ORGANIZATION_TYPE
+	</sql>
+	
+	<select id="getAllOrganization" resultMap="OrganizationResultMap">
+		SELECT 
+			<include refid="Organization_Column_List" />
+		FROM  BASIC_ORGANIZATION order by order_number asc
+	</select>
+	
+	<select id="getOrganizationById" resultMap="OrganizationResultMap" parameterType="int">
+			SELECT 
+				<include refid="Organization_Column_List" /> 
+			FROM basic_organization
+			WHERE id=#{id, jdbcType=BIGINT} order by order_number asc
+	</select>
+	
+	<select id="getOrganizationEqual" resultMap="OrganizationResultMap" parameterType="com.charmyin.cmstudio.basic.authorize.vo.Organization">
+		SELECT 
+			<include refid="Organization_Column_List" />
+		FROM  BASIC_ORGANIZATION
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="id != 0">
+					AND ID=#{id, jdbcType=INTEGER}
+				</if>
+				<if test="name!= null">
+					AND NAME=#{name, jdbcType=VARCHAR}
+				</if>
+				<if test="parentId!= 0">
+					AND PARENT_ID=#{parentId, jdbcType=INTEGER}
+				</if>
+				<if test="orderNumber!= null">
+					AND ORDER_NUMBER=#{orderNumber, jdbcType=INTEGER}
+				</if>
+				<if test="organizationType!=null">
+					AND ORGANIZATION_TYPE=#{organizationType, jdbcType=INTEGER}
+				</if>
+				<if test="remark!= null">
+					AND REMARK=#{remark, jdbcType=VARCHAR}
+				</if>
+		</trim>
+		order by order_number asc
+	</select>
+	
+	<select id="getOrganizationLike" parameterType="com.charmyin.cmstudio.basic.authorize.vo.Organization"  resultMap="OrganizationResultMap" >
+		SELECT 
+			<include refid="Organization_Column_List" />
+		FROM  BASIC_ORGANIZATION
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+				<if test="name!= null">
+					AND NAME LIKE '%'||#{name, jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="remark!= null">
+					AND REMARK LIKE '%'||#{remark, jdbcType=VARCHAR}||'%'
+				</if>
+		</trim>
+			order by order_number asc
+	</select>
+
+	<insert id="insertOrganization" parameterType="com.charmyin.cmstudio.basic.authorize.vo.Organization">
+		INSERT INTO BASIC_ORGANIZATION 
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- <if test="id != null">
+					ID,
+				</if> -->
+				<if test="name!= null">
+					NAME,
+				</if>
+				<if test="parentId!= 0">
+					PARENT_ID,
+				</if>
+				<if test="organizationType!= -1">
+					ORGANIZATION_TYPE,
+				</if>
+				<if test="orderNumber != null">
+					ORDER_NUMBER,
+				</if>
+				<if test="remark!= null">
+					REMARK,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<!-- <if test="id != null">
+					#{id, jdbcType=BIGINT},
+				</if> -->
+				<if test="name!= null">
+					#{name, jdbcType=VARCHAR},
+				</if>
+				<if test="parentId!= 0">
+					#{parentId, jdbcType=INTEGER},
+				</if>
+				<if test="organizationType!= -1">
+					#{organizationType, jdbcType=INTEGER},
+				</if>
+				<if test="orderNumber != null">
+					#{orderNumber, jdbcType=INTEGER},
+				</if>
+				<if test="remark!= null">
+					#{remark, jdbcType=VARCHAR},
+				</if>
+			</trim>
+	</insert>
+	
+	<update id="updateOrganization" parameterType="com.charmyin.cmstudio.basic.authorize.vo.Organization">
+		UPDATE BASIC_ORGANIZATION
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">
+				ID=#{id, jdbcType=INTEGER},
+			</if>
+			<if test="name!= null">
+				NAME=#{name, jdbcType=VARCHAR},
+			</if>
+			<if test="parentId!= 0">
+				PARENT_ID=#{parentId, jdbcType=INTEGER},
+			</if>
+			<if test="organizationType!= -1">
+				ORGANIZATION_TYPE=#{organizationType, jdbcType=INTEGER},
+			</if>
+			<if test="orderNumber!= null">
+				ORDER_NUMBER=#{orderNumber, jdbcType=INTEGER},
+			</if>
+			<if test="remark!= null">
+				REMARK=#{remark, jdbcType=VARCHAR},
+			</if>
+		</trim>
+		WHERE id=#{id, jdbcType=BIGINT};
+	</update>
+	
+	<delete id="deleteOrganization" parameterType="int">
+		DELETE FROM BASIC_ORGANIZATION WHERE ID=#{id, jdbcType=INTEGER}
+	</delete>
+
+</mapper>

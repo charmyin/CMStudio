@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.charmyin.cmstudio.basic.authorize.form.UserForm;
 import com.charmyin.cmstudio.basic.authorize.service.IdentityService;
+import com.charmyin.cmstudio.basic.authorize.service.OrganizationService;
 import com.charmyin.cmstudio.basic.authorize.service.UserService;
 import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.common.utils.ArrayUtil;
 import com.charmyin.cmstudio.common.utils.JSRErrorUtil;
+import com.charmyin.cmstudio.common.utils.MD5Util;
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
 
 /**
@@ -35,13 +37,13 @@ import com.charmyin.cmstudio.web.utils.ResponseUtil;
  * @since 2013-9-14 11:36:00
  */
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	
 	//TODO use property files
 	//初始化的密码和密码盐分,密码默认为“111111”，six “1”
 	private String salt = "qpOvViSVIY7XyYMpAsJHnQ==";
-	private String passphrase = "9nr6bzUO+BwcJrk8/WQl2XSPb9M10Ra53TEf6TyA9XHqdBWp3AvzjKLPkqWZx6zmARLywD6Mw5lPMYTW/uGwkQ==";
+//	96E79218965EB72C92A549DD5A330112
+	private String passphrase = "wHcjhQc5KwW7zSO5OfQ6FRqvpcE2Zw6FkVHJRcnE57AoeaPaZ5DboqYbHGBjOKDE8Rl9+bclnF6lQ4y0D6GiaA==";
 	
 	private Logger logger = Logger.getLogger(UserController.class);
 	
@@ -51,19 +53,25 @@ public class UserController {
 	@Resource
 	IdentityService identityService;
 	
-	@RequestMapping(value="/manage", method=RequestMethod.GET)
+	@Resource
+	OrganizationService organizationService;
+	
+	@RequestMapping(value="/user/manage", method=RequestMethod.GET)
 	public String manage(){
 		return "/basic/user/userManage";
 	}
 	
-	@RequestMapping(value="/organizationId/{organizationId}/allUser", method=RequestMethod.GET)
+	@RequestMapping(value="/user/organizationId/{organizationId}/allUser", method=RequestMethod.GET)
 	@ResponseBody
 	public List<User> getUserByOrganization(@PathVariable("organizationId") Integer organizationId){
 		List<User> list = userService.getUserByOrgnizationId(organizationId);
+		for(User user : list){
+			user.setCoId(0);
+		}
 		return list;
 	}
 	
-	@RequestMapping(value="/{userId}/roleNames", method=RequestMethod.GET)
+	@RequestMapping(value="/user/{userId}/roleNames", method=RequestMethod.GET)
 	@ResponseBody
 	public List<String> getRoleNamesByUserId(@PathVariable("userId") Integer userId){
 //		SecurityUtils.getSecurityManager().
@@ -72,7 +80,7 @@ public class UserController {
 		return list;
 	}
 	
-	@RequestMapping(value="/save", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value="/user/save", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String saveUser(@Valid UserForm userForm, BindingResult result){
 		if (result.hasErrors()) {
@@ -93,7 +101,7 @@ public class UserController {
 		return ResponseUtil.getSuccessResultString();
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value="/user/update", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	@Transactional
 	public String updateUser(@Valid UserForm userForm, BindingResult result){
@@ -120,7 +128,125 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value="/modifyPassword", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	/*@RequestMapping(value="/updatePassword", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> updatePassword(HttpServletRequest request,String token, String userId, String oldPwd, String newPwd){
+		
+		Map<String, String> resultMap = new HashMap<String, String>();
+		boolean isExisted = tokenCheck(token, request);
+		if(!isExisted){
+			resultMap.put("status", "0");
+			resultMap.put("msg", "用户未登录");
+			return resultMap;
+		}
+			 
+		//获取session中的用户名称
+		int userIdInt = Integer.parseInt(userId);
+		//获取数据库用户信息
+		User currentUser = userService.getUserById(userIdInt);
+		
+		//结合原有密码，验证用户有效性
+		String oldps = identityService.encodePassphrase(oldPwd, currentUser.getSalt());
+		if(!oldps.equals(currentUser.getPassphrase())){
+			resultMap.put("status", "0");
+			resultMap.put("msg", "原密码错误");
+			return resultMap;
+		}
+		
+		String salt = IdentityService.getSalt();
+		currentUser.setSalt(salt);
+		//如果验证通过，进行更新
+		String ps = identityService.encodePassphrase(newPwd, salt);
+		currentUser.setPassphrase(ps);
+		
+		userService.updateUser(currentUser);
+		
+		resultMap.put("status", "1");
+		resultMap.put("msg", "修改成功");
+		
+		return resultMap;
+	}*/
+	
+	/*private boolean tokenCheck(String token, HttpServletRequest request){
+		//验证Token
+				boolean isExisted=false;
+		//如果token不为空
+				if(token!=null && !token.trim().equals("") ){
+					Object obj = request.getServletContext().getAttribute("userTokenMap");
+					if(obj!=null){
+						Map<String, Token> map = (Map<String, Token>)obj;
+						Object tokenObj = map.get(token);
+						if(tokenObj!=null){
+							//更新时间
+							Token tokenStrUp = (Token)tokenObj;
+							tokenStrUp.setLastActiveTime(new Date());
+							isExisted = true;
+						};
+					}
+				}
+				return isExisted;
+	}
+	*/
+	/*@RequestMapping(value="/getUserInfo", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getUserInfo(HttpServletRequest request,String token, String userId){
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		boolean isExisted = tokenCheck(token, request);
+		if(!isExisted){
+			resultMap.put("status", "0");
+			resultMap.put("msg", "token失效，请重新登录");
+			return resultMap;
+		}
+		
+		int i;
+		try{
+			i = Integer.parseInt(userId);
+	
+			User user = userService.getUserById(i);
+			
+			resultMap.put("status", "1");
+			resultMap.put("msg", "获取成功");
+			Map<String,Object> map = new HashMap<String, Object>();*/
+			/*"id": "tzyc10021", 
+	        "userName": "朱佩佩", 
+	        "sex": "女", 
+	        "companyName": "泰州市公司", 
+	        "departmentName": "信息中心", 
+	        "cellPhone": "13882155276"
+	*/
+			/*map.put("id", user.getId()+"");
+			map.put("userName", user.getName());
+			if(user.getSex() != null){
+				map.put("sex", user.getSex()==0?"男":"女");
+			}else{
+				map.put("sex", "");
+			}
+			Organization org = organizationService.getOrganizationById(user.getOrganizationId());
+			Organization coOrg = organizationService.getOrganizationById(org.getParentId());
+			if(coOrg!=null){
+				map.put("companyName",coOrg.getName());
+			}else{
+				map.put("companyName", "");
+			}
+			
+			map.put("departmentName",org.getName());
+			
+			map.put("cellPhone",user.getCellPhone()==null?"":user.getCellPhone());
+		resultMap.put("userInfo", map);
+		}catch(Exception e){
+			resultMap.put("status", "0");
+			resultMap.put("msg", "用户ID错误");
+			return resultMap;
+		}
+		
+		 
+		return resultMap;
+	}*/
+	
+	
+	@RequestMapping(value="/user/modifyPassword", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyPassword(HttpServletRequest request,String oldPW, String newPW, String newPW1){
 		//验证是否为空
@@ -150,6 +276,7 @@ public class UserController {
 		}
 		//结合原有密码，验证用户有效性
 		User userInfo = (User)userInfoObj;
+		oldPW = MD5Util.MD5(oldPW);
 		UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getLoginId(), oldPW);
 		//如果验证未通过，返回错误信息
 		try{
@@ -161,6 +288,8 @@ public class UserController {
 		String salt = IdentityService.getSalt();
 		userInfo.setSalt(salt);
 		//如果验证通过，进行更新
+		//计算md5值
+		newPW=MD5Util.MD5(newPW);
 		String ps = identityService.encodePassphrase(newPW, salt);
 		userInfo.setPassphrase(ps);
 		
@@ -174,7 +303,7 @@ public class UserController {
 	 * @param ids eg."1,2,3,4,5"
 	 * @return
 	 */
-	@RequestMapping(value="/deleteByIds", method=RequestMethod.POST)
+	@RequestMapping(value="/user/deleteByIds", method=RequestMethod.POST)
 	@ResponseBody
 	@Transactional
 	//TODO 长度异常，这里是否要去考虑,测试的时候考虑

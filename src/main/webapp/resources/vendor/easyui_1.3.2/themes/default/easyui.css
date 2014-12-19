@@ -105,12 +105,12 @@
 }
 .panel-header {
   background-color: #E0ECFF;
-  background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
-  background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
-  background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
-  background: linear-gradient(to bottom,#EFF5FF 0,#E0ECFF 100%);
+  background: -webkit-linear-gradient(top,#3374cc 0,#2F6CBD 100%);
+  background: -moz-linear-gradient(top,#3374cc 0,#2F6CBD 100%);
+  background: -o-linear-gradient(top,#3374cc 0,#2F6CBD 100%);
+  background: linear-gradient(to bottom,#3374cc 0,#2F6CBD 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#EFF5FF,endColorstr=#E0ECFF,GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3374cc,endColorstr=#2F6CBD,GradientType=0);
 }
 .panel-body {
   background-color: #ffffff;
@@ -769,7 +769,7 @@
 }
 .tabs-header,
 .tabs-tool {
-  background-color: #E0ECFF;
+  background-color: #2F6BC1;
 }
 .tabs-header-plain {
   background: transparent;

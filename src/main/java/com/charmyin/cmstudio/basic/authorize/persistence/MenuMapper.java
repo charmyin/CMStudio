@@ -19,7 +19,7 @@ public interface MenuMapper {
 	 * Get all menus from menu role 
 	 * @return
 	 */
-	@RequiresPermissions("menu:getallxx")
+	/*@RequiresPermissions("menu:getallxx")*/
 	public List<Menu> getAllMenu();
 	
 	/**
