@@ -47,6 +47,8 @@ import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.common.utils.JSRErrorUtil;
 import com.charmyin.cmstudio.common.utils.MD5Util;
 import com.charmyin.cmstudio.common.utils.UUIDGenerator;
+import com.charmyin.cmstudio.tzyc._7s.vo.TestVORepository;
+import com.charmyin.cmstudio.tzyc._7s.vo.TestVo;
 import com.octo.captcha.service.CaptchaServiceException;
 import com.octo.captcha.service.multitype.MultiTypeCaptchaService;
 
@@ -81,6 +83,7 @@ public class IdentityController {
 	
 	private Validator validator;
 	
+	
 	private static final Logger logger = LoggerFactory.getLogger(IdentityController.class);
 
 	/**
@@ -92,6 +95,9 @@ public class IdentityController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/", "/identity/login", "/identity" })
 	public String login(Locale locale, Model model) {
+		
+		
+		
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated()) {
 			return "basic/index";

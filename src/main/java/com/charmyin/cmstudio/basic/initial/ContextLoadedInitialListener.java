@@ -9,6 +9,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.charmyin.cmstudio.tzyc._7s.vo.TestVORepository;
+import com.charmyin.cmstudio.tzyc._7s.vo.TestVo;
 
 /**
  * 
@@ -18,8 +22,13 @@ import org.apache.log4j.Logger;
  */
 public class ContextLoadedInitialListener implements ServletContextListener {
 	Logger logger = Logger.getLogger(ContextLoadedInitialListener.class);
+	
+	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		
+		
+		
 		//Get the web context(application scope) properties
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		logger.info("------------Starting loading web context properties!--------"); 
