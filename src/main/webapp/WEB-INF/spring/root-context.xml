@@ -47,6 +47,8 @@ xsi:schemaLocation="
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	
+	
 	<!-- Sample Beans -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- <property name="basePackage" value="com.charmyin.cmstudio.basic.authorize.persistence" /> -->
@@ -62,6 +64,13 @@ xsi:schemaLocation="
 	
 	<!-- Quartz 任务调度管理 -->
 <!-- 	<import resource="spring-quartz.xml" /> -->
+
+
+	<!-- Fileupload related -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!-- setting maximum upload size -->
+        <property name="maxUploadSize" value="10000000" />
+    </bean>
 	
 	<!-- Database Configuration / MyBatis -->
 	<!-- define the SqlSessionFactory -->
