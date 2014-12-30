@@ -1,4 +1,4 @@
-package com.charmyin.cmstudio.demos.fileupload;
+package com.charmyin.cmstudio.demos.fileIO;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping(value="/fileupload")
 public class FileUploadController {
-	 @RequestMapping(value="/upload", method=RequestMethod.GET)
+	    @RequestMapping(value="/upload", method=RequestMethod.GET)
 	    public @ResponseBody String provideUploadInfo() {
 	        return "You can upload a file by posting to this same URL.";
 	    }

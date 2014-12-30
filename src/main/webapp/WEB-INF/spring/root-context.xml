@@ -7,6 +7,7 @@ xmlns:p="http://www.springframework.org/schema/p"
 xmlns:tx="http://www.springframework.org/schema/tx" 
 xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+xmlns:util="http://www.springframework.org/schema/util"
 xsi:schemaLocation="
  http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -17,7 +18,9 @@ xsi:schemaLocation="
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context.xsd 
  http://www.springframework.org/schema/data/mongo
- http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+ http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+ http://www.springframework.org/schema/util 
+ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
  	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
@@ -47,9 +50,10 @@ xsi:schemaLocation="
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	
-	
-	<!-- Sample Beans -->
+	<!-- sysproperties -->
+	<util:properties id="sysproperties" location="classpath:application-spring.properties" />
+
+	<!-- Mybatis Mapper Scanner configurer-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- <property name="basePackage" value="com.charmyin.cmstudio.basic.authorize.persistence" /> -->
 		<property name="basePackage" value="com.charmyin.cmstudio" />
