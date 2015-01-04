@@ -1,135 +1,167 @@
-body {  
-	font-family: "Microsoft YaHei", "Arial Narrow"; 
-	font-size:14px; 
-	background:url('images/bg.png') repeat-x scroll 0 0 transparent;
+
+/***
+ * author: charmyin
+ * datetime: 2013-2-22 20:00
+ * title: make the login beautiful
+ ***/
+
+#loginwindow{
+	width:482px; 
+	height:265px;
+	top:100px;
 }
 
-.copyRightDiv{
-	background:url("images/lantiao.jpg") repeat-x scroll 25px bottom transparent;
-	width:100%;
-	height:40px;
-	position:absolute;
-	bottom:5px;
-	left:0px;
-}
-.crContentDiv{
-	height: 25px;
-  margin-top: 10px;
-  text-align: center;
-  width: 100%;
-  color:#8AA3C1;
-  background:-moz-linear-gradient(top, #f0f5fb,#cadff2);
-  background:-webkit-gradient(linear, 0 0, 0 100%, from(#f0f5fb), to(#cadff2));
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#f0f5fb,endColorstr=#cadff2,grandientType=1);
+#userconfirmDiv{
+	width:278px;
+	height:160px;
 }
 
-.loginArea{
-	width:1000px;
-	height:400px;
-	margin:100px auto 0;
-	position:relative;
+div[region=west]{
+	width:200px;
+	background:url(images/loginfit.jpg) no-repeat;
+	margin:0px;
 }
 
-.loginTopDiv{
-	width:100%;
-	height:55px;
-	position:absolute;
-	left:0px;
+#authForm{
+	height:150px;
+	margin:0px;
 }
 
-.loginLeftDiv{
-	background: url("images/lan-bg.jpg") no-repeat scroll 0 0 transparent;
-    height: 317px;
-    left: 20px;
-    position: absolute;
-    top: 70px;
-    width: 644px;
+#formUl{
+	list-style-type:none; 
+	margin:0px 0px 0px 0px;
+	padding:10px 0px 0px 0px;
+	background:url(images/loginbg.jpg) no-repeat;
+	height:150px;
 }
 
-.loginRightDiv{
-	background: url("images/xingxilan.png") no-repeat scroll 0 0 transparent;
-    height: 342px;
-    position: absolute;
-    right: 20px;
-    top: 59px;
-    width: 339px;
-}
-.img0{
-	left: 200px;
-    position: absolute;
-    top: 126px;
-}
-.img1{
-	left: 51px;
-    position: absolute;
-    top: 154px;
-}
-.img2{
-	left: 90px;
-    position: absolute;
-    top: 65px;
-}
-.img3{
-	left: 200px;
-    position: absolute;
-    top: 22px;
-}
-.img4{
-	left: 326px;
-    position: absolute;
-    top: 22px;
-}
-.img5{
-	position: absolute;
-    right: 133px;
-    top: 65px;
-}
-.img6{
-	position: absolute;
-    right: 92px;
-    top: 154px;
+#formUl .inputText{
+	display:block;
+	height:39px;
+	line-height:39px;
 }
 
-.img7{
-	bottom: -6px;
-    left: 2px;
-    position: absolute;
-    
-}
-.loginLabel{
-	color: #FFFFFF;
-    font-size: 21px;
-    left: 156px;
-    position: absolute;
-    top: 7px;
-}
-.loginUl{
-	left: -17px;
-    list-style: none outside none;
-    position: absolute;
-    top: 82px;
-    width: 300px;
-    color:#2c69be;
-}
-.loginUl li{
-	text-align:center;
-	margin-bottom:10px;
-}
-.titleSpan{
-	color: #0653A3;
-    display: inline-block;
-    font-size: 30px;
-    font-weight: bold;
-    height: 55px;
-    left: 19px;
-    line-height: 55px;
-    position: relative;
-    top: -8px;
-}
-
-input {
-	font-size:16px;
+#liValiCode{
+	height:24px;
+	margin-top:3px;
+	font-size:14px;
 	font-weight:bold;
-	letter-spacing:3px;
-	text-indent:8px;
+}
+
+#liValiCode input{
+	display:block;
+	float:left;
+	margin-left:6px;
+	margin-top:1px;
+	width:83px; 
+	font-weight:bold;
+	font-size:14px;
+	letter-spacing: 7px;
+	text-indent:7px;
+	padding-right:15px;
+}
+
+#liValiCode label{
+	width:60px; 
+	display:block;
+	margin-top:4px;
+	float:left;
+	text-align:right;
+}
+
+#imgValiCode{
+	display:block;
+	float:left;
+	width:80px;
+	height:25px;
+	margin:0 0 0 11px;
+	padding:0;
+}
+
+.liConfig{
+	height:30px;
+}
+
+#operationBtnsDiv{
+	background:#F4F4F4; 
+	width:268px; 
+	height:44px;
+	text-align:right; 
+	padding:8px 10px 0px 0px;
+}
+
+.inputText{
+	margin: 0px 0px 0px 0px;
+	padding:0;
+}
+
+.inputText label{
+	display:block;
+	float:left;
+	width:60px;
+	text-align:right;
+	font-size:14px;
+	font-weight:bold;
+}
+
+#inputUsername, #inputPassword{
+	margin-left: 10px;
+	width:165px; 
+	height:22px;
+	font-size:16px;
+	vertical-align: center;
+	line-height:22px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	text-indent:7px;
+	padding-right:15px;
+	padding-left:5px;
+}
+
+#checkboxConfig{
+	width:200px; 
+	height:30px;
+	padding:2px 0 0 23%; 
+}
+
+#checkboxConfig label{
+	width:80px;
+	height:30px;
+	float: left;
+}
+
+#checkboxConfig input{
+	cursor:pointer;
+	display:block;
+	height:21px;
+	line-height:21px;
+	float:left;
+}
+
+#checkboxConfig strong{
+	cursor:pointer;
+	height:27px;
+	display:block;
+	float:left;
+	line-height:27px;
+}
+
+#divLoading{
+	position:absolute;
+	z-index:1000;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background:#F4F4F4;
+	text-align:center;
+	padding-top: 25%;
+}
+
+/* #divLoading span{
+	background:url(../../../img/common/loading.gif) no-repeat left center; padding-left: 20px;
+}
+ */
+a, img {
+    border:none;
 }

@@ -1,0 +1,135 @@
+body {  
+	font-family: "Microsoft YaHei", "Arial Narrow"; 
+	font-size:14px; 
+	background:url('images/bg.png') repeat-x scroll 0 0 transparent;
+}
+
+.copyRightDiv{
+	background:url("images/lantiao.jpg") repeat-x scroll 25px bottom transparent;
+	width:100%;
+	height:40px;
+	position:absolute;
+	bottom:5px;
+	left:0px;
+}
+.crContentDiv{
+	height: 25px;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+  color:#8AA3C1;
+  background:-moz-linear-gradient(top, #f0f5fb,#cadff2);
+  background:-webkit-gradient(linear, 0 0, 0 100%, from(#f0f5fb), to(#cadff2));
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#f0f5fb,endColorstr=#cadff2,grandientType=1);
+}
+
+.loginArea{
+	width:1000px;
+	height:400px;
+	margin:100px auto 0;
+	position:relative;
+}
+
+.loginTopDiv{
+	width:100%;
+	height:55px;
+	position:absolute;
+	left:0px;
+}
+
+.loginLeftDiv{
+	background: url("images/lan-bg.jpg") no-repeat scroll 0 0 transparent;
+    height: 317px;
+    left: 20px;
+    position: absolute;
+    top: 70px;
+    width: 644px;
+}
+
+.loginRightDiv{
+	background: url("images/xingxilan.png") no-repeat scroll 0 0 transparent;
+    height: 342px;
+    position: absolute;
+    right: 20px;
+    top: 59px;
+    width: 339px;
+}
+.img0{
+	left: 200px;
+    position: absolute;
+    top: 126px;
+}
+.img1{
+	left: 51px;
+    position: absolute;
+    top: 154px;
+}
+.img2{
+	left: 90px;
+    position: absolute;
+    top: 65px;
+}
+.img3{
+	left: 200px;
+    position: absolute;
+    top: 22px;
+}
+.img4{
+	left: 326px;
+    position: absolute;
+    top: 22px;
+}
+.img5{
+	position: absolute;
+    right: 133px;
+    top: 65px;
+}
+.img6{
+	position: absolute;
+    right: 92px;
+    top: 154px;
+}
+
+.img7{
+	bottom: -6px;
+    left: 2px;
+    position: absolute;
+    
+}
+.loginLabel{
+	color: #FFFFFF;
+    font-size: 21px;
+    left: 156px;
+    position: absolute;
+    top: 7px;
+}
+.loginUl{
+	left: -17px;
+    list-style: none outside none;
+    position: absolute;
+    top: 82px;
+    width: 300px;
+    color:#2c69be;
+}
+.loginUl li{
+	text-align:center;
+	margin-bottom:10px;
+}
+.titleSpan{
+	color: #0653A3;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
+    height: 55px;
+    left: 19px;
+    line-height: 55px;
+    position: relative;
+    top: -8px;
+}
+
+input {
+	font-size:16px;
+	font-weight:bold;
+	letter-spacing:3px;
+	text-indent:8px;
+}

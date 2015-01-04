@@ -136,12 +136,7 @@ public class IdentityController {
 		if (result.hasErrors()) {
 			return "basic/main/index";
 		}
-
-		Identity identity = this.identityService.registerIdentity(registration);
-		//
-		// model.addAttribute("registration", registration);
-		// model.addAttribute("identity", identity);
-		// return "identity/register";
+		this.identityService.registerIdentity(registration);
 		return "basic/main/index";
 	}
 	
@@ -162,7 +157,7 @@ public class IdentityController {
 		
 		loginForm.setValidateCode(null);
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		Map<String, Object> authMap = authenticateUser(loginForm, request, result, model, true);
+		Map<String, Object> authMap = authenticateUser(loginForm, request, result, model);
 		if(authMap.get("status").equals("ok")){
 			resultMap.put("status", "1");
 			resultMap.put("msg", "登录成功");
@@ -177,9 +172,6 @@ public class IdentityController {
 				resultMap.put("roleId", null);		
 			}
 			Hashtable<String, Token> userTokenMap = (Hashtable<String, Token>)request.getServletContext().getAttribute("userTokenMap");
-			//String token = request.getSession().getId();
-			//request.getSession().getLastAccessedTime();
-			/*request.getSession().getServletContext().get*/
 			//生成token
 			String tokenId = UUIDGenerator.generate();
 			Token token = new Token(tokenId, authMap.get("userId").toString(), new Date());
@@ -222,9 +214,8 @@ public class IdentityController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = { "/identity/authenticate" })
-	public @ResponseBody Map authenticateUser(@Valid LoginForm loginForm, HttpServletRequest request, BindingResult result, Model model, Boolean noMD5Encode) {
+	public @ResponseBody Map authenticateUser(@Valid LoginForm loginForm, HttpServletRequest request, BindingResult result, Model model) {
 		
-		logger.trace("A request has been received, and validate it's effectivity~");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (result.hasErrors()) {
 			String errorInfo = JSRErrorUtil.getErrorString(result);
@@ -252,9 +243,7 @@ public class IdentityController {
 		  }
 		
 		logger.trace("Entering Authenticate");
-		if(noMD5Encode==null){
-			loginForm.setPassphrase(MD5Util.MD5(loginForm.getPassphrase()));
-		}
+		loginForm.setPassphrase(loginForm.getPassphrase().toUpperCase());
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(loginForm.getUsername(), loginForm.getPassphrase());
 
@@ -274,16 +263,11 @@ public class IdentityController {
 			List<Menu> menuList = userInitService.getMenusByLoginId(loginForm.getUsername());
 			User userInfo = userService.getUserByName(loginForm.getUsername());
 			
-			//COID
-			int coId = organizationService.getOrganizationById(userInfo.getOrganizationId()).getParentId();
-			
-			userInfo.setCoId(coId);
-			
 			currentUser.getSession().setAttribute("userInfo", userInfo);
 			currentUser.getSession().setAttribute("menuList", menuList);
 			map.put("userId", userInfo.getId()+"");
 			map.put("orgId", userInfo.getOrganizationId()+"");
-			map.put("coId", coId+"");
+
 			return map;
 		}
 

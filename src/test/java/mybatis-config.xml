@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- <typeAliases>
+		<typeAlias type="com.charmyin.cmstudio.basic.authorize.domain.Identity" alias="Identity" />
+		<typeAlias type="com.charmyin.cmstudio.basic.authorize.form.RegistrationForm" alias="RegistrationForm" />
+	</typeAliases> -->
+	<plugins>
+	    <plugin interceptor="com.charmyin.cmstudio.basic.pagination.interceptor.PaginationInterceptor">
+	          <property name="dialectClass" value="com.charmyin.cmstudio.basic.pagination.dialect.db.MySQLDialect"/>
+	          <property name="sqlPattern" value=".*findAll.*"/>
+	    </plugin>
+	</plugins>
+	<mappers>
+		<!-- <mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/IdentityMapper_pgsql.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/MenuMapper_pgsql.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/OrganizationMapper_pgsql.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/RoleMapper_pgsql.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/UserMapper_pgsql.xml" /> -->
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/mysql/IdentityMapper.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/mysql/MenuMapper.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/mysql/OrganizationMapper.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/mysql/RoleMapper.xml" />
+		<mapper resource="com/charmyin/cmstudio/basic/authorize/persistence/mysql/UserMapper.xml" />
+     
+
+
+	</mappers>
+</configuration>

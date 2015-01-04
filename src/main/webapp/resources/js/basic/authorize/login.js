@@ -39,7 +39,8 @@ function setEnterPressEvent() {
 	}			
 	
 	var userName = $('#inputUsername').val();
-	var password = $('#inputPassword').val();
+	//var password = $('#inputPassword').val();
+	var password = md5($('#inputPassword').val());
 	var validateCode = $("#inputValiCode").val();
 	
 	//保存cookie

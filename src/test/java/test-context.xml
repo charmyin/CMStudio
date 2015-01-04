@@ -6,6 +6,8 @@ xmlns:context="http://www.springframework.org/schema/context"
 xmlns:p="http://www.springframework.org/schema/p" 
 xmlns:tx="http://www.springframework.org/schema/tx" 
 xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+xmlns:util="http://www.springframework.org/schema/util"
 xsi:schemaLocation="
  http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,8 +16,12 @@ xsi:schemaLocation="
  http://www.springframework.org/schema/tx
  http://www.springframework.org/schema/tx/spring-tx.xsd
  http://www.springframework.org/schema/context
- http://www.springframework.org/schema/context/spring-context.xsd">
-	
+ http://www.springframework.org/schema/context/spring-context.xsd 
+ http://www.springframework.org/schema/data/mongo
+ http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+ http://www.springframework.org/schema/util 
+ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+ 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 	<!-- Grab out properties for use in these Spring Configs -->
@@ -34,31 +40,54 @@ xsi:schemaLocation="
 		MyBatis mapper scanning!) -->
 	<context:component-scan base-package="com.charmyin.cmstudio" />
 	
+	<!-- We Use This for Bean Validation-->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+		
 	<!-- transaction manager, use JtaTransactionManager for global tx -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<!-- Sample Beans -->
+	<!-- sysproperties -->
+	<util:properties id="sysproperties" location="classpath:application-spring.properties" />
+
+	<!-- Mybatis Mapper Scanner configurer-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- <property name="basePackage" value="com.charmyin.cmstudio.basic.authorize.persistence" /> -->
 		<property name="basePackage" value="com.charmyin.cmstudio" />
 		<property name="annotationClass" value="com.charmyin.cmstudio.basic.initial.SQLMapper" />
-		<!-- <property name="sqlSessionTemplateBeanName" value="sqlSession" /> -->
 	</bean>
+	
 
+	
+	<!-- Security Configuration / Apache Shiro -->
+	<import resource="jcaptcha-context.xml" />
+	
+	
+	<!-- Quartz 任务调度管理 -->
+<!-- 	<import resource="spring-quartz.xml" /> -->
+
+
+	<!-- Fileupload related -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!-- setting maximum upload size -->
+        <property name="maxUploadSize" value="10000000" />
+    </bean>
+	
 	<!-- Database Configuration / MyBatis -->
 	<!-- define the SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="typeAliasesPackage" value="com.charmyin.cmstudio.basic.authorize.domain" /> -->
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 	</bean>
 	
-	<!-- Set SqlSessionTemplate-->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-	  <constructor-arg index="0" ref="sqlSessionFactory" />
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"  destroy-method="clearCache">
+	    <constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	
+
 	<!-- Get the Datasource -->
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -67,4 +96,34 @@ xsi:schemaLocation="
 		<property name="username" value="${jdbc.user}" />
 		<property name="password" value="${jdbc.pass}" />
 	</bean>
+	
+	<!-- Factory bean that creates the Mongo instance -->
+	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+		<property name="host" value="localhost" />
+	</bean>
+ 
+	<!-- MongoTemplate for connecting and quering the documents in the database -->
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongo" ref="mongo" />
+		<constructor-arg name="databaseName" value="test" />
+	</bean>
+	<mongo:repositories base-package="com.charmyin.cmstudio.tzyc._7s.vo" />
+	
+	
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<!-- <bean class="com.host.app.web.interceptor.AllInterceptor"/> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/SafetyService/**"/>
+			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+			<bean class="com.charmyin.cmstudio.basic.authorize.interceptor.TokenAuthInteceptorImpl"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/7sManagementService/**"/>
+			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+			<bean class="com.charmyin.cmstudio.basic.authorize.interceptor.TokenAuthInteceptorImpl"/>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
 </beans>
+
