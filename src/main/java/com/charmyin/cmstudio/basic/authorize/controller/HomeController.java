@@ -26,7 +26,7 @@ import com.charmyin.cmstudio.basic.pagination.page.Pagination;
 @Controller
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	  private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	  @Autowired(required = true)
 	  IdentityService identityService;

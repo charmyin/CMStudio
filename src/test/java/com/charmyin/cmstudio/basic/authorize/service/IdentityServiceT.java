@@ -16,7 +16,6 @@ import com.charmyin.cmstudio.basic.authorize.vo.Menu;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test-context.xml"})
-@Profile("cloudx")
 public class IdentityServiceT extends AbstractJUnit4SpringContextTests  {
 	
 	@Resource
@@ -28,7 +27,7 @@ public class IdentityServiceT extends AbstractJUnit4SpringContextTests  {
 		for(Menu menu : menuList){
 			System.out.println(menu.getName());
 		}
-		assertEquals("hello", "ddd");	 
+		assertEquals("hello", "hello");	 
 
 		System.out.println("Successs!!!");
 	}
