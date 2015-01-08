@@ -4,6 +4,7 @@ encoding//src/main/java/com/charmyin/cmstudio/basic/authorize/form/LoginForm.jav
 encoding//src/main/java/com/charmyin/cmstudio/basic/authorize/form/RegistrationForm.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/application-spring.properties=UTF-8
+encoding//src/main/resources/log4j.properties=UTF-8
 encoding//src/main/resources/servletcontext.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/dynamicviews/basic/organization/orgManage.jsp=UTF-8
 encoding//src/test/resources=UTF-8

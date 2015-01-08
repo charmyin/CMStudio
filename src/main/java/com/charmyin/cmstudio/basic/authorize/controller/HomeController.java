@@ -42,7 +42,7 @@ public class HomeController {
 	  public String home(Locale locale, Model model, HttpServletRequest request) {
 	    logger.info("Welcome home! the client locale is " + locale.toString());
 	    
-	   /* User find = new User();
+	    /* User find = new User();
     	//find.setName("i");
         Page paginationSupport = new Pagination();
         paginationSupport.setCurrentPage(2);
