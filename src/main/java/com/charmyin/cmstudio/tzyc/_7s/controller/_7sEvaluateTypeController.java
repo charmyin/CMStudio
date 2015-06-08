@@ -36,7 +36,7 @@ public class _7sEvaluateTypeController {
 
 	@RequestMapping(method=RequestMethod.POST, value="/all")
 	@ResponseBody
-	public PaginationResultVO findAll(Pagination page){
+	public _7sEvaluateType findAll(Pagination page){
 		_7sEvaluateType _7sEvaluateType = new _7sEvaluateType();
 		_7sEvaluateType.setPageVO(page);
 		
@@ -51,7 +51,7 @@ public class _7sEvaluateTypeController {
 		PaginationResultVO prv = new PaginationResultVO();
 		prv.setTotal(String.valueOf(_7sEvaluateType.getPageVO().getTotalRows()));
 		prv.setRows(list);
-		return prv;
+		return _7sEvaluateType;
 	}
 	
 
