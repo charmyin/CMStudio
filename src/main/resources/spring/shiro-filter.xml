@@ -33,7 +33,7 @@
 				/getUserInfo=anon
 				/updatePassword=anon
 				/resources/** = anon
-				/7sManagementService/**=anon
+				/hxxc/**=anon
 				/SafetyService/**=anon
 				/** = authc
 				

@@ -1,42 +1,21 @@
-package com.charmyin.cmstudio.tzyc._7s.vo;
+package com.charmyin.hxxc.vo;
 
-import com.charmyin.cmstudio.basic.pagination.annotation.Paging;
 import com.charmyin.cmstudio.basic.pagination.page.PageBase;
-import com.charmyin.cmstudio.basic.pagination.page.Pagination;
-@Paging(field="pageVO")
-public class _7sEvaluateItem  extends PageBase{
 
-	private String id;
+public class Item extends PageBase{
+    private String id;
 
     private String code;
 
     private String name;
 
     private String typeId;
-    
-    private String typeName;
 
-    private Integer coId;
-    
-    public Integer getCoId() {
-		return coId;
-	}
-
-	public void setCoId(Integer coId) {
-		this.coId = coId;
-	}
-
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-	private String remark;
+    private String remark;
 
     private Long createTimestamp;
+
+    private Integer coid;
 
     private Integer recordStatus;
 
@@ -86,6 +65,14 @@ public class _7sEvaluateItem  extends PageBase{
 
     public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+
+    public Integer getCoid() {
+        return coid;
+    }
+
+    public void setCoid(Integer coid) {
+        this.coid = coid;
     }
 
     public Integer getRecordStatus() {

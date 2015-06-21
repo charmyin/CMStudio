@@ -15,8 +15,8 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 	
-	<!-- Scan all the component under com.charmyin.cmstudio -->
-	<context:component-scan base-package="com.charmyin.cmstudio" />
+	<!-- Scan all the component under com.charmyin -->
+	<context:component-scan base-package="com.charmyin" />
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
