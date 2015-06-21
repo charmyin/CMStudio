@@ -70,7 +70,7 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item//findAll',
+            url:'/hxxc/item/searchList',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
@@ -147,7 +147,7 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','<%= object_name %>新增');
           $('#fm').form('clear');
           url = '/hxxc/item/save';
       }
@@ -156,7 +156,7 @@
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','<%= object_name %>修改');
               $('#fm').form('load',selectedRow[0]);
               url = '/hxxc/item/update';
           }else{

@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item//findAll',
+            url:'{{ config.path }}/{{ config.name }}/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"{{ config.cnName }}列表",
             rownumbers:true,
             queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,9 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'主键', width:120},
-                        {field:'code', title:'编号', width:120},
-                        {field:'name', title:'名称', width:120},
-                        {field:'typeId', title:'分类ID', width:120},
-                        {field:'remark', title:'注释', width:120},
-                        {field:'createTimestamp', title:'创建时间', width:120},
-                        {field:'coid', title:'公司ID', width:120},
-                        {field:'recordStatus', title:'记录状态', width:120},
+                      {{#keyValues}}
+                        {field:'{{name}}', title:'{{comment}}', width:120},
+                      {{/keyValues}}
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +142,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','{{ config.cnName }}新增');
           $('#fm').form('clear');
-          url = '/hxxc/item/save';
+          url = '{{ config.path }}/{{ config.name }}/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','{{ config.cnName }}修改');
               $('#fm').form('load',selectedRow[0]);
-              url = '/hxxc/item/update';
+              url = '{{ config.path }}/{{ config.name }}/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +210,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('/hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('{{ config.path }}/{{ config.name }}/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -284,38 +279,12 @@
 
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
+            {{#keyValues}}
                 <div class="fitem">
-                    <label>主键</label>
-                    <input name="id" id="id_input" class="easyui-validatebox" required="true">
+                    <label>{{comment}}</label>
+                    <input name="{{name}}" id="{{name}}_input" class="easyui-validatebox" required="true">
                 </div>
-                <div class="fitem">
-                    <label>编号</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>名称</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>分类ID</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>注释</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>创建时间</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>公司ID</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>记录状态</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
-                </div>
+            {{/keyValues}}
               <input type="hidden" name="_id" id="_id">
           </form>
       </div>

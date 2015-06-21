@@ -39,38 +39,69 @@ exports.config = config;*/
 /************************CONFIG INFO END**********************/
 
 //Models' names are configed here! (The file name of the model)
-var modelNames = ['camera'];
-var modelPath = "./app/models/";
+var path = "hxxc";//global path
+var modelObjs = [];
 
+//Get all the vo files
+var fileDir = ".\\src\\main\\java\\com\\charmyin\\hxxc\\";
+var files = fs.readdirSync(fileDir+"vo")
+//Iterate all the vo files
+for (var i = 0; i < files.length; i++) {
+  var nameLength =files[i].length;
+  var endName = files[i].substring(nameLength-12, nameLength-5);
+  //Get pure item not example item
+  if(endName!="Example"){
+    var tempModelObj = {};
+    tempModelObj.keyValues=[];
+    tempModelObj.config={
+      path:path
+    };
+    fs.readFileSync(fileDir+"vo\\"+files[i]).toString().split('\n').forEach(function(line){
+      line = line.trim()
+      if(line.substring(0,7)=="private"){
+        tempModelObj.keyValues .push({name:line.split(" ")[2].split(";")[0], comment:line.split("//")[1], type:line.split(" ")[1]});
+      }else if("public class"==line.substring(0,12)){
+        tempModelObj.config.firstNameCapital = line.split(" ")[2];
+        tempModelObj.config.name = tempModelObj.config.firstNameCapital.charAt(0).toLowerCase()+tempModelObj.config.firstNameCapital.slice(1);
+        tempModelObj.config.cnName =  line.split("//")[1]
+        console.log(line)
+      }
+    });
+    console.log(JSON.stringify(tempModelObj))
+    modelObjs.push(tempModelObj)
+  }
+};
 
 //Load templates
-var controllerTmpelate=fs.readFileSync('autogenerate/template/controller.js', 'utf8');
-var routeTemplate=fs.readFileSync('autogenerate/template/route.js', 'utf8');
-var ejsTemplate=fs.readFileSync('autogenerate/template/template.ejs', 'utf8');
+/*var controllerTmpelate=fs.readFileSync('autogenerate/template/TemplateController.js', 'utf8');
+var serviceTemplate=fs.readFileSync('autogenerate/template/TemplateSerivce.js', 'utf8');
+var serviceImplTemplate=fs.readFileSync('autogenerate/template/TemplateSerivceImpl.ejs', 'utf8');*/
+var indexPageTemplate=fs.readFileSync('autogenerate/template/IndexTemplate.jsp', 'utf8');
 
 //Create directory
-if (!fs.existsSync("./autogenerate/generateddemo")){
-    fs.mkdirSync("./autogenerate/generateddemo");
+if (!fs.existsSync("./autogenerate/hxxc")){
+    fs.mkdirSync("./autogenerate/hxxc");
 }
-if (!fs.existsSync("./autogenerate/generateddemo/controller")){
-    fs.mkdirSync("./autogenerate/generateddemo/controller");
+if (!fs.existsSync("./autogenerate/hxxc/controller")){
+    fs.mkdirSync("./autogenerate/hxxc/controller");
 }
-if (!fs.existsSync("./autogenerate/generateddemo/route/")){
-    fs.mkdirSync("./autogenerate/generateddemo/route/");
+if (!fs.existsSync("./autogenerate/hxxc/service/")){
+    fs.mkdirSync("./autogenerate/hxxc/service/");
 }
-if (!fs.existsSync("./autogenerate/generateddemo/ejs/")){
-    fs.mkdirSync("./autogenerate/generateddemo/ejs/");
+if (!fs.existsSync("./autogenerate/hxxc/service/impl")){
+    fs.mkdirSync("./autogenerate/hxxc/service/impl");
+}
+if (!fs.existsSync("./autogenerate/hxxc/pages")){
+    fs.mkdirSync("./autogenerate/hxxc/pages");
 }
 
-
-modelNames.forEach(function(modelName){
-  var modelObj = require(modelPath+modelName);
-  //Generate controllerTmpelate
+modelObjs.forEach(function(modelObj){
+ /* //Generate controllerTmpelate
   var controllerTmpelateOutput = Mustache.render(controllerTmpelate, modelObj);
-  if (!fs.existsSync("./autogenerate/generateddemo/controller/"+modelObj.config.path+"/")){
-      mkdirp.sync("./autogenerate/generateddemo/controller/"+modelObj.config.path+"/");
+  if (!fs.existsSync("./autogenerate/"+modelObj.config.path+"/")){
+      mkdirp.sync("./autogenerate/"+modelObj.config.path+"/");
   }
-  var controllerPath = "./autogenerate/generateddemo/controller/"+modelObj.config.path+"/"+modelName+".js";
+  var controllerPath = "./autogenerate///"+modelObj.config.path+"/"+modelName+".js";
   fs.writeFile(controllerPath, controllerTmpelateOutput, function(err) {
       if(err) {
         console.log("error----"+controllerPath);
@@ -103,6 +134,19 @@ modelNames.forEach(function(modelName){
         return console.log(err);
       }
       console.log(ejsPath+"--- Generate Finished");
+  });*/
+  //Generate ejsTemplate
+  var indexPageTemplateOutput = Mustache.render(indexPageTemplate, modelObj);
+  if (!fs.existsSync("./autogenerate/hxxc/pages/"+modelObj.config.path+"/")){
+    mkdirp.sync("./autogenerate/hxxc/pages/"+modelObj.config.path+"/");
+  }
+  var jspPath = "./autogenerate/hxxc/pages/"+modelObj.config.path+"/index.jsp";
+  fs.writeFile(jspPath, indexPageTemplateOutput, function(err) {
+      if(err) {
+        console.log("error----"+jspPath);
+        return console.log(err);
+      }
+      console.log(jspPath+"--- Generate Finished");
   });
 
 });
