@@ -40,6 +40,7 @@ public class PaginationInterceptor extends BaseInterceptor {
             BoundSql boundSql = mappedStatement.getBoundSql(parameter);
             String originalSql = boundSql.getSql().trim();
             Object parameterObject = boundSql.getParameterObject();
+            
             if (boundSql.getSql() == null || "".equals(boundSql.getSql()))
                 return null;
 

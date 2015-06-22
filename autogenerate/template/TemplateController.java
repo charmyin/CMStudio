@@ -1,4 +1,4 @@
-package com.charmyin.hxxc.controller;
+package {{ config.packagePath }}.controller;
 
 import java.util.List;
 
@@ -10,28 +10,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.charmyin.hxxc.service.ItemService;
-import com.charmyin.hxxc.vo.Item;
+import {{ config.packagePath }}.service.{{ config.firstNameCapital }}Service;
+import {{ config.packagePath }}.vo.{{ config.firstNameCapital }};
 
-import com.charmyin.cmstudio.basic.authorize.vo.User;
 import com.charmyin.cmstudio.basic.pagination.page.Pagination;
 import com.charmyin.cmstudio.basic.pagination.page.PaginationResultVO;
 import com.charmyin.cmstudio.common.utils.UUIDGenerator;
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
-import com.charmyin.cmstudio.web.utils.UserSessionUtil;
+
 
 @Controller
-@RequestMapping("/hxxc/item")
-public class ItemController {
+@RequestMapping("/{{ config.path }}/{{ config.name }}")
+public class {{ config.firstNameCapital }}Controller {
 	
  
 	@Resource
-	ItemService ItemService;
+	{{ config.firstNameCapital }}Service {{ config.firstNameCapital }}Service;
 	
 
 	@RequestMapping(value = "/index")
 	public String index(){
-		return "/hxxc/item/index";
+		return "/{{ config.path }}/{{ config.name }}/index";
 	}
 	
 	/**
@@ -42,11 +41,11 @@ public class ItemController {
 	@RequestMapping(method=RequestMethod.POST, value="/findAll")
 	@ResponseBody
 	public PaginationResultVO findAll(Pagination page){
-		Item Item = new Item();
-		Item.setPageVO(page);
-		List<Item> list = ItemService.findAllItem(Item);
+		{{ config.firstNameCapital }} {{ config.firstNameCapital }} = new {{ config.firstNameCapital }}();
+		{{ config.firstNameCapital }}.setPageVO(page);
+		List<{{ config.firstNameCapital }}> list = {{ config.firstNameCapital }}Service.findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }});
 		PaginationResultVO prv = new PaginationResultVO();
-		prv.setTotal(String.valueOf(Item.getPageVO().getTotalRows()));
+		prv.setTotal(String.valueOf({{ config.firstNameCapital }}.getPageVO().getTotalRows()));
 		prv.setRows(list);
 		return prv;
 	}
@@ -59,7 +58,7 @@ public class ItemController {
 	@RequestMapping(method=RequestMethod.POST, value="/deleteById")
 	@ResponseBody
 	public int deleteByPrimaryKey(String id) {
-		return ItemService.deleteByPrimaryKey(id);
+		return {{ config.firstNameCapital }}Service.deleteByPrimaryKey(id);
 	}
 	
 	/**
@@ -69,14 +68,14 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String insertSelective(Item record) {
+	public String insertSelective({{ config.firstNameCapital }} record) {
 		try {
 			//生成主键：UUID
 			String uuid = UUIDGenerator.generate();
 			record.setId(uuid);
 			record.setCreateTimestamp(System.currentTimeMillis());
 			record.setRecordStatus(0);
-			ItemService.insertSelective(record);
+			{{ config.firstNameCapital }}Service.insertSelective(record);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,10 +90,10 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String updateByPrimaryKeySelective(Item record) {
+	public String updateByPrimaryKeySelective({{ config.firstNameCapital }} record) {
 		try {
 			record.setCreateTimestamp(System.currentTimeMillis());
-			ItemService.updateByPrimaryKeySelective(record);	
+			{{ config.firstNameCapital }}Service.updateByPrimaryKeySelective(record);	
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();

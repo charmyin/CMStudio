@@ -1,4 +1,4 @@
-package com.charmyin.hxxc.service.impl;
+package {{ config.packagePath }}.service.impl;
 
 import java.util.List;
 
@@ -6,57 +6,56 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.charmyin.hxxc.persistence.ItemMapper;
-import com.charmyin.hxxc.service.ItemService;
-import com.charmyin.hxxc.vo.Item;
-import com.charmyin.hxxc.vo.ItemExample;
+import {{ config.packagePath }}.persistence.{{ config.firstNameCapital }}Mapper;
+import {{ config.packagePath }}.service.{{ config.firstNameCapital }}Service;
+import {{ config.packagePath }}.vo.{{ config.firstNameCapital }};
+import {{ config.packagePath }}.vo.{{ config.firstNameCapital }}Example;
 @Service
-public class ItemServiceImpl implements ItemService {
+public class {{ config.firstNameCapital }}ServiceImpl implements {{ config.firstNameCapital }}Service {
 
 	@Resource
-	ItemMapper itemMapper;
+	{{ config.firstNameCapital }}Mapper {{ config.name }}Mapper;
 	
 	@Override
 	public int deleteByPrimaryKey(String id) {
-		
-		return itemMapper.deleteByPrimaryKey(id);
+		return {{ config.name }}Mapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
-	public int insert(Item record) {
-		return itemMapper.insert(record);
+	public int insert({{ config.firstNameCapital }} record) {
+		return {{ config.name }}Mapper.insert(record);
 	}
 
 	@Override
-	public int insertSelective(Item record) {
-		return itemMapper.insertSelective(record);
+	public int insertSelective({{ config.firstNameCapital }} record) {
+		return {{ config.name }}Mapper.insertSelective(record);
 	}
 
 	@Override
-	public Item selectByPrimaryKey(String id) {
-		return itemMapper.selectByPrimaryKey(id);
+	public {{ config.firstNameCapital }} selectByPrimaryKey(String id) {
+		return {{ config.name }}Mapper.selectByPrimaryKey(id);
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(Item record) {
-		return itemMapper.updateByPrimaryKeySelective(record);
+	public int updateByPrimaryKeySelective({{ config.firstNameCapital }} record) {
+		return {{ config.name }}Mapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
-	public int updateByPrimaryKey(Item record) {
-		return itemMapper.updateByPrimaryKey(record);
+	public int updateByPrimaryKey({{ config.firstNameCapital }} record) {
+		return {{ config.name }}Mapper.updateByPrimaryKey(record);
 	}
 
 	@Override
-	public List<Item> getListItem() {
-		ItemExample example = new ItemExample();
-		return itemMapper.selectByExample(example);
+	public List<{{ config.firstNameCapital }}> getList{{ config.firstNameCapital }}() {
+		{{ config.firstNameCapital }}Example example = new {{ config.firstNameCapital }}Example();
+		return {{ config.name }}Mapper.selectByExample(example);
 	}
 
 	@Override
-	public List<Item> findAllItem(Item record) {
-		ItemExample example = new ItemExample();
-		return itemMapper.selectByExample(example);
+	public List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }} record) {
+		{{ config.firstNameCapital }}Example example = new {{ config.firstNameCapital }}Example();
+		return {{ config.name }}Mapper.selectByExample(example);
 	}
 
 }

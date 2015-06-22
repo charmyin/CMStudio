@@ -11,6 +11,8 @@ import java.util.List;
 public class PaginationResultVO {
 	private String total;
 	private Object rows;
+	private String success;
+	private String msg;
 	public Object getRows() {
 		return rows;
 	}
@@ -22,6 +24,18 @@ public class PaginationResultVO {
 	}
 	public void setTotal(String total) {
 		this.total = total;
+	}
+	public String getSuccess() {
+		return success;
+	}
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
  
 	

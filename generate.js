@@ -44,6 +44,8 @@ var modelObjs = [];
 
 //Get all the vo files
 var fileDir = ".\\src\\main\\java\\com\\charmyin\\hxxc\\";
+var packagePath = "com.charmyin.hxxc";
+//var globalModuleName = "hxxc";
 var files = fs.readdirSync(fileDir+"vo")
 //Iterate all the vo files
 for (var i = 0; i < files.length; i++) {
@@ -54,7 +56,9 @@ for (var i = 0; i < files.length; i++) {
     var tempModelObj = {};
     tempModelObj.keyValues=[];
     tempModelObj.config={
-      path:path
+      path: path,
+      packagePath: packagePath
+     // globalModuleName: globalModuleName
     };
     fs.readFileSync(fileDir+"vo\\"+files[i]).toString().split('\n').forEach(function(line){
       line = line.trim()
@@ -63,7 +67,7 @@ for (var i = 0; i < files.length; i++) {
       }else if("public class"==line.substring(0,12)){
         tempModelObj.config.firstNameCapital = line.split(" ")[2];
         tempModelObj.config.name = tempModelObj.config.firstNameCapital.charAt(0).toLowerCase()+tempModelObj.config.firstNameCapital.slice(1);
-        tempModelObj.config.cnName =  line.split("//")[1]
+        tempModelObj.config.cnName =  line.split("//")[1];
         console.log(line)
       }
     });
@@ -73,35 +77,35 @@ for (var i = 0; i < files.length; i++) {
 };
 
 //Load templates
-/*var controllerTmpelate=fs.readFileSync('autogenerate/template/TemplateController.js', 'utf8');
-var serviceTemplate=fs.readFileSync('autogenerate/template/TemplateSerivce.js', 'utf8');
-var serviceImplTemplate=fs.readFileSync('autogenerate/template/TemplateSerivceImpl.ejs', 'utf8');*/
+var controllerTmpelate=fs.readFileSync('autogenerate/template/TemplateController.java', 'utf8');
+var serviceTemplate=fs.readFileSync('autogenerate/template/TemplateService.java', 'utf8');
+var serviceImplTemplate=fs.readFileSync('autogenerate/template/TemplateServiceImpl.java', 'utf8');
 var indexPageTemplate=fs.readFileSync('autogenerate/template/IndexTemplate.jsp', 'utf8');
 
 //Create directory
-if (!fs.existsSync("./autogenerate/hxxc")){
-    fs.mkdirSync("./autogenerate/hxxc");
+if (!fs.existsSync("./autogenerate/generated/")){
+    fs.mkdirSync("./autogenerate/generated/");
 }
-if (!fs.existsSync("./autogenerate/hxxc/controller")){
-    fs.mkdirSync("./autogenerate/hxxc/controller");
+if (!fs.existsSync("./autogenerate/generated/"+path)){
+    fs.mkdirSync("./autogenerate/generated/"+path);
 }
-if (!fs.existsSync("./autogenerate/hxxc/service/")){
-    fs.mkdirSync("./autogenerate/hxxc/service/");
+if (!fs.existsSync("./autogenerate/generated/"+path+"/controller")){
+    fs.mkdirSync("./autogenerate/generated/"+path+"/controller");
 }
-if (!fs.existsSync("./autogenerate/hxxc/service/impl")){
-    fs.mkdirSync("./autogenerate/hxxc/service/impl");
+if (!fs.existsSync("./autogenerate/generated/"+path+"/service/")){
+    fs.mkdirSync("./autogenerate/generated/"+path+"/service/");
 }
-if (!fs.existsSync("./autogenerate/hxxc/pages")){
-    fs.mkdirSync("./autogenerate/hxxc/pages");
+if (!fs.existsSync("./autogenerate/generated/"+path+"/service/impl")){
+    fs.mkdirSync("./autogenerate/generated/"+path+"/service/impl");
+}
+if (!fs.existsSync("./autogenerate/generated/"+path+"/pages")){
+    fs.mkdirSync("./autogenerate/generated/"+path+"/pages");
 }
 
 modelObjs.forEach(function(modelObj){
- /* //Generate controllerTmpelate
+  //Generate controller
   var controllerTmpelateOutput = Mustache.render(controllerTmpelate, modelObj);
-  if (!fs.existsSync("./autogenerate/"+modelObj.config.path+"/")){
-      mkdirp.sync("./autogenerate/"+modelObj.config.path+"/");
-  }
-  var controllerPath = "./autogenerate///"+modelObj.config.path+"/"+modelName+".js";
+  var controllerPath = "./autogenerate/generated/"+path+"/controller/"+modelObj.config.firstNameCapital+"Controller.java";
   fs.writeFile(controllerPath, controllerTmpelateOutput, function(err) {
       if(err) {
         console.log("error----"+controllerPath);
@@ -109,44 +113,38 @@ modelObjs.forEach(function(modelObj){
       }
       console.log(controllerPath+"--- Generate Finished");
   });
-  //Generate routeTemplate
-  var routeTemplateOutput = Mustache.render(routeTemplate, modelObj);
-  if (!fs.existsSync("./autogenerate/generateddemo/route/"+modelObj.config.path+"/")){
-        mkdirp.sync("./autogenerate/generateddemo/route/"+modelObj.config.path+"/");
-      }
-  var routePath = "./autogenerate/generateddemo/route/"+modelObj.config.path+"/"+modelName+".js";
-  fs.writeFile(routePath, routeTemplateOutput, function(err) {
+  //Generate service
+  var serviceTemplateOutput = Mustache.render(serviceTemplate, modelObj);
+  var servicePath = "./autogenerate/generated/"+path+"/service/"+modelObj.config.firstNameCapital+"Service.java";
+  fs.writeFile(servicePath, serviceTemplateOutput, function(err) {
       if(err) {
-        console.log("error----"+routePath);
+        console.log("error----"+servicePath);
         return console.log(err);
       }
-      console.log(routePath+"--- Generate Finished");
+      console.log(servicePath+"--- Generate Finished");
+  });
+  //Generate serviceImpl
+  var serviceImplTemplateOutput = Mustache.render(serviceImplTemplate, modelObj);
+  var serviceImplPath = "./autogenerate/generated/"+path+"/service/impl/"+modelObj.config.firstNameCapital+"ServiceImpl.java";
+  fs.writeFile(serviceImplPath, serviceImplTemplateOutput, function(err) {
+      if(err) {
+        console.log("error----"+serviceImplPath);
+        return console.log(err);
+      }
+      console.log(serviceImplPath+"--- Generate Finished");
   });
   //Generate ejsTemplate
-  var ejsTemplateOutput = Mustache.render(ejsTemplate, modelObj);
-  if (!fs.existsSync("./autogenerate/generateddemo/ejs/"+modelObj.config.path+"/")){
-    mkdirp.sync("./autogenerate/generateddemo/ejs/"+modelObj.config.path+"/");
-  }
-  var ejsPath = "./autogenerate/generateddemo/ejs/"+modelObj.config.path+"/"+modelName+".ejs";
-  fs.writeFile(ejsPath, ejsTemplateOutput, function(err) {
-      if(err) {
-        console.log("error----"+ejsPath);
-        return console.log(err);
-      }
-      console.log(ejsPath+"--- Generate Finished");
-  });*/
-  //Generate ejsTemplate
   var indexPageTemplateOutput = Mustache.render(indexPageTemplate, modelObj);
-  if (!fs.existsSync("./autogenerate/hxxc/pages/"+modelObj.config.path+"/")){
-    mkdirp.sync("./autogenerate/hxxc/pages/"+modelObj.config.path+"/");
+  var indexPagePath = "./autogenerate/generated/"+path+"/pages/"+modelObj.config.name+"/index.jsp";
+  if (!fs.existsSync("./autogenerate/generated/"+path+"/pages/"+modelObj.config.name+"/")){
+      mkdirp.sync("./autogenerate/generated/"+path+"/pages/"+modelObj.config.name+"/");
   }
-  var jspPath = "./autogenerate/hxxc/pages/"+modelObj.config.path+"/index.jsp";
-  fs.writeFile(jspPath, indexPageTemplateOutput, function(err) {
+  fs.writeFile(indexPagePath, indexPageTemplateOutput, function(err) {
       if(err) {
-        console.log("error----"+jspPath);
+        console.log("error----"+indexPagePath);
         return console.log(err);
       }
-      console.log(jspPath+"--- Generate Finished");
+      console.log(indexPagePath+"--- Generate Finished");
   });
 
 });

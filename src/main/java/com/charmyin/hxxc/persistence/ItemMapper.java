@@ -14,7 +14,7 @@ public interface ItemMapper {
 
     int insertSelective(Item record);
 
-    List<Item> selectByExample(ItemExample example);
+    List<Item> findAllByExample(ItemExample example);
 
     Item selectByPrimaryKey(String id);
 

@@ -1,8 +1,10 @@
 package com.charmyin.hxxc.controller;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,9 @@ import com.charmyin.cmstudio.common.utils.UUIDGenerator;
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
 import com.charmyin.hxxc.service.ItemService;
 import com.charmyin.hxxc.vo.Item;
+import com.charmyin.hxxc.vo.ItemExample;
+import com.charmyin.hxxc.vo.ItemExample.Criteria;
+
 
 @Controller
 @RequestMapping("/hxxc/item")
@@ -37,12 +42,35 @@ public class ItemController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/findAll")
 	@ResponseBody
-	public PaginationResultVO findAll(Pagination page){
-		Item Item = new Item();
-		Item.setPageVO(page);
-		List<Item> list = ItemService.findAllItem(Item);
+	public PaginationResultVO findAll(Pagination page, HttpServletRequest request){
+		//Map<String, String[]> map = request.getParameterNames()
+		Enumeration<String> enumera = request.getParameterNames();
+		
 		PaginationResultVO prv = new PaginationResultVO();
-		prv.setTotal(String.valueOf(Item.getPageVO().getTotalRows()));
+		 
+		ItemExample ie = new ItemExample();
+		ie.setPageVO(page);
+		Criteria crit = ie.createCriteria();
+		
+		try {
+			Criteria.class.getMethod("andNameEqualTo", String.class).invoke(crit, "asdf");
+			/*while(enumera.hasMoreElements()){
+				String name = enumera.nextElement();
+				if(name!=null&&name.startsWith("search_")){
+					System.out.println(name);
+					String expr = name.split("_")[1];
+					Criteria.class.getMethod(expr, String.class).invoke(crit, request.getParameter(name));
+				}
+			}*/
+		} catch (Exception e) {
+			e.printStackTrace();
+			prv.setSuccess("false");
+			prv.setMsg(e.getMessage());
+			return prv;
+		} 
+		
+		List<Item> list = ItemService.findAllItem(ie);
+		prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
 		prv.setRows(list);
 		return prv;
 	}

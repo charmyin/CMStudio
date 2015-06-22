@@ -44,7 +44,14 @@ public class SQLHelp {
      */
     @SuppressWarnings("unchecked")
     public static void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql, Object parameterObject) throws SQLException {
-        ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());
+    	IViewObjectExample viewObjeExample = (IViewObjectExample)parameterObject;
+    	List<Object> list = viewObjeExample.getParameters();
+    	int i=1;
+    	for(Object obj : list){
+    		ps.setString(i++, obj.toString());
+    	}
+    	
+       /* ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
         if (parameterMappings != null) {
             Configuration configuration = mappedStatement.getConfiguration();
@@ -78,7 +85,7 @@ public class SQLHelp {
                     typeHandler.setParameter(ps, i + 1, value, parameterMapping.getJdbcType());
                 }
             }
-        }
+        }*/
     }
 
 

@@ -1,8 +1,11 @@
 package com.charmyin.hxxc.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import com.charmyin.hxxc.vo.Item;
+import com.charmyin.hxxc.vo.ItemExample;
 
 @Service
 public interface ItemService {
@@ -21,5 +24,5 @@ public interface ItemService {
     
     List<Item> getListItem();
     
-    List<Item> findAllItem(Item record);
+    List<Item> findAllItem(ItemExample record);
 }

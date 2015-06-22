@@ -1,6 +1,9 @@
 package com.charmyin.hxxc.service.impl;
+
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.charmyin.hxxc.persistence.ItemMapper;
@@ -15,7 +18,6 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Override
 	public int deleteByPrimaryKey(String id) {
-		
 		return itemMapper.deleteByPrimaryKey(id);
 	}
 
@@ -47,13 +49,12 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<Item> getListItem() {
 		ItemExample example = new ItemExample();
-		return itemMapper.selectByExample(example);
+		return itemMapper.findAllByExample(example);
 	}
 
 	@Override
-	public List<Item> findAllItem(Item record) {
-		ItemExample example = new ItemExample();
-		return itemMapper.selectByExample(example);
+	public List<Item> findAllItem(ItemExample record) {
+		return itemMapper.findAllByExample(record);
 	}
 
 }

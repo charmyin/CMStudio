@@ -1,25 +1,25 @@
-package com.charmyin.hxxc.service;
+package {{ config.packagePath }}.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.charmyin.hxxc.vo.Item;
+import {{ config.packagePath }}.vo.{{ config.firstNameCapital }};
 
 @Service
-public interface ItemService {
+public interface {{ config.firstNameCapital }}Service {
     
     int deleteByPrimaryKey(String id);
 
-    int insert(Item record);
+    int insert({{ config.firstNameCapital }} record);
 
-    int insertSelective(Item record);
+    int insertSelective({{ config.firstNameCapital }} record);
 
-    Item selectByPrimaryKey(String id);
+    {{ config.firstNameCapital }} selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(Item record);
+    int updateByPrimaryKeySelective({{ config.firstNameCapital }} record);
 
-    int updateByPrimaryKey(Item record);
+    int updateByPrimaryKey({{ config.firstNameCapital }} record);
     
-    List<Item> getListItem();
+    List<{{ config.firstNameCapital }}> getList{{ config.firstNameCapital }}();
     
-    List<Item> findAllItem(Item record);
+    List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }} record);
 }

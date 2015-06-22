@@ -77,7 +77,7 @@
             collapsible:true,
             title:"{{ config.cnName }}列表",
             rownumbers:true,
-            queryParams:{userrole:1},
+            //queryParams:{userrole:1},
             loadFilter:function(data){
               //if data is wrong or failed, show error message
               if(!data.success){

@@ -5,21 +5,21 @@ import com.charmyin.cmstudio.basic.pagination.page.PageBase;
 
 @Paging(field="pageVO")
 public class Item extends PageBase{//评估项
-    private String id;//主键
+    private String id;
 
-    private String code;//编号
+    private String code;
 
-    private String name;//名称
+    private String name;
 
-    private String typeId;//分类ID
+    private String typeId;
 
-    private String remark;//注释
+    private String remark;
 
-    private Long createTimestamp;//创建时间
+    private Long createTimestamp;
 
-    private Integer coid;//公司ID
+    private Integer coid;
 
-    private Integer recordStatus;//记录状态
+    private Integer recordStatus;
 
     public String getId() {
         return id;

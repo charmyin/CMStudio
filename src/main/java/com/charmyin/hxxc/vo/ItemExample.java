@@ -3,14 +3,40 @@ package com.charmyin.hxxc.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemExample {
+import com.charmyin.cmstudio.basic.pagination.annotation.Paging;
+import com.charmyin.cmstudio.basic.pagination.interceptor.IViewObjectExample;
+import com.charmyin.cmstudio.basic.pagination.page.PageBase;
+
+@Paging(field="pageVO")
+public class ItemExample extends PageBase implements IViewObjectExample{//评估项
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ItemExample() {
+    
+    
+    /**** New added begin ****/
+    @Override
+	public List<Object> getParameters() {
+    	List<Object> params = new ArrayList<Object>();
+		for(Criteria cr : oredCriteria){
+			for(Criterion crti : cr.getAllCriteria()){
+				if(crti.getValue()!=null){
+					params.add(crti.getValue());
+				}
+				if(crti.getSecondValue()!=null){
+					params.add(crti.getSecondValue());
+				}
+				
+			}
+		}
+		return params;
+	}
+    /**** New added end ****/
+
+	public ItemExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

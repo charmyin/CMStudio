@@ -70,14 +70,14 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item//findAll',
+            url:'hxxc/item/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
             title:"评估项列表",
             rownumbers:true,
-            queryParams:{userrole:1},
+            //queryParams:{userrole:1},
             loadFilter:function(data){
               //if data is wrong or failed, show error message
               if(!data.success){
@@ -149,7 +149,7 @@
       function newForm(){
           $('#dlg').dialog('open').dialog('setTitle','评估项新增');
           $('#fm').form('clear');
-          url = '/hxxc/item/save';
+          url = 'hxxc/item/save';
       }
       /**Open edit form **/
       function editForm(){
@@ -158,7 +158,7 @@
           if (rowsLength>0){
               $('#dlg').dialog('open').dialog('setTitle','评估项修改');
               $('#fm').form('load',selectedRow[0]);
-              url = '/hxxc/item/update';
+              url = 'hxxc/item/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +215,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('/hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
