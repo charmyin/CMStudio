@@ -68,7 +68,7 @@ public class PaginationInterceptor extends BaseInterceptor {
                     totPage = SQLHelp.getCount(originalSql, connection, mappedStatement, parameterObject, boundSql);
                 }
 
-                //分页计算
+                //分页计算niwen
                 page.init(totPage, page.getPageSize(), page.getCurrentPage());
 
                 //分页查询 本地化对象 修改数据库注意修改实现
@@ -78,6 +78,7 @@ public class PaginationInterceptor extends BaseInterceptor {
                     log.debug("分页SQL:" + pageSql);
                 }
                 invocation.getArgs()[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
+                //BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
                 BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
                 MappedStatement newMs = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
 
