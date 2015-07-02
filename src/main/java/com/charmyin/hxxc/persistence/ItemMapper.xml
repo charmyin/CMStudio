@@ -43,7 +43,7 @@
   <sql id="Base_Column_List" >
     ID, CODE, NAME, TYPE_ID, REMARK, CREATE_TIMESTAMP, COID, RECORD_STATUS
   </sql>
-  <select id="findAllByExample" resultMap="BaseResultMap" parameterType="com.charmyin.hxxc.vo.ItemExample" >
+  <select id="afindAllByExample" resultMap="BaseResultMap" parameterType="com.charmyin.hxxc.vo.ItemExample" >
     select
     <if test="distinct" >
       distinct

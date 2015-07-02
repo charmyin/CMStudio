@@ -727,6 +727,7 @@ public class ItemExample extends PageBase implements IViewObjectExample{//评估
         protected Criterion(String condition, Object value, String typeHandler) {
             super();
             this.condition = condition;
+            System.out.println(condition+"------------condition---------"+value+"----value---");
             this.value = value;
             this.typeHandler = typeHandler;
             if (value instanceof List<?>) {

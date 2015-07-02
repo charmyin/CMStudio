@@ -27,7 +27,7 @@ public class ItemController {
 	
  
 	@Resource
-	ItemService ItemService;
+	ItemService itemService;
 	
 
 	@RequestMapping(value = "/index")
@@ -51,25 +51,26 @@ public class ItemController {
 		ItemExample ie = new ItemExample();
 		ie.setPageVO(page);
 		Criteria crit = ie.createCriteria();
+		//crit.
 		
 		try {
-			Criteria.class.getMethod("andNameEqualTo", String.class).invoke(crit, "asdf");
-			/*while(enumera.hasMoreElements()){
+			//Criteria.class.getMethod("andNameEqualTo", String.class).invoke(crit, "asdf");
+			while(enumera.hasMoreElements()){
 				String name = enumera.nextElement();
 				if(name!=null&&name.startsWith("search_")){
 					System.out.println(name);
 					String expr = name.split("_")[1];
 					Criteria.class.getMethod(expr, String.class).invoke(crit, request.getParameter(name));
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			prv.setSuccess("false");
 			prv.setMsg(e.getMessage());
 			return prv;
 		} 
-		
-		List<Item> list = ItemService.findAllItem(ie);
+		//crit.andCodeEqualTo("66");
+		List<Item> list = itemService.findAllItem(ie);
 		prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
 		prv.setRows(list);
 		return prv;
@@ -83,7 +84,7 @@ public class ItemController {
 	@RequestMapping(method=RequestMethod.POST, value="/deleteById")
 	@ResponseBody
 	public int deleteByPrimaryKey(String id) {
-		return ItemService.deleteByPrimaryKey(id);
+		return itemService.deleteByPrimaryKey(id);
 	}
 	
 	/**
@@ -100,7 +101,7 @@ public class ItemController {
 			record.setId(uuid);
 			record.setCreateTimestamp(System.currentTimeMillis());
 			record.setRecordStatus(0);
-			ItemService.insertSelective(record);
+			itemService.insertSelective(record);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +119,7 @@ public class ItemController {
 	public String updateByPrimaryKeySelective(Item record) {
 		try {
 			record.setCreateTimestamp(System.currentTimeMillis());
-			ItemService.updateByPrimaryKeySelective(record);	
+			itemService.updateByPrimaryKeySelective(record);	
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,9 @@
 package com.charmyin.cmstudio.basic.pagination.interceptor;
 
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.util.Properties;
+
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -8,13 +12,13 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+
 import com.charmyin.cmstudio.basic.pagination.page.Page;
 import com.charmyin.cmstudio.basic.pagination.page.PageContext;
-
-import java.sql.Connection;
-import java.util.Properties;
+import com.charmyin.cmstudio.basic.pagination.uitls.Reflections;
 
 /**
  * <p>
@@ -78,11 +82,18 @@ public class PaginationInterceptor extends BaseInterceptor {
                     log.debug("分页SQL:" + pageSql);
                 }
                 invocation.getArgs()[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
-                //BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
-                BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
-                MappedStatement newMs = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
-
-                invocation.getArgs()[0] = newMs;
+                
+                //由于在mappedStatement.sqlSource.metaParameters中缺少很多属性，所以要利用反射添加到新的mappedStatement中
+                BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), parameterObject);
+                Field metaParamsField = Reflections.getFieldByFieldName(boundSql, "metaParameters");
+                if (metaParamsField != null) {
+                    MetaObject mo = (MetaObject) Reflections.getValueByFieldName(boundSql, "metaParameters");
+                    Reflections.setValueByFieldName(countBS, "metaParameters", mo);
+                }
+            
+                MappedStatement newMs = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(countBS));
+                System.out.println("");
+               invocation.getArgs()[0] = newMs;
             }
         }
         return invocation.proceed();
@@ -130,4 +141,6 @@ public class PaginationInterceptor extends BaseInterceptor {
             return boundSql;
         }
     }
+    
+   
 }

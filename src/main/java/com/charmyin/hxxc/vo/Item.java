@@ -3,8 +3,8 @@ package com.charmyin.hxxc.vo;
 import com.charmyin.cmstudio.basic.pagination.annotation.Paging;
 import com.charmyin.cmstudio.basic.pagination.page.PageBase;
 
-@Paging(field="pageVO")
-public class Item extends PageBase{//评估项
+//@Paging(field="pageVO")
+public class Item{// extends PageBase{//评估项
     private String id;
 
     private String code;

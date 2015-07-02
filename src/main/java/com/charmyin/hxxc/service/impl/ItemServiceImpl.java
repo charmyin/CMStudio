@@ -49,12 +49,12 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<Item> getListItem() {
 		ItemExample example = new ItemExample();
-		return itemMapper.findAllByExample(example);
+		return itemMapper.afindAllByExample(example);
 	}
 
 	@Override
 	public List<Item> findAllItem(ItemExample record) {
-		return itemMapper.findAllByExample(record);
+		return itemMapper.afindAllByExample(record);
 	}
 
 }
