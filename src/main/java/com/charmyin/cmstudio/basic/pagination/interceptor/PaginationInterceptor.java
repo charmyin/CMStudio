@@ -90,10 +90,8 @@ public class PaginationInterceptor extends BaseInterceptor {
                     MetaObject mo = (MetaObject) Reflections.getValueByFieldName(boundSql, "metaParameters");
                     Reflections.setValueByFieldName(countBS, "metaParameters", mo);
                 }
-            
                 MappedStatement newMs = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(countBS));
-                System.out.println("");
-               invocation.getArgs()[0] = newMs;
+                invocation.getArgs()[0] = newMs;
             }
         }
         return invocation.proceed();

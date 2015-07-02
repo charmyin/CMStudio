@@ -105,7 +105,6 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'主键', width:120},
                         {field:'code', title:'编号', width:120},
                         {field:'name', title:'名称', width:120},
                         {field:'typeId', title:'分类ID', width:120},
@@ -113,7 +112,7 @@
                         {field:'createTimestamp', title:'创建时间', width:120},
                         {field:'coid', title:'公司ID', width:120},
                         {field:'recordStatus', title:'记录状态', width:120},
-                      {field:'id', title:'编号', hidden:true}
+                        {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
                 $.messager.alert('错误信息','服务器连接已断开或服务器内部错误！','error');
@@ -215,8 +214,8 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
-                          if(result.success){
+                    $.post('hxxc/item/deleteById', {id:rows[0].id}, function(result){
+                          if(eval("("+result+")").success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
                                   msg: "<div style='text-align:center;margin-top:10px;'>成功！</div>",
@@ -284,10 +283,7 @@
 
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
-                <div class="fitem">
-                    <label>主键</label>
-                    <input name="id" id="id_input" class="easyui-validatebox" required="true">
-                </div>
+                <input name="id" id="id_input" type="hidden" class="easyui-validatebox" required="true">
                 <div class="fitem">
                     <label>编号</label>
                     <input name="code" id="code_input" class="easyui-validatebox" required="true">
@@ -316,7 +312,7 @@
                     <label>记录状态</label>
                     <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
                 </div>
-              <input type="hidden" name="_id" id="_id">
+     
           </form>
       </div>
       <div id="dlg-buttons">

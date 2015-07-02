@@ -43,36 +43,29 @@ public class ItemController {
 	@RequestMapping(method=RequestMethod.POST, value="/findAll")
 	@ResponseBody
 	public PaginationResultVO findAll(Pagination page, HttpServletRequest request){
-		//Map<String, String[]> map = request.getParameterNames()
-		Enumeration<String> enumera = request.getParameterNames();
-		
 		PaginationResultVO prv = new PaginationResultVO();
-		 
 		ItemExample ie = new ItemExample();
-		ie.setPageVO(page);
-		Criteria crit = ie.createCriteria();
-		//crit.
-		
 		try {
-			//Criteria.class.getMethod("andNameEqualTo", String.class).invoke(crit, "asdf");
+			Criteria crit = ie.createCriteria();
+			Enumeration<String> enumera = request.getParameterNames();
 			while(enumera.hasMoreElements()){
 				String name = enumera.nextElement();
 				if(name!=null&&name.startsWith("search_")){
-					System.out.println(name);
 					String expr = name.split("_")[1];
 					Criteria.class.getMethod(expr, String.class).invoke(crit, request.getParameter(name));
 				}
 			}
+			ie.setPageVO(page);
+			List<Item> list = itemService.findAllItem(ie);
+			prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
+			prv.setSuccess("true");
+			prv.setRows(list);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			prv.setSuccess("false");
 			prv.setMsg(e.getMessage());
-			return prv;
-		} 
-		//crit.andCodeEqualTo("66");
-		List<Item> list = itemService.findAllItem(ie);
-		prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
-		prv.setRows(list);
+		}
 		return prv;
 	}
 
@@ -83,8 +76,14 @@ public class ItemController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/deleteById")
 	@ResponseBody
-	public int deleteByPrimaryKey(String id) {
-		return itemService.deleteByPrimaryKey(id);
+	public String deleteByPrimaryKey(String id) {
+		try {
+			itemService.deleteByPrimaryKey(id);	
+			return ResponseUtil.getSuccessResultString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtil.getFailResultString("保存过程中出错！");
+		}
 	}
 	
 	/**

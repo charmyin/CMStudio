@@ -17,7 +17,7 @@ public class ResponseUtil {
 	 */
 	public static Map<String, Object> getSuccessResultMap(){
 		Map<String, Object> successResultMap = new HashMap<String, Object>();
-		successResultMap.put("suc", true);
+		successResultMap.put("success", true);
 		return successResultMap;
 	}
 	
@@ -27,7 +27,7 @@ public class ResponseUtil {
 	 */
 	public static Map<String, Object> getFailResultMap(){
 		Map<String, Object> failResultMap = new HashMap<String, Object>();
-		failResultMap.put("suc", false);
+		failResultMap.put("success", false);
 		return failResultMap;
 	}
 	
@@ -36,7 +36,7 @@ public class ResponseUtil {
 	 * @return
 	 */
 	public static String getSuccessResultString(){
-		return "{'suc':true}";
+		return "{'success':true}";
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class ResponseUtil {
 	 * @return
 	 */
 	public static String getFailResultString(String msg){
-		return "{'suc':false, 'errorMsg':'"+msg+"'}";
+		return "{'success':false, 'errorMsg':'"+msg+"'}";
 	}
 	/**
 	 * Get the failed String result for ie
@@ -53,6 +53,6 @@ public class ResponseUtil {
 	 * @return
 	 */
 	public static String getFailResultJsonString(String msgObj){
-		return "{'suc':false, 'errorMsg':"+msgObj+"}";
+		return "{'success':false, 'errorMsg':"+msgObj+"}";
 	}
 }
