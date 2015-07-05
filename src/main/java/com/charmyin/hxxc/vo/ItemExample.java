@@ -8,18 +8,15 @@ import com.charmyin.cmstudio.basic.pagination.interceptor.IViewObjectExample;
 import com.charmyin.cmstudio.basic.pagination.page.PageBase;
 
 @Paging(field="pageVO")
-public class ItemExample extends PageBase implements IViewObjectExample{//评估项
+public class ItemExample extends PageBase implements IViewObjectExample{
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    
-    
     /**** New added begin ****/
-    @Override
-	public List<Object> getParameters() {
+    public List<Object> getParameters() {
     	List<Object> params = new ArrayList<Object>();
 		for(Criteria cr : oredCriteria){
 			for(Criterion crti : cr.getAllCriteria()){

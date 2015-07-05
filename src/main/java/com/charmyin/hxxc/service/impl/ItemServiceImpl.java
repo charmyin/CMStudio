@@ -47,14 +47,8 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<Item> getListItem() {
-		ItemExample example = new ItemExample();
-		return itemMapper.afindAllByExample(example);
-	}
-
-	@Override
-	public List<Item> findAllItem(ItemExample record) {
-		return itemMapper.afindAllByExample(record);
+	public List<Item> findAllItemByExample(ItemExample example) {
+		return itemMapper.findAllByExample(example);
 	}
 
 }

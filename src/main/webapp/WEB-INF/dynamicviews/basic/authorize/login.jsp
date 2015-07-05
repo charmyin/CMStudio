@@ -57,9 +57,9 @@
 											      <label>
 											        <input type="checkbox" id="inputRememberMe" class="bootstrap"/> <strong>记住密码</strong>
 											      </label>
-											      <label>
-											        <input type="checkbox" id="inputDesktop_login" class="bootstrap"/> <strong>桌面系统</strong>
-											      </label>
+											      <a href="#">
+											       	找回密码
+											      </a>
 											    </div>
 				 							</li>
 				 						</ul>

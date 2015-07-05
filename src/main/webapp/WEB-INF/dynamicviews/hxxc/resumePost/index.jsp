@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/resumePost/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"简历投递列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,21 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'编号', width:120},
+                        {field:'joinTime', title:'入职时间', width:120},
+                        {field:'companyId', title:'公司ID', width:120},
+                        {field:'companyName', title:'公司名称', width:120},
+                        {field:'positionId', title:'岗位ID', width:120},
+                        {field:'positionName', title:'岗位名称', width:120},
+                        {field:'postTime', title:'投递时间', width:120},
+                        {field:'salaryMin', title:'最低薪资', width:120},
+                        {field:'salaryMax', title:'最高薪资', width:120},
+                        {field:'resumeId', title:'简历ID', width:120},
+                        {field:'employeeId', title:'应聘者ID', width:120},
+                        {field:'employeeRecordStatus', title:'应聘者记录状态', width:120},
+                        {field:'employerRecordStatus', title:'雇主公司状态', width:120},
+                        {field:'employeeMessage', title:'应聘者留言', width:120},
+                        {field:'employerMessage', title:'雇主留言', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +154,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','简历投递新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/resumePost/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','简历投递修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/resumePost/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +222,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/resumePost/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -285,36 +292,64 @@
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
                 <div class="fitem">
-                    <label>aa</label>
+                    <label>编号</label>
                     <input name="id" id="id_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>入职时间</label>
+                    <input name="joinTime" id="joinTime_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>公司ID</label>
+                    <input name="companyId" id="companyId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
+                    <label>公司名称</label>
+                    <input name="companyName" id="companyName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
+                    <label>岗位ID</label>
+                    <input name="positionId" id="positionId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
+                    <label>岗位名称</label>
+                    <input name="positionName" id="positionName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
+                    <label>投递时间</label>
+                    <input name="postTime" id="postTime_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
+                    <label>最低薪资</label>
+                    <input name="salaryMin" id="salaryMin_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最高薪资</label>
+                    <input name="salaryMax" id="salaryMax_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>简历ID</label>
+                    <input name="resumeId" id="resumeId_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>应聘者ID</label>
+                    <input name="employeeId" id="employeeId_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>应聘者记录状态</label>
+                    <input name="employeeRecordStatus" id="employeeRecordStatus_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>雇主公司状态</label>
+                    <input name="employerRecordStatus" id="employerRecordStatus_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>应聘者留言</label>
+                    <input name="employeeMessage" id="employeeMessage_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>雇主留言</label>
+                    <input name="employerMessage" id="employerMessage_input" class="easyui-validatebox" required="true">
                 </div>
               <input type="hidden" name="_id" id="_id">
           </form>

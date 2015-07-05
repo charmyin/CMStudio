@@ -1,8 +1,10 @@
 package {{ config.packagePath }}.controller;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import {{ config.packagePath }}.service.{{ config.firstNameCapital }}Service;
 import {{ config.packagePath }}.vo.{{ config.firstNameCapital }};
 
+import com.charmyin.cmstudio.web.utils.ResponseUtil;
 import com.charmyin.cmstudio.basic.pagination.page.Pagination;
 import com.charmyin.cmstudio.basic.pagination.page.PaginationResultVO;
 import com.charmyin.cmstudio.common.utils.UUIDGenerator;
-import com.charmyin.cmstudio.web.utils.ResponseUtil;
+import com.charmyin.hxxc.vo.{{ config.firstNameCapital }};
+import com.charmyin.hxxc.vo.{{ config.firstNameCapital }}Example;
+import com.charmyin.hxxc.vo.{{ config.firstNameCapital }}Example.Criteria;
 
 
 @Controller
@@ -25,7 +30,7 @@ public class {{ config.firstNameCapital }}Controller {
 	
  
 	@Resource
-	{{ config.firstNameCapital }}Service {{ config.firstNameCapital }}Service;
+	{{ config.firstNameCapital }}Service {{ config.name }}Service;
 	
 
 	@RequestMapping(value = "/index")
@@ -40,14 +45,32 @@ public class {{ config.firstNameCapital }}Controller {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/findAll")
 	@ResponseBody
-	public PaginationResultVO findAll(Pagination page){
-		{{ config.firstNameCapital }} {{ config.firstNameCapital }} = new {{ config.firstNameCapital }}();
-		{{ config.firstNameCapital }}.setPageVO(page);
-		List<{{ config.firstNameCapital }}> list = {{ config.firstNameCapital }}Service.findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }});
+	public PaginationResultVO findAll(Pagination page, HttpServletRequest request){
 		PaginationResultVO prv = new PaginationResultVO();
-		prv.setTotal(String.valueOf({{ config.firstNameCapital }}.getPageVO().getTotalRows()));
-		prv.setRows(list);
+		{{ config.firstNameCapital }}Example ie = new {{ config.firstNameCapital }}Example();
+		try {
+			Criteria crit = ie.createCriteria();
+			Enumeration<String> enumera = request.getParameterNames();
+			while(enumera.hasMoreElements()){
+				String name = enumera.nextElement();
+				if(name!=null&&name.startsWith("search_")){
+					String expr = name.split("_")[1];
+					Criteria.class.getMethod(expr, String.class).invoke(crit, request.getParameter(name));
+				}
+			}
+			ie.setPageVO(page);
+			List<{{ config.firstNameCapital }}> list = {{ config.name }}Service.findAll{{ config.firstNameCapital }}ByExample(ie);
+			prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
+			prv.setSuccess("true");
+			prv.setRows(list);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			prv.setSuccess("false");
+			prv.setMsg(e.getMessage());
+		}
 		return prv;
+		
 	}
 
 	/**
@@ -57,8 +80,14 @@ public class {{ config.firstNameCapital }}Controller {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/deleteById")
 	@ResponseBody
-	public int deleteByPrimaryKey(String id) {
-		return {{ config.firstNameCapital }}Service.deleteByPrimaryKey(id);
+	public String deleteByPrimaryKey(String id) {
+		try {
+			{{ config.name }}Service.deleteByPrimaryKey(id);
+			return ResponseUtil.getSuccessResultString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtil.getFailResultString("保存过程中出错！");
+		}
 	}
 	
 	/**
@@ -73,9 +102,7 @@ public class {{ config.firstNameCapital }}Controller {
 			//生成主键：UUID
 			String uuid = UUIDGenerator.generate();
 			record.setId(uuid);
-			record.setCreateTimestamp(System.currentTimeMillis());
-			record.setRecordStatus(0);
-			{{ config.firstNameCapital }}Service.insertSelective(record);
+			{{ config.name }}Service.insertSelective(record);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,8 +119,7 @@ public class {{ config.firstNameCapital }}Controller {
 	@ResponseBody
 	public String updateByPrimaryKeySelective({{ config.firstNameCapital }} record) {
 		try {
-			record.setCreateTimestamp(System.currentTimeMillis());
-			{{ config.firstNameCapital }}Service.updateByPrimaryKeySelective(record);	
+			{{ config.name }}Service.updateByPrimaryKeySelective(record);	
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();

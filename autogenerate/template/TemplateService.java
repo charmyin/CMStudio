@@ -3,6 +3,7 @@ package {{ config.packagePath }}.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import {{ config.packagePath }}.vo.{{ config.firstNameCapital }};
+import {{ config.packagePath }}.vo.{{ config.firstNameCapital }}Example;
 
 @Service
 public interface {{ config.firstNameCapital }}Service {
@@ -19,7 +20,5 @@ public interface {{ config.firstNameCapital }}Service {
 
     int updateByPrimaryKey({{ config.firstNameCapital }} record);
     
-    List<{{ config.firstNameCapital }}> getList{{ config.firstNameCapital }}();
-    
-    List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }} record);
+    List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}ByExample({{ config.firstNameCapital }}Example record);
 }

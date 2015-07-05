@@ -12,30 +12,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.charmyin.hxxc.service.ItemService;
-import com.charmyin.hxxc.vo.Item;
+import com.charmyin.hxxc.service.ResumePostService;
+import com.charmyin.hxxc.vo.ResumePost;
 
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
 import com.charmyin.cmstudio.basic.pagination.page.Pagination;
 import com.charmyin.cmstudio.basic.pagination.page.PaginationResultVO;
 import com.charmyin.cmstudio.common.utils.UUIDGenerator;
-import com.charmyin.hxxc.vo.Item;
-import com.charmyin.hxxc.vo.ItemExample;
-import com.charmyin.hxxc.vo.ItemExample.Criteria;
+import com.charmyin.hxxc.vo.ResumePost;
+import com.charmyin.hxxc.vo.ResumePostExample;
+import com.charmyin.hxxc.vo.ResumePostExample.Criteria;
 
 
 @Controller
-@RequestMapping("/hxxc/item")
-public class ItemController {
+@RequestMapping("/hxxc/resumePost")
+public class ResumePostController {
 	
  
 	@Resource
-	ItemService itemService;
+	ResumePostService resumePostService;
 	
 
 	@RequestMapping(value = "/index")
 	public String index(){
-		return "/hxxc/item/index";
+		return "/hxxc/resumePost/index";
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ItemController {
 	@ResponseBody
 	public PaginationResultVO findAll(Pagination page, HttpServletRequest request){
 		PaginationResultVO prv = new PaginationResultVO();
-		ItemExample ie = new ItemExample();
+		ResumePostExample ie = new ResumePostExample();
 		try {
 			Criteria crit = ie.createCriteria();
 			Enumeration<String> enumera = request.getParameterNames();
@@ -59,7 +59,7 @@ public class ItemController {
 				}
 			}
 			ie.setPageVO(page);
-			List<Item> list = itemService.findAllItemByExample(ie);
+			List<ResumePost> list = resumePostService.findAllResumePostByExample(ie);
 			prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
 			prv.setSuccess("true");
 			prv.setRows(list);
@@ -82,7 +82,7 @@ public class ItemController {
 	@ResponseBody
 	public String deleteByPrimaryKey(String id) {
 		try {
-			itemService.deleteByPrimaryKey(id);
+			resumePostService.deleteByPrimaryKey(id);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,12 +97,12 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String insertSelective(Item record) {
+	public String insertSelective(ResumePost record) {
 		try {
 			//生成主键：UUID
 			String uuid = UUIDGenerator.generate();
 			record.setId(uuid);
-			itemService.insertSelective(record);
+			resumePostService.insertSelective(record);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,9 +117,9 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String updateByPrimaryKeySelective(Item record) {
+	public String updateByPrimaryKeySelective(ResumePost record) {
 		try {
-			itemService.updateByPrimaryKeySelective(record);	
+			resumePostService.updateByPrimaryKeySelective(record);	
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();

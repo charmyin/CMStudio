@@ -47,15 +47,8 @@ public class {{ config.firstNameCapital }}ServiceImpl implements {{ config.first
 	}
 
 	@Override
-	public List<{{ config.firstNameCapital }}> getList{{ config.firstNameCapital }}() {
-		{{ config.firstNameCapital }}Example example = new {{ config.firstNameCapital }}Example();
-		return {{ config.name }}Mapper.selectByExample(example);
-	}
-
-	@Override
-	public List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}({{ config.firstNameCapital }} record) {
-		{{ config.firstNameCapital }}Example example = new {{ config.firstNameCapital }}Example();
-		return {{ config.name }}Mapper.selectByExample(example);
+	public List<{{ config.firstNameCapital }}> findAll{{ config.firstNameCapital }}ByExample({{ config.firstNameCapital }}Example example) {
+		return {{ config.name }}Mapper.findAllByExample(example);
 	}
 
 }

@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/employerInfo/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"公司信息列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,15 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'', width:120},
+                        {field:'companyId', title:'公司ID(废弃)', width:120},
+                        {field:'companyName', title:'公司名称', width:120},
+                        {field:'companyRole', title:'公司性质', width:120},
+                        {field:'companySize', title:'公司规模', width:120},
+                        {field:'companyIntroduction', title:'公司简介', width:120},
+                        {field:'companyLogo', title:'公司商标', width:120},
+                        {field:'time', title:'更新时间', width:120},
+                        {field:'userId', title:'用户ID', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +148,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','公司信息新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/employerInfo/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','公司信息修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/employerInfo/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +216,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/employerInfo/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -285,38 +286,34 @@
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="id" id="id_input" class="easyui-validatebox" required="true">
+                    <label>公司名称</label>
+                    <input name="companyName" id="companyName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>公司性质</label>
+                    <input name="companyRole" id="companyRole_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>公司规模</label>
+                    <input name="companySize" id="companySize_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
+                    <label>公司简介</label>
+                    <input name="companyIntroduction" id="companyIntroduction_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
+                    <label>公司商标</label>
+                    <input name="companyLogo" id="companyLogo_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
+                    <label>更新时间</label>
+                    <input name="time" id="time_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
+                    <label>用户ID</label>
+                    <input name="userId" id="userId_input" class="easyui-validatebox" required="true">
                 </div>
-                <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
-                </div>
-              <input type="hidden" name="_id" id="_id">
+              <input type="hidden" name="id" id="id">
           </form>
       </div>
       <div id="dlg-buttons">

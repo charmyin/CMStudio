@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/jobCategory/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"职位分类列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,10 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'编号', width:120},
+                        {field:'jobCategoryName', title:'分类名称', width:120},
+                        {field:'jobCategoryId', title:'分类ID', width:120},
+                        {field:'jname', title:'职位名称', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +143,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','职位分类新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/jobCategory/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','职位分类修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/jobCategory/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +211,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/jobCategory/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -285,36 +281,20 @@
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
                 <div class="fitem">
-                    <label>aa</label>
+                    <label>编号</label>
                     <input name="id" id="id_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>分类名称</label>
+                    <input name="jobCategoryName" id="jobCategoryName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>分类ID</label>
+                    <input name="jobCategoryId" id="jobCategoryId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
-                </div>
-                <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
+                    <label>职位名称</label>
+                    <input name="jname" id="jname_input" class="easyui-validatebox" required="true">
                 </div>
               <input type="hidden" name="_id" id="_id">
           </form>

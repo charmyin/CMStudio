@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.charmyin.hxxc.persistence.JobPublishMapper" >
+  <resultMap id="BaseResultMap" type="com.charmyin.hxxc.vo.JobPublish" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="job_id" property="jobId" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="position_type_name" property="positionTypeName" jdbcType="VARCHAR" />
+    <result column="position_type_id" property="positionTypeId" jdbcType="VARCHAR" />
+    <result column="job_required" property="jobRequired" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="hunting_time" property="huntingTime" jdbcType="TIMESTAMP" />
+    <result column="min_salary" property="minSalary" jdbcType="INTEGER" />
+    <result column="max_salary" property="maxSalary" jdbcType="INTEGER" />
+    <result column="hunting_status" property="huntingStatus" jdbcType="VARCHAR" />
+    <result column="publish_status" property="publishStatus" jdbcType="VARCHAR" />
+    <result column="welfare" property="welfare" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="index_order" property="indexOrder" jdbcType="INTEGER" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, job_id, job, company_id, company_name, city, address, position_type_name, position_type_id, 
+    job_required, publish_time, hunting_time, min_salary, max_salary, hunting_status, 
+    publish_status, welfare, update_time, category_name, category_id, index_order, education
+  </sql>
+  <select id="findAllByExample" resultMap="BaseResultMap" parameterType="com.charmyin.hxxc.vo.JobPublishExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from job_publish
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from job_publish
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from job_publish
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.charmyin.hxxc.vo.JobPublish" >
+    insert into job_publish (id, job_id, job, 
+      company_id, company_name, city, 
+      address, position_type_name, position_type_id, 
+      job_required, publish_time, hunting_time, 
+      min_salary, max_salary, hunting_status, 
+      publish_status, welfare, update_time, 
+      category_name, category_id, index_order, 
+      education)
+    values (#{id,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{positionTypeName,jdbcType=VARCHAR}, #{positionTypeId,jdbcType=VARCHAR}, 
+      #{jobRequired,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{huntingTime,jdbcType=TIMESTAMP}, 
+      #{minSalary,jdbcType=INTEGER}, #{maxSalary,jdbcType=INTEGER}, #{huntingStatus,jdbcType=VARCHAR}, 
+      #{publishStatus,jdbcType=VARCHAR}, #{welfare,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{categoryName,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{indexOrder,jdbcType=INTEGER}, 
+      #{education,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.charmyin.hxxc.vo.JobPublish" >
+    insert into job_publish
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="positionTypeName != null" >
+        position_type_name,
+      </if>
+      <if test="positionTypeId != null" >
+        position_type_id,
+      </if>
+      <if test="jobRequired != null" >
+        job_required,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="huntingTime != null" >
+        hunting_time,
+      </if>
+      <if test="minSalary != null" >
+        min_salary,
+      </if>
+      <if test="maxSalary != null" >
+        max_salary,
+      </if>
+      <if test="huntingStatus != null" >
+        hunting_status,
+      </if>
+      <if test="publishStatus != null" >
+        publish_status,
+      </if>
+      <if test="welfare != null" >
+        welfare,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="indexOrder != null" >
+        index_order,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null" >
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTypeName != null" >
+        #{positionTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTypeId != null" >
+        #{positionTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRequired != null" >
+        #{jobRequired,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="huntingTime != null" >
+        #{huntingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minSalary != null" >
+        #{minSalary,jdbcType=INTEGER},
+      </if>
+      <if test="maxSalary != null" >
+        #{maxSalary,jdbcType=INTEGER},
+      </if>
+      <if test="huntingStatus != null" >
+        #{huntingStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null" >
+        #{publishStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="welfare != null" >
+        #{welfare,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="indexOrder != null" >
+        #{indexOrder,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.charmyin.hxxc.vo.JobPublish" >
+    update job_publish
+    <set >
+      <if test="jobId != null" >
+        job_id = #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTypeName != null" >
+        position_type_name = #{positionTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTypeId != null" >
+        position_type_id = #{positionTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobRequired != null" >
+        job_required = #{jobRequired,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="huntingTime != null" >
+        hunting_time = #{huntingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minSalary != null" >
+        min_salary = #{minSalary,jdbcType=INTEGER},
+      </if>
+      <if test="maxSalary != null" >
+        max_salary = #{maxSalary,jdbcType=INTEGER},
+      </if>
+      <if test="huntingStatus != null" >
+        hunting_status = #{huntingStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null" >
+        publish_status = #{publishStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="welfare != null" >
+        welfare = #{welfare,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="indexOrder != null" >
+        index_order = #{indexOrder,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.charmyin.hxxc.vo.JobPublish" >
+    update job_publish
+    set job_id = #{jobId,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      position_type_name = #{positionTypeName,jdbcType=VARCHAR},
+      position_type_id = #{positionTypeId,jdbcType=VARCHAR},
+      job_required = #{jobRequired,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      hunting_time = #{huntingTime,jdbcType=TIMESTAMP},
+      min_salary = #{minSalary,jdbcType=INTEGER},
+      max_salary = #{maxSalary,jdbcType=INTEGER},
+      hunting_status = #{huntingStatus,jdbcType=VARCHAR},
+      publish_status = #{publishStatus,jdbcType=VARCHAR},
+      welfare = #{welfare,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=VARCHAR},
+      index_order = #{indexOrder,jdbcType=INTEGER},
+      education = #{education,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

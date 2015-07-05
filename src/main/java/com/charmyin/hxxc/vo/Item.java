@@ -1,25 +1,22 @@
 package com.charmyin.hxxc.vo;
 
-import com.charmyin.cmstudio.basic.pagination.annotation.Paging;
-import com.charmyin.cmstudio.basic.pagination.page.PageBase;
 
-//@Paging(field="pageVO")
-public class Item{// extends PageBase{//评估项
-    private String id;
+public class Item {//评估项
+    private String id;//aa
 
-    private String code;
+    private String code;//aa
 
-    private String name;
+    private String name;//aa
 
-    private String typeId;
+    private String typeId;//aa
 
-    private String remark;
+    private String remark;//aa
 
-    private Long createTimestamp;
+    private Long createTimestamp;//aa
 
-    private Integer coid;
+    private Integer coid;//aa
 
-    private Integer recordStatus;
+    private Integer recordStatus;//aa
 
     public String getId() {
         return id;

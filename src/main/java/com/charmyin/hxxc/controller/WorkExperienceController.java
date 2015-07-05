@@ -12,30 +12,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.charmyin.hxxc.service.ItemService;
-import com.charmyin.hxxc.vo.Item;
+import com.charmyin.hxxc.service.WorkExperienceService;
+import com.charmyin.hxxc.vo.WorkExperience;
 
 import com.charmyin.cmstudio.web.utils.ResponseUtil;
 import com.charmyin.cmstudio.basic.pagination.page.Pagination;
 import com.charmyin.cmstudio.basic.pagination.page.PaginationResultVO;
 import com.charmyin.cmstudio.common.utils.UUIDGenerator;
-import com.charmyin.hxxc.vo.Item;
-import com.charmyin.hxxc.vo.ItemExample;
-import com.charmyin.hxxc.vo.ItemExample.Criteria;
+import com.charmyin.hxxc.vo.WorkExperience;
+import com.charmyin.hxxc.vo.WorkExperienceExample;
+import com.charmyin.hxxc.vo.WorkExperienceExample.Criteria;
 
 
 @Controller
-@RequestMapping("/hxxc/item")
-public class ItemController {
+@RequestMapping("/hxxc/workExperience")
+public class WorkExperienceController {
 	
  
 	@Resource
-	ItemService itemService;
+	WorkExperienceService workExperienceService;
 	
 
 	@RequestMapping(value = "/index")
 	public String index(){
-		return "/hxxc/item/index";
+		return "/hxxc/workExperience/index";
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ItemController {
 	@ResponseBody
 	public PaginationResultVO findAll(Pagination page, HttpServletRequest request){
 		PaginationResultVO prv = new PaginationResultVO();
-		ItemExample ie = new ItemExample();
+		WorkExperienceExample ie = new WorkExperienceExample();
 		try {
 			Criteria crit = ie.createCriteria();
 			Enumeration<String> enumera = request.getParameterNames();
@@ -59,7 +59,7 @@ public class ItemController {
 				}
 			}
 			ie.setPageVO(page);
-			List<Item> list = itemService.findAllItemByExample(ie);
+			List<WorkExperience> list = workExperienceService.findAllWorkExperienceByExample(ie);
 			prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
 			prv.setSuccess("true");
 			prv.setRows(list);
@@ -82,7 +82,7 @@ public class ItemController {
 	@ResponseBody
 	public String deleteByPrimaryKey(String id) {
 		try {
-			itemService.deleteByPrimaryKey(id);
+			workExperienceService.deleteByPrimaryKey(id);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,12 +97,12 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String insertSelective(Item record) {
+	public String insertSelective(WorkExperience record) {
 		try {
 			//生成主键：UUID
 			String uuid = UUIDGenerator.generate();
 			record.setId(uuid);
-			itemService.insertSelective(record);
+			workExperienceService.insertSelective(record);
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,9 +117,9 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String updateByPrimaryKeySelective(Item record) {
+	public String updateByPrimaryKeySelective(WorkExperience record) {
 		try {
-			itemService.updateByPrimaryKeySelective(record);	
+			workExperienceService.updateByPrimaryKeySelective(record);	
 			return ResponseUtil.getSuccessResultString();
 		} catch (Exception e) {
 			e.printStackTrace();

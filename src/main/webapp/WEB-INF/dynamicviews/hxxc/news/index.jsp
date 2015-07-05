@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/news/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"公告列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,14 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'编号', width:120},
+                        {field:'newsId', title:'新闻ID(废弃)', width:120},
+                        {field:'userId', title:'用户ID', width:120},
+                        {field:'title', title:'标题', width:120},
+                        {field:'subTitle', title:'子标题', width:120},
+                        {field:'content', title:'内容', width:120},
+                        {field:'time', title:'发布时间', width:120},
+                        {field:'disable', title:'', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +147,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','公告新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/news/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','公告修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/news/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +215,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/news/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -285,36 +285,36 @@
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
                 <div class="fitem">
-                    <label>aa</label>
+                    <label>编号</label>
                     <input name="id" id="id_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>新闻ID(废弃)</label>
+                    <input name="newsId" id="newsId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>用户ID</label>
+                    <input name="userId" id="userId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
+                    <label>标题</label>
+                    <input name="title" id="title_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
+                    <label>子标题</label>
+                    <input name="subTitle" id="subTitle_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
+                    <label>内容</label>
+                    <input name="content" id="content_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
+                    <label>发布时间</label>
+                    <input name="time" id="time_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
+                    <label></label>
+                    <input name="disable" id="disable_input" class="easyui-validatebox" required="true">
                 </div>
               <input type="hidden" name="_id" id="_id">
           </form>

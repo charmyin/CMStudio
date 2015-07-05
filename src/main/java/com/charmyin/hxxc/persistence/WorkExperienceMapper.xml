@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.charmyin.hxxc.persistence.WorkExperienceMapper" >
+  <resultMap id="BaseResultMap" type="com.charmyin.hxxc.vo.WorkExperience" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_name" property="endName" jdbcType="TIMESTAMP" />
+    <result column="work_desc" property="workDesc" jdbcType="VARCHAR" />
+    <result column="work_duty" property="workDuty" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, company_name, start_time, end_name, work_desc, work_duty
+  </sql>
+  <select id="findAllByExample" resultMap="BaseResultMap" parameterType="com.charmyin.hxxc.vo.WorkExperienceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from work_experience
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from work_experience
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from work_experience
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.charmyin.hxxc.vo.WorkExperience" >
+    insert into work_experience (id, company_name, start_time, 
+      end_name, work_desc, work_duty
+      )
+    values (#{id,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endName,jdbcType=TIMESTAMP}, #{workDesc,jdbcType=VARCHAR}, #{workDuty,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.charmyin.hxxc.vo.WorkExperience" >
+    insert into work_experience
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endName != null" >
+        end_name,
+      </if>
+      <if test="workDesc != null" >
+        work_desc,
+      </if>
+      <if test="workDuty != null" >
+        work_duty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endName != null" >
+        #{endName,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workDesc != null" >
+        #{workDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workDuty != null" >
+        #{workDuty,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.charmyin.hxxc.vo.WorkExperience" >
+    update work_experience
+    <set >
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endName != null" >
+        end_name = #{endName,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workDesc != null" >
+        work_desc = #{workDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workDuty != null" >
+        work_duty = #{workDuty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.charmyin.hxxc.vo.WorkExperience" >
+    update work_experience
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_name = #{endName,jdbcType=TIMESTAMP},
+      work_desc = #{workDesc,jdbcType=VARCHAR},
+      work_duty = #{workDuty,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.charmyin.hxxc.persistence.EmployeeResumeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.charmyin.hxxc.vo.EmployeeResumeInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="resume_id" property="resumeId" jdbcType="VARCHAR" />
+    <result column="resume_name" property="resumeName" jdbcType="VARCHAR" />
+    <result column="race" property="race" jdbcType="VARCHAR" />
+    <result column="nav_place" property="navPlace" jdbcType="VARCHAR" />
+    <result column="born_place" property="bornPlace" jdbcType="VARCHAR" />
+    <result column="graduation" property="graduation" jdbcType="VARCHAR" />
+    <result column="study" property="study" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="positionId" property="positionid" jdbcType="VARCHAR" />
+    <result column="work_years" property="workYears" jdbcType="VARCHAR" />
+    <result column="health" property="health" jdbcType="VARCHAR" />
+    <result column="job_attempt" property="jobAttempt" jdbcType="VARCHAR" />
+    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="salary_min" property="salaryMin" jdbcType="VARCHAR" />
+    <result column="salary_max" property="salaryMax" jdbcType="VARCHAR" />
+    <result column="experience" property="experience" jdbcType="VARCHAR" />
+    <result column="index_order" property="indexOrder" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, resume_id, resume_name, race, nav_place, born_place, graduation, study, education, 
+    position, positionId, work_years, health, job_attempt, photo_url, file_url, time, 
+    user_id, salary_min, salary_max, experience, index_order
+  </sql>
+  <select id="findAllByExample" resultMap="BaseResultMap" parameterType="com.charmyin.hxxc.vo.EmployeeResumeInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from employee_resume_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee_resume_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from employee_resume_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.charmyin.hxxc.vo.EmployeeResumeInfo" >
+    insert into employee_resume_info (id, resume_id, resume_name, 
+      race, nav_place, born_place, 
+      graduation, study, education, 
+      position, positionId, work_years, 
+      health, job_attempt, photo_url, 
+      file_url, time, user_id, 
+      salary_min, salary_max, experience, 
+      index_order)
+    values (#{id,jdbcType=VARCHAR}, #{resumeId,jdbcType=VARCHAR}, #{resumeName,jdbcType=VARCHAR}, 
+      #{race,jdbcType=VARCHAR}, #{navPlace,jdbcType=VARCHAR}, #{bornPlace,jdbcType=VARCHAR}, 
+      #{graduation,jdbcType=VARCHAR}, #{study,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{positionid,jdbcType=VARCHAR}, #{workYears,jdbcType=VARCHAR}, 
+      #{health,jdbcType=VARCHAR}, #{jobAttempt,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR}, 
+      #{fileUrl,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, 
+      #{salaryMin,jdbcType=VARCHAR}, #{salaryMax,jdbcType=VARCHAR}, #{experience,jdbcType=VARCHAR}, 
+      #{indexOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.charmyin.hxxc.vo.EmployeeResumeInfo" >
+    insert into employee_resume_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="resumeName != null" >
+        resume_name,
+      </if>
+      <if test="race != null" >
+        race,
+      </if>
+      <if test="navPlace != null" >
+        nav_place,
+      </if>
+      <if test="bornPlace != null" >
+        born_place,
+      </if>
+      <if test="graduation != null" >
+        graduation,
+      </if>
+      <if test="study != null" >
+        study,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="positionid != null" >
+        positionId,
+      </if>
+      <if test="workYears != null" >
+        work_years,
+      </if>
+      <if test="health != null" >
+        health,
+      </if>
+      <if test="jobAttempt != null" >
+        job_attempt,
+      </if>
+      <if test="photoUrl != null" >
+        photo_url,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="salaryMin != null" >
+        salary_min,
+      </if>
+      <if test="salaryMax != null" >
+        salary_max,
+      </if>
+      <if test="experience != null" >
+        experience,
+      </if>
+      <if test="indexOrder != null" >
+        index_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeName != null" >
+        #{resumeName,jdbcType=VARCHAR},
+      </if>
+      <if test="race != null" >
+        #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="navPlace != null" >
+        #{navPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="bornPlace != null" >
+        #{bornPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="graduation != null" >
+        #{graduation,jdbcType=VARCHAR},
+      </if>
+      <if test="study != null" >
+        #{study,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null" >
+        #{workYears,jdbcType=VARCHAR},
+      </if>
+      <if test="health != null" >
+        #{health,jdbcType=VARCHAR},
+      </if>
+      <if test="jobAttempt != null" >
+        #{jobAttempt,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl != null" >
+        #{photoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryMin != null" >
+        #{salaryMin,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryMax != null" >
+        #{salaryMax,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="indexOrder != null" >
+        #{indexOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.charmyin.hxxc.vo.EmployeeResumeInfo" >
+    update employee_resume_info
+    <set >
+      <if test="resumeId != null" >
+        resume_id = #{resumeId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeName != null" >
+        resume_name = #{resumeName,jdbcType=VARCHAR},
+      </if>
+      <if test="race != null" >
+        race = #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="navPlace != null" >
+        nav_place = #{navPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="bornPlace != null" >
+        born_place = #{bornPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="graduation != null" >
+        graduation = #{graduation,jdbcType=VARCHAR},
+      </if>
+      <if test="study != null" >
+        study = #{study,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        positionId = #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null" >
+        work_years = #{workYears,jdbcType=VARCHAR},
+      </if>
+      <if test="health != null" >
+        health = #{health,jdbcType=VARCHAR},
+      </if>
+      <if test="jobAttempt != null" >
+        job_attempt = #{jobAttempt,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl != null" >
+        photo_url = #{photoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryMin != null" >
+        salary_min = #{salaryMin,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryMax != null" >
+        salary_max = #{salaryMax,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        experience = #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="indexOrder != null" >
+        index_order = #{indexOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.charmyin.hxxc.vo.EmployeeResumeInfo" >
+    update employee_resume_info
+    set resume_id = #{resumeId,jdbcType=VARCHAR},
+      resume_name = #{resumeName,jdbcType=VARCHAR},
+      race = #{race,jdbcType=VARCHAR},
+      nav_place = #{navPlace,jdbcType=VARCHAR},
+      born_place = #{bornPlace,jdbcType=VARCHAR},
+      graduation = #{graduation,jdbcType=VARCHAR},
+      study = #{study,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      positionId = #{positionid,jdbcType=VARCHAR},
+      work_years = #{workYears,jdbcType=VARCHAR},
+      health = #{health,jdbcType=VARCHAR},
+      job_attempt = #{jobAttempt,jdbcType=VARCHAR},
+      photo_url = #{photoUrl,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=VARCHAR},
+      salary_min = #{salaryMin,jdbcType=VARCHAR},
+      salary_max = #{salaryMax,jdbcType=VARCHAR},
+      experience = #{experience,jdbcType=VARCHAR},
+      index_order = #{indexOrder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

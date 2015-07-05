@@ -24,6 +24,13 @@
 		<javaClientGenerator type="XMLMAPPER" targetPackage="com.charmyin.hxxc.persistence" targetProject="CMStudio">
 			<property name="enableSubPackages" value="true"/>
 		</javaClientGenerator>
-		<table tableName="tb_7s_evaluate_item" domainObjectName="Item" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
-	</context>
+<!-- 		<table tableName="employee_resume_info" domainObjectName="EmployeeResumeInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+		<table tableName="employer_info" domainObjectName="EmployerInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+		<table tableName="job_category" domainObjectName="JobCategory" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+		<table tableName="job_category_type" domainObjectName="JobCategoryType" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+		<table tableName="job_publish" domainObjectName="JobPublish" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+	 -->	<table tableName="news" domainObjectName="News" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+	<!-- 	<table tableName="resume_post" domainObjectName="ResumePost" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+		<table tableName="work_experience" domainObjectName="WorkExperience" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"></table>
+ -->	</context>
 </generatorConfiguration>

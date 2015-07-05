@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/jobPublish/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"岗位发布列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,28 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'编号', width:120},
+                        {field:'jobId', title:'工作ID(废弃)', width:120},
+                        {field:'job', title:'岗位名称', width:120},
+                        {field:'companyId', title:'公司ID', width:120},
+                        {field:'companyName', title:'公司名称', width:120},
+                        {field:'city', title:'所在城市', width:120},
+                        {field:'address', title:'工作地址', width:120},
+                        {field:'positionTypeName', title:'岗位类型', width:120},
+                        {field:'positionTypeId', title:'岗位类型ID', width:120},
+                        {field:'jobRequired', title:'岗位要求', width:120},
+                        {field:'publishTime', title:'发布时间', width:120},
+                        {field:'huntingTime', title:'投递时间(废弃)', width:120},
+                        {field:'minSalary', title:'最低薪资', width:120},
+                        {field:'maxSalary', title:'最高薪资', width:120},
+                        {field:'huntingStatus', title:'投递状态(废弃)', width:120},
+                        {field:'publishStatus', title:'岗位状态(0有效，1无效)', width:120},
+                        {field:'welfare', title:'公司福利', width:120},
+                        {field:'updateTime', title:'更新时间', width:120},
+                        {field:'categoryName', title:'岗位类型(废弃)', width:120},
+                        {field:'categoryId', title:'岗位类型ID(废弃)', width:120},
+                        {field:'indexOrder', title:'排序', width:120},
+                        {field:'education', title:'最低学历', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +161,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','岗位发布新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/jobPublish/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','岗位发布修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/jobPublish/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +229,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/jobPublish/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -285,36 +299,92 @@
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
                 <div class="fitem">
-                    <label>aa</label>
+                    <label>编号</label>
                     <input name="id" id="id_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>工作ID(废弃)</label>
+                    <input name="jobId" id="jobId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>岗位名称</label>
+                    <input name="job" id="job_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
+                    <label>公司ID</label>
+                    <input name="companyId" id="companyId_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
+                    <label>公司名称</label>
+                    <input name="companyName" id="companyName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
+                    <label>所在城市</label>
+                    <input name="city" id="city_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
+                    <label>工作地址</label>
+                    <input name="address" id="address_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
+                    <label>岗位类型</label>
+                    <input name="positionTypeName" id="positionTypeName_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>岗位类型ID</label>
+                    <input name="positionTypeId" id="positionTypeId_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>岗位要求</label>
+                    <input name="jobRequired" id="jobRequired_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>发布时间</label>
+                    <input name="publishTime" id="publishTime_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>投递时间(废弃)</label>
+                    <input name="huntingTime" id="huntingTime_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最低薪资</label>
+                    <input name="minSalary" id="minSalary_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最高薪资</label>
+                    <input name="maxSalary" id="maxSalary_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>投递状态(废弃)</label>
+                    <input name="huntingStatus" id="huntingStatus_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>岗位状态(0有效，1无效)</label>
+                    <input name="publishStatus" id="publishStatus_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>公司福利</label>
+                    <input name="welfare" id="welfare_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>更新时间</label>
+                    <input name="updateTime" id="updateTime_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>岗位类型(废弃)</label>
+                    <input name="categoryName" id="categoryName_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>岗位类型ID(废弃)</label>
+                    <input name="categoryId" id="categoryId_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>排序</label>
+                    <input name="indexOrder" id="indexOrder_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最低学历</label>
+                    <input name="education" id="education_input" class="easyui-validatebox" required="true">
                 </div>
               <input type="hidden" name="_id" id="_id">
           </form>

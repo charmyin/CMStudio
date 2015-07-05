@@ -70,12 +70,12 @@
         jQuery.ajaxSetup({ cache: false });
         //Load grid
         $("#dataGrid").datagrid({
-            url:'hxxc/item/findAll',
+            url:'hxxc/employeeResumeInfo/findAll',
             method:'POST',
             toolbar:'#toolbar',
             pagination:true,
             collapsible:true,
-            title:"评估项列表",
+            title:"应聘简历信息列表",
             rownumbers:true,
             //queryParams:{userrole:1},
             loadFilter:function(data){
@@ -105,14 +105,28 @@
             pageList:[10,20,30,40,50],
             columns:[[
                       //{field:'ck', checkbox:true},
-                        {field:'id', title:'aa', width:120},
-                        {field:'code', title:'aa', width:120},
-                        {field:'name', title:'aa', width:120},
-                        {field:'typeId', title:'aa', width:120},
-                        {field:'remark', title:'aa', width:120},
-                        {field:'createTimestamp', title:'aa', width:120},
-                        {field:'coid', title:'aa', width:120},
-                        {field:'recordStatus', title:'aa', width:120},
+                        {field:'id', title:'编号', width:120},
+                        {field:'resumeId', title:'简历ID', width:120},
+                        {field:'resumeName', title:'简历名称', width:120},
+                        {field:'race', title:'民族', width:120},
+                        {field:'navPlace', title:'籍贯', width:120},
+                        {field:'bornPlace', title:'出生地？？', width:120},
+                        {field:'graduation', title:'毕业院校', width:120},
+                        {field:'study', title:'专业', width:120},
+                        {field:'education', title:'学历', width:120},
+                        {field:'position', title:'意向岗位', width:120},
+                        {field:'positionid', title:'意向岗位分类ID', width:120},
+                        {field:'workYears', title:'工作年限', width:120},
+                        {field:'health', title:'健康状况', width:120},
+                        {field:'jobAttempt', title:'投递职位分类ID', width:120},
+                        {field:'photoUrl', title:'头像图片地址', width:120},
+                        {field:'fileUrl', title:'附件地址', width:120},
+                        {field:'time', title:'简历更新日期', width:120},
+                        {field:'userId', title:'用户ID', width:120},
+                        {field:'salaryMin', title:'最低意向薪资', width:120},
+                        {field:'salaryMax', title:'最高意向薪资', width:120},
+                        {field:'experience', title:'工作经验', width:120},
+                        {field:'indexOrder', title:'排序', width:120},
                       {field:'id', title:'编号', hidden:true}
             ]],
             onLoadError: function(msge){
@@ -147,18 +161,18 @@
       var url;
       //Open new form
       function newForm(){
-          $('#dlg').dialog('open').dialog('setTitle','评估项新增');
+          $('#dlg').dialog('open').dialog('setTitle','应聘简历信息新增');
           $('#fm').form('clear');
-          url = 'hxxc/item/save';
+          url = 'hxxc/employeeResumeInfo/save';
       }
       /**Open edit form **/
       function editForm(){
           var selectedRow = $('#dataGrid').datagrid('getSelections');
           var rowsLength = selectedRow.length;
           if (rowsLength>0){
-              $('#dlg').dialog('open').dialog('setTitle','评估项修改');
+              $('#dlg').dialog('open').dialog('setTitle','应聘简历信息修改');
               $('#fm').form('load',selectedRow[0]);
-              url = 'hxxc/item/update';
+              url = 'hxxc/employeeResumeInfo/update';
           }else{
             $.messager.show({    // show error message
                   title: '提示<span style="color:red;">!</span>',
@@ -215,7 +229,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('hxxc/item/remove', {_id:rows[0]._id}, function(result){
+                    $.post('hxxc/employeeResumeInfo/remove', {_id:rows[0]._id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
@@ -284,39 +298,87 @@
 
       <div id="dlg" class="easyui-dialog" data-options="closed:'true',modal:true,buttons:'#dlg-buttons'">
           <form id="fm" method="post" >
+             <!--   <input name="id" id="id_input" type="hidden"> -->
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="id" id="id_input" class="easyui-validatebox" required="true">
+                    <label>简历名称</label>
+                    <input name="resumeName" id="resumeName_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="code" id="code_input" class="easyui-validatebox" required="true">
+                    <label>民族</label>
+                    <input name="race" id="race_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="name" id="name_input" class="easyui-validatebox" required="true">
+                    <label>籍贯</label>
+                    <input name="navPlace" id="navPlace_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="typeId" id="typeId_input" class="easyui-validatebox" required="true">
+                    <label>出生地？？</label>
+                    <input name="bornPlace" id="bornPlace_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="remark" id="remark_input" class="easyui-validatebox" required="true">
+                    <label>毕业院校</label>
+                    <input name="graduation" id="graduation_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="createTimestamp" id="createTimestamp_input" class="easyui-validatebox" required="true">
+                    <label>专业</label>
+                    <input name="study" id="study_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="coid" id="coid_input" class="easyui-validatebox" required="true">
+                    <label>学历</label>
+                    <input name="education" id="education_input" class="easyui-validatebox" required="true">
                 </div>
                 <div class="fitem">
-                    <label>aa</label>
-                    <input name="recordStatus" id="recordStatus_input" class="easyui-validatebox" required="true">
+                    <label>意向岗位</label>
+                    <input name="position" id="position_input" class="easyui-validatebox" required="true">
                 </div>
-              <input type="hidden" name="_id" id="_id">
+                <div class="fitem">
+                    <label>意向岗位分类ID</label>
+                    <input name="positionid" id="positionid_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>工作年限</label>
+                    <input name="workYears" id="workYears_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>健康状况</label>
+                    <input name="health" id="health_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>投递职位分类ID</label>
+                    <input name="jobAttempt" id="jobAttempt_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>头像图片地址</label>
+                    <input name="photoUrl" id="photoUrl_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>附件地址</label>
+                    <input name="fileUrl" id="fileUrl_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>简历更新日期</label>
+                    <input name="time" id="time_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>用户ID</label>
+                    <input name="userId" id="userId_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最低意向薪资</label>
+                    <input name="salaryMin" id="salaryMin_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>最高意向薪资</label>
+                    <input name="salaryMax" id="salaryMax_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>工作经验</label>
+                    <input name="experience" id="experience_input" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label>排序</label>
+                    <input name="indexOrder" id="indexOrder_input" class="easyui-validatebox" required="true">
+                </div>
           </form>
       </div>
       <div id="dlg-buttons">
