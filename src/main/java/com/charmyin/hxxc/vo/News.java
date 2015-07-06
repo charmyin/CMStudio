@@ -2,6 +2,10 @@ package com.charmyin.hxxc.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class News {//公告
     private String id;//编号
 
@@ -15,6 +19,8 @@ public class News {//公告
 
     private String content;//内容
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date time;//新建时间
 
     private Integer disable;//禁用

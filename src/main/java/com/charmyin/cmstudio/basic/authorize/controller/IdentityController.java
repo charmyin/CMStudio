@@ -173,10 +173,10 @@ public class IdentityController {
 			}
 			Hashtable<String, Token> userTokenMap = (Hashtable<String, Token>)request.getServletContext().getAttribute("userTokenMap");
 			//生成token
-			String tokenId = UUIDGenerator.generate();
+			/*String tokenId = UUIDGenerator.generate();
 			Token token = new Token(tokenId, authMap.get("userId").toString(), new Date());
 			userTokenMap.put(tokenId, token);
-			resultMap.put("token", tokenId);
+			resultMap.put("token", tokenId);*/
 	 
 			 Object menuListObj =  currentUser.getSession().getAttribute("menuList");
 			 List<Menu> menuList=null;

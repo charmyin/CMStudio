@@ -2,9 +2,15 @@ package com.charmyin.hxxc.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ResumePost {//简历投递
     private String id;//编号
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date joinTime;//入职时间
 
     private String companyId;//公司ID
@@ -15,6 +21,8 @@ public class ResumePost {//简历投递
 
     private String positionName;//岗位名称
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date postTime;//投递时间
 
     private String salaryMin;//最低薪资

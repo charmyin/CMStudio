@@ -2,6 +2,10 @@ package com.charmyin.hxxc.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class JobPublish {//岗位发布
     private String id;//编号
 
@@ -23,8 +27,12 @@ public class JobPublish {//岗位发布
 
     private String jobRequired;//岗位要求
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date publishTime;//发布时间
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date huntingTime;//投递时间(废弃)
 
     private Integer minSalary;//最低薪资
@@ -37,6 +45,8 @@ public class JobPublish {//岗位发布
 
     private String welfare;//公司福利
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date updateTime;//更新时间
 
     private String categoryName;//岗位类型(废弃)

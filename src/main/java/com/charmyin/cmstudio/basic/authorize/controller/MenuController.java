@@ -70,6 +70,7 @@ public class MenuController {
 	 public List<Menu> getMenusByUserSessionSubject(){
 		 Subject currentUser = SecurityUtils.getSubject();
 		 Object menuListObj =  currentUser.getSession().getAttribute("menuList");
+		// Object menuListObj = userInitService.getMenusByLoginId(loginForm.getUsername());
 		 List<Menu> menuList=null;
 		 if(menuListObj!=null){
 			 menuList = (List<Menu>)menuListObj;
