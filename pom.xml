@@ -243,13 +243,13 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
@@ -274,7 +274,7 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- @Inject -->
@@ -289,13 +289,13 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${org.javax.servlet.servlet-api-version}</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>${org.javax.servlet.jsp-api-version}</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -308,7 +308,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${org.junit-version}</version>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>  
 		
 		<!-- MyBatis -->
@@ -352,7 +352,7 @@
 	    </repository>
 	    
 		<!-- For JSR 303 Validation - Hibernat Validator -->
-		<repository>
+		<!-- <repository>
 			<id>jboss-public-repository-group</id>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 			<releases>
@@ -365,12 +365,12 @@
 		<repository>
 			<id>com.springsource.repository.bundles.release</id>
 			<url>http://repository.springsource.com/maven/bundles/release/</url>
-		</repository>
+		</repository> -->
 	</repositories>
 	
     <build>
         <plugins>
-            <plugin>
+           <!--  <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
                 <configuration>
@@ -383,21 +383,21 @@
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
-            </plugin>
+            </plugin> -->
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.2</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-             <plugin>
+            <!--  <plugin>
 	          <groupId>com.googlecode.maven-migration-plugin</groupId>
 	          <artifactId>maven-migration-plugin</artifactId>
 	          <version>1.1</version>
@@ -411,9 +411,9 @@
 						<version>5.1.15</version>
 					</dependency>
 	          </dependencies>
-	        </plugin>
+	        </plugin> -->
 	        
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
@@ -421,6 +421,7 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+            -->
             
             <plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
@@ -429,7 +430,25 @@
 			    <configuration>
 			        <encoding>UTF-8</encoding>
 			    </configuration>
-			</plugin>
+			</plugin> 
         </plugins>
+        <resources>  
+           <resource>  
+             <directory>src/main/java/</directory>  
+             <includes>  
+                 <include>**/*.xml</include>  
+                 <include>**/*.properties</include>  
+             </includes>  
+           </resource>
+            <resource>  
+                <directory>src/main/resources</directory>  
+                <includes>  
+                    <include>**/*.properties</include>  
+                    <include>**/*.xml</include>  
+                </includes>  
+                <!-- 是否替换资源中的属性-->  
+                <filtering>false</filtering>  
+            </resource>  
+        </resources> 
     </build>
 </project>
