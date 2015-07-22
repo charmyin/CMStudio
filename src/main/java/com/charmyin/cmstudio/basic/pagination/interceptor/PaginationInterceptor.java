@@ -69,6 +69,17 @@ public class PaginationInterceptor extends BaseInterceptor {
                 //得到总记录数
                 if (totPage == 0) {
                     Connection connection = mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection();
+                    //剔除order by create_timestamp desc
+                    //originalSql.replaceAll(regex, replacement)
+                   /* select
+                    
+                    'false' as QUERYID,
+                     
+                    ID, CODE, NAME, TYPE_ID, REMARK, CREATE_TIMESTAMP, COID, RECORD_STATUS
+                   
+                    from tb_7s_evaluate_item
+                     
+                      order by create_timestamp desc*/
                     totPage = SQLHelp.getCount(originalSql, connection, mappedStatement, parameterObject, boundSql);
                 }
 
