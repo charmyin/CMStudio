@@ -210,7 +210,7 @@
           if (rowsLength>0){
               $.messager.confirm('提示信息','确定删除该行？',function(r){
                   if (r){
-                    $.post('{{ config.path }}/{{ config.name }}/remove', {_id:rows[0]._id}, function(result){
+                    $.post('{{ config.path }}/{{ config.name }}/deleteById', {id:rows[0].id}, function(result){
                           if(result.success){
                               $.messager.show({
                                   title: '提示<span style="color:red;">!</span>',
