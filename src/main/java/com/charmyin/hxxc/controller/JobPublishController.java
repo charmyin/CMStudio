@@ -38,6 +38,42 @@ public class JobPublishController {
 		return "/hxxc/jobPublish/index";
 	}
 	
+	   /**
+     * 查找所有
+     * @param page
+     * @return
+     */
+    @RequestMapping(method=RequestMethod.POST, value="/findOwnAll")
+    @ResponseBody
+    public PaginationResultVO findOwnAll(Pagination page, HttpServletRequest request){
+        PaginationResultVO prv = new PaginationResultVO();
+        JobPublishExample ie = new JobPublishExample();
+        try {
+            Criteria crit = ie.createCriteria();
+            Enumeration<String> enumera = request.getParameterNames();
+            while(enumera.hasMoreElements()){
+                String name = enumera.nextElement();
+                if(name!=null&&name.startsWith("search_")){
+                    String expr = name.split("_")[1];
+                    Criteria.class.getMethod(expr, String.class).invoke(crit, request.getParameter(name));
+                }
+            }
+            ie.setPageVO(page);
+            List<JobPublish> list = jobPublishService.findAllJobPublishByExample(ie);
+            prv.setTotal(String.valueOf(ie.getPageVO().getTotalRows()));
+            prv.setSuccess("true");
+            prv.setRows(list);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            prv.setSuccess("false");
+            prv.setMsg(e.getMessage());
+        }
+        return prv;
+    }
+	
+	
+	
 	/**
 	 * 查找所有
 	 * @param page
@@ -70,7 +106,6 @@ public class JobPublishController {
 			prv.setMsg(e.getMessage());
 		}
 		return prv;
-		
 	}
 
 	/**

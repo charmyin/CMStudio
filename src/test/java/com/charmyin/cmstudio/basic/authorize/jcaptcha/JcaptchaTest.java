@@ -26,7 +26,11 @@ public class JcaptchaTest {
 	@Test
 	public void testImageEngine(){
 		
-		Color colorBlack = new Color(0, 0, 0);
+	    String test = "<img src=\"/house365-klf-web/attached/image/20150728/20150728201819_546.jpg\" alt=\"\" />";
+	    String stt = test.replaceAll("img src=\"/", "img src=\"https://www.baidu.com/");
+	    System.out.println(stt);
+	    
+		/*Color colorBlack = new Color(0, 0, 0);
 		SimpleTextPaster simpleWhitePaster = new SimpleTextPaster(3, 5, colorBlack);
 		UniColorBackgroundGenerator backGenUni = new UniColorBackgroundGenerator(300, 100);
 		Font fontArial = new Font("Arial", 0, 10);
@@ -36,10 +40,10 @@ public class JcaptchaTest {
 		DictionaryWordGenerator wordgen = new DictionaryWordGenerator(filedict);
 		CaptchaFactory cf = new GimpyFactory(wordgen,wordtoimage);
 		CaptchaFactory[] cfa = new CaptchaFactory[]{cf};
-		GenericCaptchaEngine imageEngine = new GenericCaptchaEngine(cfa);
+		GenericCaptchaEngine imageEngine = new GenericCaptchaEngine(cfa);*/
 		
 		
-		GenericManageableCaptchaService captchaService = new GenericManageableCaptchaService(imageEngine, 180, 1800,1);
+		//GenericManageableCaptchaService captchaService = new GenericManageableCaptchaService(imageEngine, 180, 1800,1);
 	}
 	
 	
